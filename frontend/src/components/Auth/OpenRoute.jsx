@@ -5,9 +5,10 @@ import { useSelector } from 'react-redux'
 import { Navigate } from 'react-router-dom'
 
 function OpenRoute({children}) {
-    const {revShopUser} = useSelector((state) => state.auth);
+    const {userInfo} = useSelector((state) => state.auth);
+    console.log(userInfo);
 
-    if(revShopUser){
+    if(userInfo){
         return <Navigate to="/" />
     }else{
         return children

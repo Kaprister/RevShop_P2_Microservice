@@ -6,11 +6,11 @@ import { Navigate} from 'react-router-dom'
 // eslint-disable-next-line react/prop-types
 function PrivateRoute({children}) {
 
-    const {revShopUser} = useSelector(state => state.auth);
+    const {userInfo} = useSelector(state => state.auth);
     // console.log(userInfo);
 
 
-    if(revShopUser){
+    if(userInfo){
         return children
     }else{
         return <Navigate to="/login" />
