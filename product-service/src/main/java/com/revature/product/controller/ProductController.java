@@ -19,8 +19,8 @@ import com.revature.product.model.Product;
 import com.revature.product.service.ProductService;
 
 @RestController
-@RequestMapping("/products")
 @CrossOrigin()
+@RequestMapping("/products")
 public class ProductController {
 
     @Autowired

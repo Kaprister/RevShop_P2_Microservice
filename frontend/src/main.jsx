@@ -7,6 +7,8 @@ import store from './store/store.js'
 import PrivateRoute from './components/Auth/PrivateRoute.jsx'
 import Home from './pages/Home.jsx'
 import OpenRoute from './components/Auth/OpenRoute.jsx'
+import Login from './pages/Login.jsx'
+import Signup from './pages/Signup.jsx'
 
 
 
@@ -24,22 +26,30 @@ const router = createBrowserRouter([
           </PrivateRoute>
         )
       },
-      // {
-      //   path : "/login",
-      //   element: (
-      //     <OpenRoute>
-      //       {/* <Login/> */}
-      //     </OpenRoute>
-      //   )
-      // },
-      // {
-      //   path : "/admin",
-      //   element : (
-      //     <PrivateRoute>
-      //       {/* <Admin/> */}
-      //     </PrivateRoute>
-      //   )
-      // },
+      {
+        path : "/login",
+        element: (
+          <OpenRoute>
+            <Login/>
+          </OpenRoute>
+        )
+      },
+      {
+        path : "/signup",
+        element: (
+          <OpenRoute>
+            <Signup/>
+          </OpenRoute>
+        )
+      },
+      {
+        path : "/admin",
+        element : (
+          <PrivateRoute>
+            <Home/>
+          </PrivateRoute>
+        )
+      },
     ]
   }
 ]);
