@@ -21,9 +21,9 @@ const router = createBrowserRouter([
       {
         path : "/",
         element: (
-          <PrivateRoute>
+          // <OpenRoute>
             <Home/>
-          </PrivateRoute>
+          // </OpenRoute>
         )
       },
       {

@@ -54,6 +54,7 @@ function Login() {
 
             dispatch(setCredentials(user)); // Store user data in Redux
             toastNotification("Login successful!", "success");
+            // toast.success("Login successful!");
             navigate("/"); // Redirect to the homepage or desired page
         } catch (error) {
             toastNotification("Login failed. Please check your credentials.", "error");
