@@ -10,6 +10,7 @@ import OpenRoute from './components/Auth/OpenRoute.jsx'
 import Login from './pages/Login.jsx'
 import Signup from './pages/Signup.jsx'
 import Shop from './pages/Shop/Shop.jsx'
+import Profile from './pages/Profile/Profile.jsx'
 
 
 
@@ -20,7 +21,7 @@ const router = createBrowserRouter([
     element : <App/>,
     children:[
       {
-        path : "/",
+        path : "/home",
         element: (
           // <OpenRoute>
             <Home/>
@@ -55,6 +56,13 @@ const router = createBrowserRouter([
         element : (
           <PrivateRoute>
             <Shop/>
+          </PrivateRoute>
+        )
+      },{
+        path : "/home/profile",
+        element : (
+          <PrivateRoute>
+            <Profile/>
           </PrivateRoute>
         )
       },

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -5,6 +6,7 @@ import { MdOutlineShoppingCart } from "react-icons/md";
 import { Slide, toast } from "react-toastify";
 import Glassnav from "./Floating_Nav";
 import Button from "./Button";
+import {logout} from "../../slices/authSlice"
 
 function Screensize() {
   const [windowSize, setWindowSize] = useState({ width: window.innerWidth });
