@@ -9,6 +9,7 @@ import Home from './pages/Home.jsx'
 import OpenRoute from './components/Auth/OpenRoute.jsx'
 import Login from './pages/Login.jsx'
 import Signup from './pages/Signup.jsx'
+import Shop from './pages/Shop/Shop.jsx'
 
 
 
@@ -47,6 +48,13 @@ const router = createBrowserRouter([
         element : (
           <PrivateRoute>
             <Home/>
+          </PrivateRoute>
+        )
+      },{
+        path : "/home/shop",
+        element : (
+          <PrivateRoute>
+            <Shop/>
           </PrivateRoute>
         )
       },
