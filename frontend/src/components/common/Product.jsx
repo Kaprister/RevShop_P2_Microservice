@@ -11,13 +11,13 @@ import { HiHeart } from "react-icons/hi";
 //   rating: string;
 // }
 
-function Product({ name, image, price, desc, rating }) {
+function Product({id, name, quantity, image, price, disPrice, desc, rating }) {
   const navigate = useNavigate();
   const [liked, setLiked] = useState(false);
 
   const handleNavigate = () => {
     navigate("/home/shop/product", {
-      state: { name, image, price, desc, rating }
+      state: {id, name, quantity, image, price, disPrice, desc, rating }
     });
     console.log("Product rating ", rating);
   };

@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import Product from "../components/Product";
+import Product from "../components/common/Product";
 import Head from "../components/common/Head";
 import Button from "../components/common/Button";
 import "../index.css";
 import { Tilt } from "react-tilt";
+import axios from "axios";
 
 function Home() {
   const [heroRef, heroInView] = useInView({
@@ -30,16 +31,22 @@ function Home() {
   });
 
   const [products, setProducts] = useState([]);
-
-  // Simulate fetching data
+  
+  
   useEffect(() => {
-    const mockData = [
-      { Desc: "Stylish summer wear", Image_Link: "/images/product1.jpg", Price: "1500", Name: "Summer Top", rating: 4.5 },
-      { Desc: "Elegant winter wear", Image_Link: "/images/product2.jpg", Price: "3200", Name: "Winter Jacket", rating: 4.8 },
-      // Add more mock data as needed
-    ];
-    setProducts(mockData);
-  }, []);
+    const getProducts = async () => {
+      try {
+        const { data } = await axios.get("http://localhost:8082/products");
+        // console.log(data);
+        setProducts(data);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+    getProducts();
+  },[])
+
+  
 
   return (
     <>
@@ -104,6 +111,7 @@ function Home() {
 
       {/* New Collections Section */}
       <motion.div
+        id="Collections"
         ref={collectionsRef}
         className="mx-auto overflow-hidden max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8"
         initial={{ opacity: 0, y: 100 }}
@@ -132,6 +140,7 @@ function Home() {
 
       {/* Products Section */}
       <motion.div
+        id="Products"
         ref={productsRef}
         className="mx-auto overflow-hidden max-w-screen-xl px-4 py-16 flex flex-col justify-between items-center"
         initial={{ opacity: 0, y: 100 }}
@@ -144,14 +153,17 @@ function Home() {
         <div className="mt-12">
           <div className="mx-auto max-w-2xl px-4 py-8 lg:max-w-7xl lg:px-8">
             <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-              {products.map((product, idx) => (
+              {products.map((elem, idx) => (
                 <Product
                   key={idx}
-                  desc={product.Desc}
-                  image={product.Image_Link}
-                  price={product.Price}
-                  name={product.Name}
-                  rating={product.rating}
+                  id={elem.id}
+                  desc={elem.description}
+                  quantity={elem.quantity}
+                  image={elem.imageUrl}
+                  price={elem.price}
+                  disPrice={elem.discountedPrice}
+                  name={elem.name}
+                  rating={elem.rating}
                 />
               ))}
             </div>
@@ -166,14 +178,3 @@ function Home() {
 }
 
 export default Home;
-
-// function Home() {
-//   // Your component implementation here
-//   return (
-//     <div>
-//       <h1>Welcome to the Home Page</h1>
-//       {/* Add your component code here */}
-//     </div>
-//   );
-// }
-// export default Home;

@@ -12,6 +12,8 @@ import Signup from './pages/Signup.jsx'
 import Shop from './pages/Shop/Shop.jsx'
 import Dashboard from './admin/Dashboard.jsx'
 import Profile from './pages/Profile/Profile.jsx'
+import ProductDetail from './pages/Shop/ProductDetail.jsx'
+import Contact from './pages/Contact/Contact.jsx'
 
 
 
@@ -66,10 +68,27 @@ const router = createBrowserRouter([
             <Profile/>
           </PrivateRoute>
         )
+      },{
+        path : "/home/shop/product",
+        element : (
+          <PrivateRoute>
+            <ProductDetail/>
+          </PrivateRoute>
+        )
+      },
+      {
+        path : "/home/contact",
+        element : (
+          <PrivateRoute>
+            <Contact/>
+          </PrivateRoute>
+        )
       },
     ]
   }
 ]);
+
+
 
 
 

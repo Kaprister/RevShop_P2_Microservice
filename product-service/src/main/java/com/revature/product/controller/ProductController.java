@@ -3,20 +3,15 @@ package com.revature.product.controller;
 import java.util.List;
 import java.util.Optional;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.revature.product.model.Product;
 import com.revature.product.service.ProductService;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @CrossOrigin()
@@ -26,12 +21,22 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    // Create a new product
+    // Create a new product with image upload
     @PostMapping
-    public ResponseEntity<Product> createProduct(@RequestBody Product product) {
-        Product createdProduct = productService.createProduct(product);
+    public ResponseEntity<Product> createProduct(
+            @RequestPart("product") String productJson,  // Product data as JSON string
+            @RequestPart("image") MultipartFile imageFile) throws JsonProcessingException {
+
+        // Convert the JSON string to Product object
+        ObjectMapper objectMapper = new ObjectMapper();
+        Product product = objectMapper.readValue(productJson, Product.class);
+
+        // Call the service to handle product creation and image upload
+        Product createdProduct = productService.createProduct(product, imageFile);
+
         return ResponseEntity.ok(createdProduct);
     }
+
 
     // Get all products
     @GetMapping

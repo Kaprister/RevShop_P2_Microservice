@@ -38,10 +38,13 @@ public class Product {
     private String skuCode;
 
     private Double price;
+    private Double discountedPrice;
+    private Double quantity;
+
 
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false) // Foreign key for Category
     private Category category;
 
-    private String imageurl;
+    private String imageUrl;
 }
