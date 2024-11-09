@@ -11,34 +11,16 @@ import axios from "axios";
 
 function Profile() {
   const username = useSelector((state) => state.auth.user?.username);
-//   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const [userData, setUserData] = useState(null);
   const {userInfo} = useSelector((state) => state.auth);
-  console.log("profile : ", userInfo);
+  // console.log("profile : ", userInfo);
+  let date = new Date();
   
   const navigate = useNavigate();
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
-//   if (!isAuthenticated) {
-//     navigate("/home");
-//   }
-
-//   const fetchData = async () => {
-    // const { data, error } = await supabase
-    //   .from("users")
-    //   .select("*")
-    //   .eq("username", username);
-
-    // if (error) {
-    //   console.error(error);
-    // } else {
-    //   setUserData(data[0]);
-    //   console.log(data[0]);
-    // }
-//   };
 
   const fetchData = async () => {
     try {
@@ -55,7 +37,7 @@ function Profile() {
       
       // Set user data if the response is successful
       setUserData(response.data);
-      console.log(response.data);
+      console.log( " profile data : ", response.data);
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
@@ -65,7 +47,7 @@ function Profile() {
     fetchData();
   }, []);
 
-  const handleUpdate = () => {
+  const handleFetchUpdate = () => {
     fetchData();
   };
 
@@ -103,21 +85,22 @@ function Profile() {
         </div>
       </div>
       <div className="card flex w-full mb-28 rounded-xl shadow-2xl">
-        <EditProfileModal userData={userData} onUpdate={handleUpdate} />
+        <EditProfileModal userData={userData} onUpdate={handleFetchUpdate} />
+
 
         <div className="flex p-5 sm:p-0 flex-col sm:flex-row w-full md:items-center">
           <div className="flex-1 md:p-8 text-justify">
             <div className="flex sm:flex-row flex-col items-start sm:items-center text-sm md:text-xl justify-start">
               <div className="label">
                 <span className="label-text md:text-xl text-sm">
-                  First Name : <b>{userData.firstname}</b>
+                  First Name : <b>{userData.firstName}</b>
                 </span>
               </div>
             </div>
             <div className="flex sm:flex-row flex-col items-start sm:items-center text-sm md:text-xl justify-start">
               <div className="label">
                 <span className="label-text md:text-xl text-sm">
-                  Last Name : <b>{userData.lastname}</b>
+                  Last Name : <b>{userData.lastName}</b>
                 </span>
               </div>
             </div>
@@ -152,7 +135,9 @@ function Profile() {
               <div className="label">
                 <span className="label-text md:text-xl text-sm">
                   Account Creation Date :{" "}
-                  <b>{new Date(userData.createdAt).toLocaleDateString()}</b>
+                  <b>
+                    {new Date(userData.createdAt ? userData.createdAt : new Date(Date.now() - 10 * 24 * 60 * 60 * 1000)).toLocaleDateString()}
+                  </b>
                 </span>
               </div>
             </div>

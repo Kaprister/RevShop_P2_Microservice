@@ -25,6 +25,8 @@ function Shop() {
     }
   };
 
+  // console.log("products data :: ", products)
+  
   
 
   useEffect(() => {
@@ -80,6 +82,7 @@ function Shop() {
     try {
       const { data } = await axios.get("http://localhost:8082/products");
       let filteredData = data;
+      // console.log("filter data :: ", filteredData)
 
       if (selectedFilter['price-range'].length !== 0) {
         let priceFilteredData = [];
@@ -93,7 +96,7 @@ function Shop() {
             max = +f.split("-")[1].slice(1);
           }
           let newFilteredData = filteredData.filter((elem) => {
-            return min <= elem.Price && max >= elem.Price;
+            return min <= elem.price && max >= elem.price;
           });
           if (priceFilteredData.length !== 0) {
             newFilteredData.forEach((newItem) => {
@@ -241,10 +244,13 @@ function Shop() {
               return (
                 <Product
                   key={idx}
-                  desc={elem.Desc}
-                  image={elem.Image_link}
-                  price={elem.Price}
-                  name={elem.Name}
+                  id={elem.id}
+                  desc={elem.description}
+                  quantity={elem.quantity}
+                  image={elem.imageUrl}
+                  price={elem.price}
+                  disPrice={elem.discountedPrice}
+                  name={elem.name}
                   rating={elem.rating}
                 />
               );
