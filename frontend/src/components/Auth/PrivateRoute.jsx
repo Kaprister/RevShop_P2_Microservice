@@ -7,7 +7,7 @@ import { Navigate} from 'react-router-dom'
 function PrivateRoute({children}) {
 
     const {userInfo} = useSelector(state => state.auth);
-    // console.log(userInfo);
+    // console.log(userInfo.role);
 
 
     if(userInfo){

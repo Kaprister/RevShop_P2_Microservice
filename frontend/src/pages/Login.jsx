@@ -51,11 +51,20 @@ function Login() {
                 password: userData.pass,
             });
             const user = response.data;
+            console.log("login user details : ", user);
+            
 
             dispatch(setCredentials(user)); // Store user data in Redux
             toastNotification("Login successful!", "success");
             // toast.success("Login successful!");
-            navigate("/"); // Redirect to the homepage or desired page
+            // navigate("/")
+            if(user.role === "BUYER"){
+                navigate("/"); // Redirect to the homepage or desired page
+            }
+            else{
+                navigate("/admin");
+            }
+
         } catch (error) {
             toastNotification("Login failed. Please check your credentials.", "error");
             console.error("Login error:", error);
