@@ -25,6 +25,8 @@ function Shop() {
     }
   };
 
+  
+
   useEffect(() => {
     getProducts();
     window.scrollTo(0, 0);
