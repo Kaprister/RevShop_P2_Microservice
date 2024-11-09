@@ -9,8 +9,10 @@ function App() {
 
   return (
     <div>
-      <Navbar/>
-      
+      <PrivateRoute>
+        <Navbar/>
+      </PrivateRoute>
+
       <ToastContainer/>
       <main>
         <Outlet/>
