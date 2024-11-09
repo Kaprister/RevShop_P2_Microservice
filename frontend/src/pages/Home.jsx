@@ -140,6 +140,7 @@ function Home() {
 
       {/* Products Section */}
       <motion.div
+        id="Products"
         ref={productsRef}
         className="mx-auto overflow-hidden max-w-screen-xl px-4 py-16 flex flex-col justify-between items-center"
         initial={{ opacity: 0, y: 100 }}

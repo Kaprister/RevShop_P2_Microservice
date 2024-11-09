@@ -12,6 +12,7 @@ import Signup from './pages/Signup.jsx'
 import Shop from './pages/Shop/Shop.jsx'
 import Profile from './pages/Profile/Profile.jsx'
 import ProductDetail from './pages/Shop/ProductDetail.jsx'
+import Contact from './pages/Contact/Contact.jsx'
 
 
 
@@ -71,6 +72,14 @@ const router = createBrowserRouter([
         element : (
           <PrivateRoute>
             <ProductDetail/>
+          </PrivateRoute>
+        )
+      },
+      {
+        path : "/home/contact",
+        element : (
+          <PrivateRoute>
+            <Contact/>
           </PrivateRoute>
         )
       },
