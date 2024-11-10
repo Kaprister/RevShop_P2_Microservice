@@ -42,7 +42,7 @@ function Transactions() {
   }, []);
 
   return (
-    <div className="overflow-x-auto mt-4">
+    <div className="mx-auto max-w-screen-xl px-4 pt-8 mt-8 sm:py-12">
       <Head h2="Transactions" />
       {error && <p className="text-red-500 text-center mb-4 mt-6">{error}</p>}
       <table className="table w-full text-left bg-white rounded-lg shadow-md">
