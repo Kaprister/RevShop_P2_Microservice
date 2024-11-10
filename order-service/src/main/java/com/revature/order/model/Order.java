@@ -32,7 +32,8 @@ public class Order {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private Double totalAmount;
-	private String userId;
+	private Integer userId;
+
 	@Enumerated(EnumType.STRING) // Use STRING to store the name of the enum
 	private OrderStatus status; // Change to use the enum type
 	private String billingAddress; // Add billing address

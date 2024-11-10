@@ -1,4 +1,5 @@
 package com.revature.order.service;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -56,5 +57,9 @@ public class OrderService {
     // Find order by ID
     public Optional<Order> getOrderById(Long id) {
         return orderRepository.findById(id);
+    }
+
+    public List<Order> getOrderByUserId(Integer userId) {
+        return orderRepository.findByUserId(userId);
     }
 }

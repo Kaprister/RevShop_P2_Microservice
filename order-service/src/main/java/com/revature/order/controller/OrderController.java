@@ -1,4 +1,5 @@
 package com.revature.order.controller;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,12 @@ public class OrderController {
     public ResponseEntity<Order> createOrder(@RequestBody Order order) {
         Order createdOrder = orderService.createOrder(order);
         return ResponseEntity.ok(createdOrder);
+    }
+
+    @GetMapping("/user-order/{userId}")
+    public ResponseEntity<List<Order>> getOrderByUserId(@PathVariable Integer userId) {
+        List<Order> allOrders = orderService.getOrderByUserId(userId); // Calling the service method
+        return ResponseEntity.ok(allOrders);
     }
 
     // Get user info from UserService
