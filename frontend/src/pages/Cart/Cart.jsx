@@ -105,8 +105,9 @@ const Cart = () => {
     }));
 
     const totalAmount = calculateTotal();
+    const userID = userId;
 
-    return { products, totalAmount };
+    return { products, totalAmount, userID };
   };
 
    // Handle checkout button click

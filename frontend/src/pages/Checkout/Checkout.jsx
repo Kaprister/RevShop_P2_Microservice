@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
+import axios from "axios";
 import Head from "../../components/common/Head";
 import Button from "../../components/common/Button";
 import { Link, useNavigate, useLocation } from 'react-router-dom';
@@ -8,23 +9,37 @@ import { v4 as uuidv4 } from 'uuid';
 
 function Checkout() {
     const { state } = useLocation();
+    const userId = state.userID;
     const directPurchase = state?.directPurchase;
-    console.log("data from cart : " , state);
-    
-
     const [cartItems, setCartItems] = useState([]);
-    const [total, setTotal] = useState(0);
+    const [total, setTotal] = useState(state.totalAmount || 0);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [orderId, setOrderId] = useState("");
     const [paymentMethod, setPaymentMethod] = useState("online");
     const [billingAddress, setBillingAddress] = useState("");
     const navigate = useNavigate();
     const userName = useSelector((state) => state.auth.userInfo.username);
+    console.log("state", state);
 
     useEffect(() => {
         const fetchCartItems = async () => {
             if (userName) {
-                // Fetch cart items from backend API here
+                try {
+                    // Make API request to fetch cart items for the logged-in user
+                    const response = await axios.get(`http://localhost:8090/cart/user/${userId}`);
+                    const cartData = response.data;
+
+                    // Combine all cart items from the fetched data
+                    const allCartItems = cartData.reduce((acc, cart) => {
+                        return [...acc, ...cart.cartItems];
+                    }, []);
+                    
+                    // Set the cart items and calculate the total
+                    setCartItems(allCartItems);
+                    calculateTotal(allCartItems);
+                } catch (error) {
+                    console.error("Error fetching cart items:", error);
+                }
             }
         };
 
@@ -46,26 +61,46 @@ function Checkout() {
     };
 
     const placeOrder = async () => {
-        if (!userName || cartItems.length === 0) return;
+        console.log("inside place order and payment m", paymentMethod)
+        console.log("username", userName)
+        console.log("cartItems", cartItems.length);
+        console.log("billingAddress", billingAddress);
 
-        const orderId = uuidv4();
+        if (!userName || cartItems.length === 0 || !billingAddress) {
+            console.error("Order cannot be placed. Missing required fields.");
+            return;
+        }
+
         const orderData = {
-            orderId,
-            username: userName,
-            phone: `1234567890`,
-            price: total,
-            date: new Date().toISOString(),
-            status: 'Pending',
-            product: cartItems,
-            paymentMethod,
+            totalAmount: total,
+            userId: userId,
+            status: 'PENDING',
             billingAddress,
+            orderLineItems: cartItems.map(item => ({
+                name: item.productName,
+                price: item.price,
+                quantity: item.quantity || 1,
+                image: item.image,
+            })),
         };
 
-        // Replace with API call using Axios in the future
-
-        setIsModalOpen(true);
-        setCartItems([]);
-        setOrderId(orderId);
+        try {
+            if (paymentMethod === "cod") {
+                const response = await axios.post("http://localhost:8084/orders", orderData);
+                console.log("Order placed successfully:", response.data);
+                setIsModalOpen(true);
+                setCartItems([]);
+                setOrderId(response.data.id || uuidv4());
+            } else {
+                // Implement online payment functionality here
+                console.log("Online payment selected.");
+                setIsModalOpen(true);
+                setCartItems([]);
+                setOrderId(uuidv4());
+            }
+        } catch (error) {
+            console.error("Error placing order:", error);
+        }
     };
 
     return (
@@ -83,6 +118,7 @@ function Checkout() {
                             className="textarea textarea-bordered w-full"
                             placeholder="Enter your billing address"
                             onChange={handleBillingAddressChange}
+                            value={billingAddress}
                         ></textarea>
                     </form>
 
@@ -124,9 +160,9 @@ function Checkout() {
                     <h2 className="pb-3 pt-4 text-xl font-bold">ORDER SUMMARY</h2>
                     <div>
                         {cartItems.map((item) => (
-                            <div key={item.name}>
+                            <div key={item.productId}>
                                 <div className="flex justify-between">
-                                    <p className="font-medium">{item.name}</p>
+                                    <p className="font-medium">{item.productName}</p>
                                     <p className="font-medium">${item.price}</p>
                                 </div>
                                 <div className="flex justify-between">
