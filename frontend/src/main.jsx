@@ -14,6 +14,8 @@ import Dashboard from './admin/Dashboard.jsx'
 import Profile from './pages/Profile/Profile.jsx'
 import ProductDetail from './pages/Shop/ProductDetail.jsx'
 import Contact from './pages/Contact/Contact.jsx'
+import AdminRoute from './components/Auth/AdminRoute.jsx'
+import AddProduct from './admin/AddProduct.jsx'
 
 
 
@@ -26,9 +28,7 @@ const router = createBrowserRouter([
       {
         path : "/home",
         element: (
-          // <OpenRoute>
             <Home/>
-          // </OpenRoute>
         )
       },
       {
@@ -50,9 +50,9 @@ const router = createBrowserRouter([
       {
         path : "/admin",
         element : (
-          <PrivateRoute>
+          <AdminRoute>
             <Dashboard/>
-          </PrivateRoute>
+          </AdminRoute>
         )
       },{
         path : "/home/shop",
@@ -82,6 +82,13 @@ const router = createBrowserRouter([
           <PrivateRoute>
             <Contact/>
           </PrivateRoute>
+        )
+      },{
+        path : "admin/add-product",
+        element : (
+          <AdminRoute>
+            <AddProduct/>
+          </AdminRoute>
         )
       },
     ]
