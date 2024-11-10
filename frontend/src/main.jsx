@@ -22,6 +22,7 @@ import ProductList from './admin/ProductList.jsx'
 import Cart from "./pages/Cart/Cart.jsx"
 import Liked from './pages/Favourite/liked.jsx'
 import Checkout from './pages/Checkout/Checkout.jsx'
+import MyOrders from './pages/Orders/MyOrders.jsx'
 
 
 
@@ -140,6 +141,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <Checkout/>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/home/my-orders",
+        element: (
+          <PrivateRoute>
+            <MyOrders/>
           </PrivateRoute>
         ),
       },
