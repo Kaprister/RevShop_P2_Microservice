@@ -20,6 +20,8 @@ import Order from './admin/Order.jsx'
 import Transactions from './admin/Transactions.jsx'
 import ProductList from './admin/ProductList.jsx'
 import Cart from "./pages/Cart/Cart.jsx"
+import Liked from './pages/Favourite/liked.jsx'
+import Checkout from './pages/Checkout/Checkout.jsx'
 
 
 
@@ -124,6 +126,21 @@ const router = createBrowserRouter([
           <AdminRoute>
             <ProductList />
           </AdminRoute>
+        ),
+      },{
+        path: "/home/favorite",
+        element: (
+          <PrivateRoute>
+            <Liked/>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/home/shop/checkout",
+        element: (
+          <PrivateRoute>
+            <Checkout/>
+          </PrivateRoute>
         ),
       },
     ]

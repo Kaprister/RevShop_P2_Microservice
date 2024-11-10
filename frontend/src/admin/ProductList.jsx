@@ -122,7 +122,7 @@ function ProductList() {
           </form>
         </div>
       ) : (
-        <table className="table w-full text-left bg-white rounded-lg shadow-md">
+        <table className="table w-full text-left bg-white rounded-lg shadow-md mt-8">
           <thead className="bg-gray-100">
             <tr>
               <th className="p-3">Product Name</th>

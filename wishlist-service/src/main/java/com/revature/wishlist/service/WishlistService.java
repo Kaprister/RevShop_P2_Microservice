@@ -50,6 +50,22 @@ public class WishlistService {
         wishlistRepository.save(wishlist);
     }
 
+    public void removeProductFromWishlist(Long userId, Long productId) {
+        Wishlist wishlist = wishlistRepository.findByUserId(userId)
+                .orElseThrow(() -> new RuntimeException("Wishlist not found for user: " + userId));
+
+        // Check if the product is in the wishlist
+        if (wishlist.getProductIds() == null || !wishlist.getProductIds().contains(productId)) {
+            throw new RuntimeException("Product not found in the wishlist");
+        }
+
+        // Remove product from the wishlist
+        wishlist.getProductIds().remove(productId);
+        wishlistRepository.save(wishlist);
+    }
+
+
+
     public Mono<String> getUserInfo(Long userId) {
         return webClientBuilder.build()
             .get()

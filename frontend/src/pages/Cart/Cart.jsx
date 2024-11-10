@@ -14,8 +14,8 @@ import QuantityButton from "./QuantityButton";
 import { toast } from "react-toastify";
  
 const Cart = () => {
-    const {userInfo} = useSelector(state => state.auth);
-    const userId = userInfo.id;
+  const {userInfo} = useSelector(state => state.auth);
+  const userId = userInfo.id;
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [coupon, setCoupon] = useState("");
@@ -48,8 +48,6 @@ const Cart = () => {
     // }
   }, []);
 
-  console.log("cartItems is : " ,cartItems);
-  console.log("userID is : " ,userId);
   
 
   useEffect(() => {
@@ -94,6 +92,29 @@ const Cart = () => {
   const calculateTotal = () => {
     const total = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
     return total - (total * discount) / 100;
+  };
+
+  // Function to prepare checkout data
+  const prepareCheckoutData = () => {
+    const products = cartItems.map((item) => ({
+      id: item.id,
+      name: item.productName,
+      price: item.price,
+      quantity: item.quantity,
+      image: item.image,
+    }));
+
+    const totalAmount = calculateTotal();
+
+    return { products, totalAmount };
+  };
+
+   // Handle checkout button click
+   const handleCheckout = () => {
+    const checkoutData = prepareCheckoutData();
+    console.log("Checkout data:", checkoutData);
+    // Navigate to checkout page with checkout data, if passing via state
+    navigate("/home/shop/checkout", { state: checkoutData });
   };
 
   return (
@@ -241,9 +262,7 @@ const Cart = () => {
                     text="Checkout"
                     color="myyellow"
                     hover="mygreen"
-                    onClick={() => {
-                      navigate("/home/shop/checkout");
-                    }}
+                    onClick={handleCheckout}
                   />
                   <h2 className="text-xl font-bold">Total: ₹{calculateTotal().toFixed(2)}</h2>
                 </div>

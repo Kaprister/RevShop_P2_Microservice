@@ -1,7 +1,11 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { HiHeart } from "react-icons/hi";
+import { useSelector } from "react-redux";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 // interface Data {
 //   name: string;
@@ -12,6 +16,8 @@ import { HiHeart } from "react-icons/hi";
 // }
 
 function Product({id, name, quantity, image, price, disPrice, desc, rating }) {
+  const {userInfo} = useSelector(state => state.auth);
+  const userId = userInfo.id;
   const navigate = useNavigate();
   const [liked, setLiked] = useState(false);
 
@@ -23,13 +29,14 @@ function Product({id, name, quantity, image, price, disPrice, desc, rating }) {
   };
 
   const handleLike = async () => {
-    setLiked(!liked);
-    
-    // Future implementation to handle "like" using an API route
-    // You can implement this with an API call to store liked products in a backend
-    // Example: await apiCallToStoreLikedProduct({ name, image, price, desc, rating });
-
-    // Log or further actions can be handled here for the "like" action
+    try {
+      const res = await axios.post(`http://localhost:8086/wishlist/addProduct/${userId}/${id}`)
+      toast.success("Product added to wishList successfully");
+      setLiked(!liked);
+    } catch (error) {
+      console.error("Failed to add product to wishlist", error);
+      toast.error("Failed to add product to wishlist");
+    }
   };
 
   return (
