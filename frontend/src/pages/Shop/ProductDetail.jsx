@@ -7,14 +7,26 @@ import "react-toastify/dist/ReactToastify.css";
 //components
 import Head from "../../components/common/Head";
 import Button from "../../components/common/Button";
-// import { addItem } from "../../utils/features/cart/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
 
 function ProductDetail() {
+  const {userInfo} = useSelector(state => state.auth);
+  const userId = userInfo.id;
   const availableSizes = ["XS", "S", "M", "L", "XL"];
+  const availableColors = [
+    { name: "Red", code: "#FF0000" },
+    { name: "Green", code: "#00FF00" },
+    { name: "Blue", code: "#0000FF" },
+    { name: "Yellow", code: "#FFFF00" },
+    { name: "Black", code: "#000000" }
+  ];
+
   const [size, setSize] = useState("");
+  const [selectedColor, setSelectedColor] = useState("");
   const navigate = useNavigate();
   const { state } = useLocation();
+  // console.log(state);
   const data = state;
 
   useEffect(() => {
@@ -22,94 +34,52 @@ function ProductDetail() {
   }, []);
 
   const dispatch = useDispatch();
-  // const userName = useSelector((state) => state.auth.user.username);
   const product = {
     name: data.name,
     image: data.image,
     price: data.price,
-    disPrice : data.disPrice,
+    disPrice: data.disPrice,
     desc: data.desc,
     quantity: data.quantity || 1,
     ratings: data.rating,
     size,
+    color: selectedColor
   };
 
-  const handleSize = (sizeValue) => {
-    setSize(sizeValue);
-  };
+  const handleSize = (sizeValue) => setSize(sizeValue);
+  const handleColor = (colorCode) => setSelectedColor(colorCode);
 
   const addToCart = async () => {
-    // if (!size) {
-    //   toast.error("Please select a size");
-    //   return;
-    // }
-    // try {
-    //   const product = {
-    //     name: data.name,
-    //     image: data.image,
-    //     price: data.price,
-    //     desc: data.desc,
-    //     quantity: data.qauntity || 1,
-    //     ratings: data.rating,
-    //     size,
-    //   };
+    if (!size || !selectedColor) {
+      toast.error("Please select a size and color");
+      return;
+    }
 
-    //   const { data: userCart, error: fetchError } = await supabase
-    //     .from("Cart")
-    //     .select("*")
-    //     .eq("username", userName)
-    //     .single();
+    const cartItem = {
+      userId,
+      cartItems: [
+        {
+          productId: data.id, // Assuming `data` contains the product ID
+          productName: data.name,
+          quantity: 1,
+          price: data.disPrice,
+          image: data.image,
+          color: selectedColor,
+          size
+        }
+      ]
+    };
 
-    //   if (fetchError && fetchError.code !== "PGRST116") {
-    //     console.error("Fetch error:", fetchError);
-    //     throw fetchError;
-    //   }
-
-    //   let updatedProducts;
-    //   if (userCart) {
-    //     const existingProductIndex = userCart.products.findIndex(
-    //       (item) => item.name === product.name && item.size === product.size
-    //     );
-
-    //     if (existingProductIndex !== -1) {
-    //       updatedProducts = [...userCart.products];
-    //       updatedProducts[existingProductIndex].quantity += product.quantity;
-    //     } else {
-    //       updatedProducts = [...userCart.products, product];
-    //     }
-
-    //     const { error: updateError } = await supabase
-    //       .from("Cart")
-    //       .update({ products: updatedProducts })
-    //       .eq("username", userName);
-
-    //     if (updateError) {
-    //       console.error("Update error:", updateError);
-    //       throw updateError;
-    //     }
-
-    //     dispatch(addItem({ item: product }));
-    //     toast.success("Product added to cart");
-    //   } else {
-    //     const { error: insertError } = await supabase.from("Cart").insert([
-    //       {
-    //         username: userName,
-    //         products: [product],
-    //       },
-    //     ]);
-
-    //     if (insertError) {
-    //       console.error("Insert error:", insertError);
-    //       throw insertError;
-    //     }
-
-    //     dispatch(addItem({ item: product }));
-    //     toast.success("Product added to cart");
-    //   }
-    // } catch (error) {
-    //   console.error("Error adding product to cart:", error);
-    //   toast.error("Error adding product to cart");
-    // }
+    try {
+      const response = await axios.post("http://localhost:8090/cart/add", cartItem);
+      if (response.status === 200) {
+        toast.success("Product added to cart successfully!");
+        // dispatch({ type: "ADD_TO_CART", payload: cartItem }); // Optional: update Redux if needed
+      }
+    } catch (error) {
+      console.error("Failed to add product to cart:", error);
+      toast.error("Failed to add product to cart.");
+    }
   };
 
   return (
@@ -122,14 +92,15 @@ function ProductDetail() {
         <div className="max-w-6xl px-4 py-4 mx-auto lg:py-8 md:px-6">
           <div className="flex flex-wrap -mx-4">
             <div className="w-full px-4 md:w-1/2">
-              <div className="sticky top-0 z-50 overflow-hidden">
-                <div className="relative mb-6 lg:mb-10 lg:h-2/4">
-                  <img
-                    src={data.image}
-                    alt=""
-                    className="object-cover w-full lg:h-full"
-                  />
-                </div>
+              <div
+                className="sticky top-0 z-50 overflow-hidden"
+                style={{ backgroundColor: selectedColor }}
+              >
+                <img
+                  src={data.image}
+                  alt=""
+                  className="object-cover w-full lg:h-full"
+                />
               </div>
             </div>
             <div className="w-full px-4 md:w-1/2">
@@ -169,6 +140,25 @@ function ProductDetail() {
                       >
                         {value}
                       </button>
+                    ))}
+                  </div>
+                </div>
+                <div className="flex items-center mb-8 gap-2">
+                  <h2 className="w-16 text-xl font-bold dark:text-gray-400">
+                    Color:
+                  </h2>
+                  <div className="flex flex-wrap -mx-2 -mb-2">
+                    {availableColors.map((color) => (
+                      <button
+                        key={color.name}
+                        className={`w-11 h-11 rounded-lg border border-gray-100 mr-2`}
+                        style={{
+                          backgroundColor: color.code,
+                          borderColor:
+                            selectedColor === color.code ? "blue" : "gray",
+                        }}
+                        onClick={() => handleColor(color.code)}
+                      />
                     ))}
                   </div>
                 </div>

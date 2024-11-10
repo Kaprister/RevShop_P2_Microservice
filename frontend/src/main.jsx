@@ -17,6 +17,7 @@ import Contact from './pages/Contact/Contact.jsx'
 import AdminRoute from './components/Auth/AdminRoute.jsx'
 import AddProduct from './admin/AddProduct.jsx'
 import Order from './admin/Order.jsx'
+import Cart from './pages/Cart/Cart.jsx'
 
 
 
@@ -98,6 +99,13 @@ const router = createBrowserRouter([
           <AdminRoute>
             <Order />
           </AdminRoute>
+        ),
+      },{
+        path: "/home/shop/cart",
+        element: (
+          <PrivateRoute>
+            <Cart/>
+          </PrivateRoute>
         ),
       },
     ]
