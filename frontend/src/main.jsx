@@ -17,7 +17,9 @@ import Contact from './pages/Contact/Contact.jsx'
 import AdminRoute from './components/Auth/AdminRoute.jsx'
 import AddProduct from './admin/AddProduct.jsx'
 import Order from './admin/Order.jsx'
-import Cart from './pages/Cart/Cart.jsx'
+import Transactions from './admin/Transactions.jsx'
+import ProductList from './admin/ProductList.jsx'
+import Cart from "./pages/Cart/Cart.jsx"
 
 
 
@@ -108,11 +110,27 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
+      {
+        path: "/admin/transaction",
+        element: (
+          <AdminRoute>
+            <Transactions />
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "/admin/product-list",
+        element: (
+          <AdminRoute>
+            <ProductList />
+          </AdminRoute>
+        ),
+      },
     ]
   }
 ]);
 
-
+// /admin/transaction
 
 
 
