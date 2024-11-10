@@ -17,6 +17,7 @@ import Contact from './pages/Contact/Contact.jsx'
 import AdminRoute from './components/Auth/AdminRoute.jsx'
 import AddProduct from './admin/AddProduct.jsx'
 import Order from './admin/Order.jsx'
+import Transactions from './admin/Transactions.jsx'
 
 
 
@@ -100,11 +101,19 @@ const router = createBrowserRouter([
           </AdminRoute>
         ),
       },
+      {
+        path: "/admin/transaction",
+        element: (
+          <AdminRoute>
+            <Transactions />
+          </AdminRoute>
+        ),
+      },
     ]
   }
 ]);
 
-
+// /admin/transaction
 
 
 
