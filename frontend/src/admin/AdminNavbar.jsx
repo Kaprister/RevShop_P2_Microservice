@@ -84,7 +84,7 @@ function AdminNavbar() {
                                     Dashboard
                                 </li>
                             </a>
-                            <a href="/admin/order">
+                            <a href="/admin/orders">
                                 <li className="hover:scale-105 duration-75 text-sm hover:font-semibold px-4 rounded-full">
                                     Orders
                                 </li>
@@ -166,7 +166,7 @@ function AdminNavbar() {
                                 Dashboard
                             </li>
                         </a>
-                        <a href="/admin/order">
+                        <a href="/admin/orders">
                             <li className="hover:scale-105 duration-75 text-sm hover:font-semibold px-4 my-2 rounded-full">
                                 Orders
                             </li>

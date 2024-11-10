@@ -16,6 +16,7 @@ import ProductDetail from './pages/Shop/ProductDetail.jsx'
 import Contact from './pages/Contact/Contact.jsx'
 import AdminRoute from './components/Auth/AdminRoute.jsx'
 import AddProduct from './admin/AddProduct.jsx'
+import Order from './admin/Order.jsx'
 
 
 
@@ -90,6 +91,14 @@ const router = createBrowserRouter([
             <AddProduct/>
           </AdminRoute>
         )
+      },
+      {
+        path: "/admin/orders",
+        element: (
+          <AdminRoute>
+            <Order />
+          </AdminRoute>
+        ),
       },
     ]
   }
