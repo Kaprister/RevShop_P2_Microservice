@@ -1,24 +1,37 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
-// import { supabase } from '../utils/client';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const AddProduct = () => {
   const [product, setProduct] = useState({
-    image_file: null,
-    Name: '',
-    Desc: '',
-    id: '',
-    created_at: '',
-    Price: ''
+    name: '',
+    description: '',
+    skuCode: '',
+    price: '',
+    discountedPrice: '',
+    quantity: '',
+    categoryId: ''
   });
+  const [categories, setCategories] = useState([]);
+  const [imageFile, setImageFile] = useState(null);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get('http://localhost:8082/categories');
+        setCategories(response.data);
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+      }
+    };
+    fetchCategories();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     if (name === 'image_file' && files) {
-      setProduct({
-        ...product,
-        image_file: files[0]
-      });
+      setImageFile(files[0]);
     } else {
       setProduct({
         ...product,
@@ -26,67 +39,47 @@ const AddProduct = () => {
       });
     }
   };
-
-  const uploadImage = async (file) => {
-    // const filePath = `${Date.now()}_${file.name}`;
-    // const { error: uploadError } = await supabase.storage
-    //   .from('images_bucket')
-    //   .upload(filePath, file, {
-    //     cacheControl: '3600',
-    //     upsert: false
-    //   });
-
-    // if (uploadError) {
-    //   console.error('Error uploading image:', uploadError);
-    //   return null;
-    // }
-
-    // const { data } = await supabase.storage
-    //   .from('images_bucket')
-    //   .getPublicUrl(filePath);
-
-    // return { publicURL: data.publicUrl, originalFileName: file.name };
-  };
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
-    // if (product.image_file) {
-    //   try {
-    //     const uploadResult = await uploadImage(product.image_file);
-    //     if (uploadResult) {
-    //       const { publicURL } = uploadResult;
-    //       const { data, error } = await supabase
-    //         .from('Product_table')
-    //         .insert([
-    //           {
-    //             Image_link: publicURL,
-    //             Name: product.Name,
-    //             Desc: product.Desc,
-    //             id: product.id,
-    //             created_at: product.created_at,
-    //             Price: product.Price
-    //           }
-    //         ]);
-  
-    //       if (error) {
-    //         console.error('Error adding product:', error.message);
-    //       } else {
-    //         console.log('Product added successfully:', data);
-    //         setProduct({
-    //           id: '',
-    //           created_at: '',
-    //           image_file: null,
-    //           Name: '',
-    //           Desc: '',
-    //           Price: ''
-    //         });
-    //       }
-    //     }
-    //   } catch (uploadError) {
-    //     console.error('Error uploading image:', uploadError);
-    //   }
-    // }
+
+    try {
+      const formData = new FormData();
+
+      // Find the selected category from categories
+      const selectedCategory = categories.find(
+        (category) => category.id === parseInt(product.categoryId)
+      );
+
+      // Construct the product object with the selected category
+      const productData = {
+        name: product.name,
+        description: product.description,
+        skuCode: product.skuCode,
+        price: parseFloat(product.price),
+        discountedPrice: parseFloat(product.discountedPrice),
+        quantity: parseInt(product.quantity),
+        category: selectedCategory ? {
+          id: selectedCategory.id,
+          name: selectedCategory.name,
+        } : null,
+      };
+
+      // Append product JSON and image to form data
+      formData.append("product", JSON.stringify(productData));
+      formData.append("image", imageFile);
+
+      // Send the request
+      const response = await axios.post("http://localhost:8082/products", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      console.log("Product added successfully:", response.data);
+    } catch (error) {
+      console.error("Error adding product:", error);
+    }
   };
 
   return (
@@ -108,73 +101,107 @@ const AddProduct = () => {
           />
         </div>
         <div className="form-control">
-          <label htmlFor="Name" className="label">
+          <label htmlFor="name" className="label">
             <span className="label-text">Product Name:</span>
           </label>
           <input
             type="text"
-            id="Name"
-            name="Name"
-            value={product.Name}
+            id="name"
+            name="name"
+            value={product.name}
             onChange={handleChange}
             required
             className="input input-bordered w-full"
           />
         </div>
         <div className="form-control md:col-span-2">
-          <label htmlFor="Desc" className="label">
+          <label htmlFor="description" className="label">
             <span className="label-text">Description:</span>
           </label>
           <textarea
-            id="Desc"
-            name="Desc"
-            value={product.Desc}
+            id="description"
+            name="description"
+            value={product.description}
             onChange={handleChange}
             required
             className="textarea textarea-bordered w-full"
           />
         </div>
         <div className="form-control">
-          <label htmlFor="id" className="label">
-            <span className="label-text">Product ID:</span>
+          <label htmlFor="skuCode" className="label">
+            <span className="label-text">Code:</span>
           </label>
           <input
             type="text"
-            id="id"
-            name="id"
-            value={product.id}
+            id="skuCode"
+            name="skuCode"
+            value={product.skuCode}
             onChange={handleChange}
             required
             className="input input-bordered w-full"
           />
         </div>
         <div className="form-control">
-          <label htmlFor="created_at" className="label">
-            <span className="label-text">Date:</span>
-          </label>
-          <input
-            type="date"
-            id="created_at"
-            name="created_at"
-            value={product.created_at}
-            onChange={handleChange}
-            required
-            className="input input-bordered w-full"
-          />
-        </div>
-        <div className="form-control">
-          <label htmlFor="Price" className="label">
+          <label htmlFor="price" className="label">
             <span className="label-text">Price:</span>
           </label>
           <input
             type="text"
-            id="Price"
-            name="Price"
-            value={product.Price}
+            id="price"
+            name="price"
+            value={product.price}
             onChange={handleChange}
             required
             className="input input-bordered w-full"
           />
+        </div>
+        <div className="form-control">
+          <label htmlFor="discountedPrice" className="label">
+            <span className="label-text">Discounted Price:</span>
+          </label>
+          <input
+            type="text"
+            id="discountedPrice"
+            name="discountedPrice"
+            value={product.discountedPrice}
+            onChange={handleChange}
+            required
+            className="input input-bordered w-full"
+          />
+        </div>
+        <div className="form-control">
+          <label htmlFor="quantity" className="label">
+            <span className="label-text">Quantity:</span>
+          </label>
+          <input
+            type="number"
+            id="quantity"
+            name="quantity"
+            value={product.quantity}
+            onChange={handleChange}
+            required
+            className="input input-bordered w-full"
+          />
+        </div>
+        <div className="form-control">
+          <label htmlFor="categoryId" className="label">
+            <span className="label-text">Category:</span>
+          </label>
+          <select
+            id="categoryId"
+            name="categoryId"
+            value={product.categoryId}
+            onChange={handleChange}
+            required
+            className="select select-bordered w-full"
+          >
+            <option value="">Select a category</option>
+            {categories.map((category) => (
+              <option key={category.id} value={category.id}>
+                {category.name}
+              </option>
+            ))}
+          </select>
         </div>
         <div className="form-control md:col-span-2">
           <button type="submit" className="btn btn-primary w-full">

@@ -14,7 +14,7 @@ import com.revature.product.service.ProductService;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@CrossOrigin()
+@CrossOrigin(origins = "http://localhost:5173")
 @RequestMapping("/products")
 public class ProductController {
 
