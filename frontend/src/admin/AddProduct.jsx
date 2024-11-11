@@ -76,8 +76,20 @@ const AddProduct = () => {
         },
       });
 
+      setProduct({
+        name: '',
+        description: '',
+        skuCode: '',
+        price: '',
+        discountedPrice: '',
+        quantity: '',
+        categoryId: ''
+      });
+      toast.success("Product added successfully!");
+
       console.log("Product added successfully:", response.data);
     } catch (error) {
+      toast.error("Product added failed");
       console.error("Error adding product:", error);
     }
   };
