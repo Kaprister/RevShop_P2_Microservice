@@ -43,11 +43,11 @@ class CartControllerTests {
 
     @Test
     void addItemToCart_ShouldAddItemToCart() throws Exception {
-        CartItem cartItem = new CartItem(1L, "Test Product", 1, 15.0, "image.png");
+        CartItem cartItem = new CartItem(1L, 1L, "Test Product", 1, 15.0, "image.png", "Red", "M");
 
         mockMvc.perform(post("/cart/addItem/1")
                 .contentType("application/json")
-                .content("{\"productId\":1,\"productName\":\"Test Product\",\"quantity\":1,\"price\":15.0,\"image\":\"image.png\"}"))
+                .content("{\"productId\":1,\"productName\":\"Test Product\",\"quantity\":1,\"price\":15.0,\"image\":\"image.png\",\"color\":\"Red\",\"size\":\"M\"}"))
             .andExpect(status().isNoContent());
     }
 

@@ -23,6 +23,7 @@ import Cart from "./pages/Cart/Cart.jsx"
 import Liked from './pages/Favourite/liked.jsx'
 import Checkout from './pages/Checkout/Checkout.jsx'
 import MyOrders from './pages/Orders/MyOrders.jsx'
+import AllUser from './admin/AllUser.jsx'
 
 
 
@@ -128,7 +129,9 @@ const router = createBrowserRouter([
             <ProductList />
           </AdminRoute>
         ),
-      },{
+      },
+      { path: '/admin/all-users', element: <AllUser /> }, // Add route for AllUser
+      {
         path: "/home/favorite",
         element: (
           <PrivateRoute>
