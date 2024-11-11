@@ -153,7 +153,7 @@ function Home() {
         <div className="mt-12">
           <div className="mx-auto max-w-2xl px-4 py-8 lg:max-w-7xl lg:px-8">
             <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-              {products.map((elem, idx) => (
+              {products.slice(1,5).map((elem, idx) => (
                 <Product
                   key={idx}
                   id={elem.id}

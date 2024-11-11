@@ -1,6 +1,7 @@
 package com.revature.cart.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -75,4 +76,65 @@ public class CartService {
         // Save the cart back to the repository
         cartRepository.save(cart);
     }
+
+    // Method to increase the quantity of a CartItem within a Cart
+    public Optional<Cart> increaseCartItemQuantity(Long cartId, Long cartItemId) {
+        Optional<Cart> cartOptional = cartRepository.findById(cartId);
+
+        if (cartOptional.isPresent()) {
+            Cart cart = cartOptional.get();
+            boolean itemFound = false;
+
+            // Find the CartItem by ID and increase its quantity
+            for (CartItem item : cart.getCartItems()) {
+                if (item.getId().equals(cartItemId)) {
+                    item.setQuantity(item.getQuantity() + 1);
+                    itemFound = true;
+                    break;
+                }
+            }
+
+            if (itemFound) {
+                // Save the updated cart
+                Cart updatedCart = cartRepository.save(cart);
+                return Optional.of(updatedCart);
+            }
+        }
+
+        return Optional.empty();  // Return empty if cart or item not found
+    }
+
+
+    // Method to decrease the quantity of a CartItem within a Cart
+    public Optional<Cart> decreaseCartItemQuantity(Long cartId, Long cartItemId) {
+        Optional<Cart> cartOptional = cartRepository.findById(cartId);
+
+        if (cartOptional.isPresent()) {
+            Cart cart = cartOptional.get();
+            boolean itemFound = false;
+
+            // Find the CartItem by ID and decrease its quantity
+            for (CartItem item : cart.getCartItems()) {
+                if (item.getId().equals(cartItemId)) {
+                    if (item.getQuantity() > 1) {
+                        item.setQuantity(item.getQuantity() - 1);
+                    } else {
+                        // Optionally, remove the item from the cart if quantity reaches 1
+                        cart.getCartItems().remove(item);
+                    }
+                    itemFound = true;
+                    break;
+                }
+            }
+
+            if (itemFound) {
+                // Save the updated cart
+                Cart updatedCart = cartRepository.save(cart);
+                return Optional.of(updatedCart);
+            }
+        }
+
+        return Optional.empty();  // Return empty if cart or item not found
+    }
+
 }

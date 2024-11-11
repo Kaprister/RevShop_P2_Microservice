@@ -31,7 +31,7 @@ const AllUser = () => {
     return (
         <div>
             <div className="mx-auto max-w-screen-xl px-4 pt-8 mt-8 sm:py-12">
-                <Head h2="All Users" />
+                <Head h1="All" h2="Users" />
             </div>
             <div className="pl-10 w-full max-w-6xl mx-auto mb-32">
                 <Table users={users} onDeleteUser={deleteUser} /> {/* Pass deleteUser function */}

@@ -36,6 +36,8 @@ const Cart = () => {
         const allCartItems = data.flatMap((item) => item.cartItems);
         
         setCartItems(allCartItems);
+        console.log("CartItems : ", allCartItems);
+        
       } catch (error) {
         console.error("Error fetching cart data:", error);
       } finally {
@@ -62,22 +64,61 @@ const Cart = () => {
       await axios.delete(`http://localhost:8090/cart/delete/${itemId}`, { cartItems: updatedItems });
       toast.success("Item removed successfully");
       setCartItems(updatedItems);
+
     } catch (error) {
       console.error("Error removing item from cart:", error);
     }
   };
 
-  const handleQuantityChange = async (itemId, newQuantity) => {
+  // const handleQuantityChange = async (itemId, newQuantity) => {
+  //   try {
+  //     const updatedItems = cartItems.map((item) =>
+  //       item.id === itemId ? { ...item, quantity: newQuantity } : item
+  //     );
+  //     await axios.put(`http://localhost:8087/cart/user/${userId}`, { cartItems: updatedItems });
+  //     setCartItems(updatedItems);
+  //   } catch (error) {
+  //     console.error("Error updating quantity in cart:", error);
+  //   }
+  // };
+
+
+  const handleQuantityChange = async (itemId, newQuantity, productId) => {
     try {
-      const updatedItems = cartItems.map((item) =>
-        item.id === itemId ? { ...item, quantity: newQuantity } : item
-      );
-      await axios.put(`http://localhost:8087/cart/user/${userId}`, { cartItems: updatedItems });
-      setCartItems(updatedItems);
+      // Fetch product data to get available quantity only for increment cases
+      const productResponse = await axios.get(`http://localhost:8082/products/${productId}`);
+      const availableQuantity = productResponse.data.quantity;
+      
+      // Find current item quantity
+      const currentItem = cartItems.find((item) => item.id === itemId);
+      if (!currentItem) return;
+  
+      if (newQuantity > currentItem.quantity) {
+        // Increment case
+        if (newQuantity <= availableQuantity) {
+          await axios.put(`http://localhost:8090/cart/${itemId}/item/${itemId}/increase`, { quantity: newQuantity });
+          const updatedItems = cartItems.map((item) =>
+            item.id === itemId ? { ...item, quantity: newQuantity } : item
+          );
+          setCartItems(updatedItems);
+        } else {
+          toast.error("Quantity exceeds available stock");
+          return;
+        }
+      } else if (newQuantity < currentItem.quantity) {
+        // Decrement case
+        await axios.put(`http://localhost:8090/cart/${itemId}/item/${itemId}/decrease`, { quantity: newQuantity });
+        const updatedItems = cartItems.map((item) =>
+          item.id === itemId ? { ...item, quantity: newQuantity } : item
+        );
+        setCartItems(updatedItems);
+      }
     } catch (error) {
       console.error("Error updating quantity in cart:", error);
     }
   };
+  
+  
 
   const handleApplyCoupon = () => {
     if (coupon.toUpperCase() === staticCoupon.name) {
@@ -227,7 +268,8 @@ const Cart = () => {
                       <div className="w-auto px-4 md:w-1/6 lg:w-2/12">
                         <QuantityButton
                           initialQuantity={item.quantity}
-                          onUpdate={(newQuantity) => handleQuantityChange(item.id, newQuantity)}
+                          onUpdate={(newQuantity) => handleQuantityChange(item.id, newQuantity, item.productId)}
+                          productId={item.productId}
                         />
                       </div>
                       <div className="w-auto px-4 text-right md:w-1/6 lg:w-2/12 flex items-center justify-between">

@@ -1,6 +1,7 @@
 package com.revature.cart.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,6 @@ import com.revature.cart.service.CartService;
 @RequestMapping("/cart")
 @CrossOrigin(origins = "http://localhost:5173")
 public class CartController {
-
     @Autowired
     private CartService cartService;
 
@@ -72,5 +72,28 @@ public class CartController {
         return cartService.getProductInfo(productId)
             .map(ResponseEntity::ok)
             .block();
+    }
+
+    @PutMapping("/{cartId}/item/{cartItemId}/increase")
+    public ResponseEntity<Cart> increaseCartItemQuantity(@PathVariable Long cartId, @PathVariable Long cartItemId) {
+        Optional<Cart> updatedCart = cartService.increaseCartItemQuantity(cartId, cartItemId);
+
+        if (updatedCart.isPresent()) {
+            return ResponseEntity.ok(updatedCart.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    // Endpoint to decrease the quantity of a CartItem within a Cart
+    @PutMapping("/{cartId}/item/{cartItemId}/decrease")
+    public ResponseEntity<Cart> decreaseCartItemQuantity(@PathVariable Long cartId, @PathVariable Long cartItemId) {
+        Optional<Cart> updatedCart = cartService.decreaseCartItemQuantity(cartId, cartItemId);
+
+        if (updatedCart.isPresent()) {
+            return ResponseEntity.ok(updatedCart.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

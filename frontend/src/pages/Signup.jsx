@@ -16,7 +16,7 @@ function Signup() {
       setPasswordVisible(!isPasswordVisible);
     };
   
-    const [email, setEmail] = useState("");
+    // const [email, setEmail] = useState("");
     const [userData, setUserData] = useState({
       username: "admin",
       email: "",
@@ -109,12 +109,10 @@ function Signup() {
                 type="email"
                 id="email"
                 name="email"
+                placeholder="Enter your email"
                 className="mt-2 p-2 w-full placeholder:text-sm shadow border border-[#C4C4C4] rounded-xl focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300 mb-6"
-                value={email}
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                  setErrors((prev) => ({ ...prev, email: [] }));
-                }}
+                value={userData.email}
+                onChange={handleInputChange}
               />
               {errors.email && (
                 <ul className="px-2 text-xs mt-1" style={{ color: "red" }}>
