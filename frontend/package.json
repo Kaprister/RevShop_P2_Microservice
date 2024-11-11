@@ -33,7 +33,7 @@
     "react-tilt": "^1.0.2",
     "react-toastify": "^10.0.6",
     "redux": "^5.0.1",
-    "uuid": "^11.0.2",
+    "uuid": "^11.0.3",
     "zod": "^3.23.8"
   },
   "devDependencies": {
