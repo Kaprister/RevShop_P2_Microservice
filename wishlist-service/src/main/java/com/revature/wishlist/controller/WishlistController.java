@@ -3,6 +3,7 @@ package com.revature.wishlist.controller;
 import com.revature.wishlist.model.Wishlist;
 import com.revature.wishlist.service.WishlistService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,6 +11,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/wishlist")
+@CrossOrigin(origins = "http://localhost:5173")
 public class WishlistController {
 
     @Autowired
@@ -40,10 +42,17 @@ public class WishlistController {
     }
 
     @PostMapping("/addProduct/{userId}/{productId}")
-    public ResponseEntity<Void> addProductToWishlist(@PathVariable Long userId, @PathVariable Long productId) {
+    public ResponseEntity<String> addProductToWishlist(@PathVariable Long userId, @PathVariable Long productId) {
         wishlistService.addProductToWishlist(userId, productId);
-        return ResponseEntity.noContent().build();
+        return new ResponseEntity<>("Product Added to WishList Successfully!", HttpStatus.CREATED);
     }
+
+    @DeleteMapping("/removeProduct/{userId}/{productId}")
+    public ResponseEntity<String> removeProductFromWishlist(@PathVariable Long userId, @PathVariable Long productId) {
+        wishlistService.removeProductFromWishlist(userId, productId);
+        return new ResponseEntity<>("Product removed from WishList successfully!", HttpStatus.OK);
+    }
+
 
     @GetMapping("/user-info/{userId}")
     public ResponseEntity<String> getUserInfo(@PathVariable Long userId) {

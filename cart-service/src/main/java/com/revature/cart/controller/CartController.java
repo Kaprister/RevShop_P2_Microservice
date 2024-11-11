@@ -20,7 +20,7 @@ import com.revature.cart.service.CartService;
 
 @RestController
 @RequestMapping("/cart")
-@CrossOrigin()
+@CrossOrigin(origins = "http://localhost:5173")
 public class CartController {
 
     @Autowired
