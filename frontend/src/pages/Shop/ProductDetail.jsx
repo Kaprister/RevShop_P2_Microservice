@@ -88,13 +88,16 @@ function ProductDetail() {
         <Head h1="Product" h2="Detail" />
       </div>
 
-      <section className="overflow-hidden bg-white py-11 font-poppins dark:bg-gray-800">
+      <section className="overflow-hidden bg-white py-11 font-poppins">
         <div className="max-w-6xl px-4 py-4 mx-auto lg:py-8 md:px-6">
           <div className="flex flex-wrap -mx-4">
             <div className="w-full px-4 md:w-1/2">
               <div
-                className="sticky top-0 z-50 overflow-hidden"
-                style={{ backgroundColor: selectedColor }}
+                className={`sticky top-0 z-50 overflow-hidden`}
+                style={{ backgroundColor: selectedColor,
+                  border: selectedColor ? `5px solid ${selectedColor}` : "none"
+                 }}
+                
               >
                 <img
                   src={data.image}
@@ -106,34 +109,34 @@ function ProductDetail() {
             <div className="w-full px-4 md:w-1/2">
               <div className="lg:pl-20">
                 <div className="mb-8">
-                  <span className="text-lg font-medium text-rose-500 dark:text-rose-200">
+                  <span className="text-lg font-medium text-rose-500 ">
                     Buy Today
                   </span>
-                  <h2 className="max-w-xl mt-2 mb-6 text-2xl font-bold dark:text-gray-400 md:text-4xl">
+                  <h2 className="max-w-xl mt-2 mb-6 text-2xl font-bold md:text-4xl">
                     {data.name}
                   </h2>
-                  <p className="max-w-md mb-8 text-gray-700 dark:text-gray-400">
+                  <p className="max-w-md mb-8 text-gray-700">
                     {data.desc}
                   </p>
-                  <p className="inline-block mb-8 text-4xl font-bold text-gray-700 dark:text-gray-400">
+                  <p className="inline-block mb-8 text-4xl font-bold text-gray-700 ">
                     <span>₹{data.disPrice}</span>
-                    <span className="text-base font-normal text-gray-500 line-through dark:text-gray-400 ml-2">
+                    <span className="text-base font-normal text-gray-500 line-through ml-2">
                       ₹{data.price}
                     </span>
                   </p>
-                  <p className="text-green-600 dark:text-green-300">
+                  <p className="text-green-600 ">
                     {data.quantity} in stock
                   </p>
                 </div>
                 <div className="flex items-center mb-8">
-                  <h2 className="w-16 text-xl font-bold dark:text-gray-400">
+                  <h2 className="w-16 text-xl font-bold ">
                     Size:
                   </h2>
                   <div className="flex flex-wrap -mx-2 -mb-2">
                     {availableSizes.map((value) => (
                       <button
                         key={value}
-                        className={`py-1 mb-2 mr-1 border w-11 hover:border-blue-400 dark:border-gray-400 hover:text-blue-600 dark:hover:border-gray-300 dark:text-gray-400 ${
+                        className={`py-1 mb-2 mr-1 border w-11 hover:border-blue-400  hover:text-blue-600 ${
                           value === size ? "bg-mygreen" : ""
                         }`}
                         onClick={() => handleSize(value)}
@@ -144,7 +147,7 @@ function ProductDetail() {
                   </div>
                 </div>
                 <div className="flex items-center mb-8 gap-2">
-                  <h2 className="w-16 text-xl font-bold dark:text-gray-400">
+                  <h2 className="w-16 text-xl font-bold">
                     Color:
                   </h2>
                   <div className="flex flex-wrap -mx-2 -mb-2">
@@ -163,7 +166,7 @@ function ProductDetail() {
                   </div>
                 </div>
                 <div className="mb-8">
-                  <h2 className="text-xl font-bold text-gray-800 dark:text-gray-200">
+                  <h2 className="text-xl font-bold text-gray-800 ">
                     Rating:{" "}
                     <span className="bg-mygreen p-1 px-3 text-mywhite rounded-md">
                       {product.ratings} ⭐
