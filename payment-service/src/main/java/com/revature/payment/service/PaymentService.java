@@ -23,7 +23,7 @@ public class PaymentService {
     private final String userServiceUrl = "http://service-user/users";
     private final String productServiceUrl = "http://product-service/products";
     private final String cartServiceUrl = "http://cart-service/cart";
-    private final String orderServiceUrl = "http://order-service/orders";
+    private final String orderServiceUrl = "http://localhost:8084/orders";
 
     public PaymentDetails createPayment(PaymentDetails paymentDetails) {
         // Additional validation and logic can go here

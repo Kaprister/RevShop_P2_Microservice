@@ -33,6 +33,7 @@ public class Order {
 	private Long id;
 	private Double totalAmount;
 	private Integer userId;
+	private String OrderType;
 
 	@Enumerated(EnumType.STRING) // Use STRING to store the name of the enum
 	private OrderStatus status; // Change to use the enum type

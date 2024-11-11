@@ -76,6 +76,7 @@ function Checkout() {
             userId: userId,
             status: 'PENDING',
             billingAddress,
+            OrderType: "Cash On Delivery",
             orderLineItems: cartItems.map(item => ({
                 name: item.productName,
                 price: item.price,
@@ -94,14 +95,87 @@ function Checkout() {
             } else {
                 // Implement online payment functionality here
                 console.log("Online payment selected.");
-                setIsModalOpen(true);
-                setCartItems([]);
-                setOrderId(uuidv4());
+                handleRazorpayPayment();
+                // setIsModalOpen(true);
+                // setCartItems([]);
+                // setOrderId(uuidv4());
             }
         } catch (error) {
             console.error("Error placing order:", error);
         }
     };
+
+    // Call the payment API to initiate online payment
+    const handlePaymentApi = async (orderData, paymentID, orderID) => {
+        const paymentData = {
+            orderId: orderID,
+            paymentId: paymentID,
+            paymentLink: "http://localhost:8085/api/payments",
+            status: "SUCCESS",
+            totalAmount: orderData.totalAmount,
+            userId : orderData.userId
+        }
+        try {
+            const response = await axios.post("http://localhost:8085/api/payments", paymentData);
+            console.log("Payment API call successful:", response.data);
+        } catch (error) {
+            console.error("Error calling payment API:", error);
+        }
+    }
+
+    const handleRazorpayPayment = () => {
+        if (typeof window.Razorpay === "undefined") {
+            console.error("Razorpay SDK not loaded.");
+            return;
+        }
+    
+        const options = {
+            key: "rzp_test_kOZuSgBkSmpz5o",  // Replace with your Razorpay Key ID
+            amount: total * 100,  // Razorpay takes amount in paise
+            currency: "INR",
+            name: "E-Commerce Website",
+            description: "Order Payment",
+            handler: async (response) => {
+                const orderData = {
+                    totalAmount: total,
+                    userId: userId,
+                    status: 'SHIPPED',
+                    billingAddress,
+                    OrderType: "Online Payment",
+                    // paymentId: response.razorpay_payment_id,
+                    orderLineItems: cartItems.map(item => ({
+                        name: item.productName,
+                        price: item.price,
+                        quantity: item.quantity || 1,
+                        image: item.image,
+                    })),
+                };
+    
+                try {
+                    const res = await axios.post("http://localhost:8084/orders", orderData);
+                    console.log("Order placed successfully:", res.data);
+                    await handlePaymentApi(orderData, response.razorpay_payment_id, res.data.id);
+                    setIsModalOpen(true);
+                    setOrderId(res.data.id || uuidv4());
+                    setCartItems([]);
+                } catch (error) {
+                    console.error("Error placing order:", error);
+                }
+            },
+            prefill: {
+                name: userName,
+                email: "sushantkapri@gmail.com",  // Replace with actual user email
+                contact: "7547802323"  // Replace with actual user contact number
+            },
+            theme: {
+                color: "#3399cc"
+            }
+        };
+    
+        const rzp1 = new window.Razorpay(options);
+        rzp1.open();
+    };
+    
 
     return (
         <>
