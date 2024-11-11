@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import Head from "../common/Head";
@@ -69,9 +70,9 @@ const TableUser = ({ users, onDeleteUser }) => {
 
     return (
         <>
-            <div className="mx-auto max-w-screen-xl px-4 pt-8 mt-8 sm:py-12">
+            {/* <div className="mx-auto max-w-screen-xl px-4 pt-8 mt-8 sm:py-12">
                 <Head h2="Users" />
-            </div>
+            </div> */}
             <div className="pl-10 w-full max-w-6xl mx-auto mb-32">
                 <div className="overflow-x-auto rounded-lg border border-base-300">
                     <table className="table w-full max-w-full">

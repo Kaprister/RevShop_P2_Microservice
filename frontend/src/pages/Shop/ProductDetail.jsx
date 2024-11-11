@@ -100,7 +100,7 @@ function ProductDetail() {
                 
               >
                 <img
-                  src={data.image}
+                  src={data.image || data.imageUrl}
                   alt=""
                   className="object-cover w-full lg:h-full"
                 />

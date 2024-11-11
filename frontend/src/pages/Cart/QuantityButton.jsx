@@ -2,20 +2,20 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 
-const QuantityButton = ({ initialQuantity, onUpdate }) => {
+const QuantityButton = ({ initialQuantity, onUpdate, productId }) => {
   const [quantity, setQuantity] = useState(initialQuantity);
 
   const setIncrease = () => {
-    const updatedQuantity = quantity + 1;
     setQuantity(updatedQuantity);
-    onUpdate(updatedQuantity);
+    onUpdate(updatedQuantity, productId); // Pass productId for validation
+    const updatedQuantity = quantity + 1;
   };
 
   const setDecrease = () => {
     if (quantity > 1) {
       const updatedQuantity = quantity - 1;
       setQuantity(updatedQuantity);
-      onUpdate(updatedQuantity);
+      onUpdate(updatedQuantity, productId);
     }
   };
 
