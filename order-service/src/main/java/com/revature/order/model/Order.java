@@ -31,19 +31,16 @@ public class Order {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	private String orderNumber;
-	
-	private String userId;
-	
+	private Double totalAmount;
+	private Integer userId;
+	private String OrderType;
+
 	@Enumerated(EnumType.STRING) // Use STRING to store the name of the enum
 	private OrderStatus status; // Change to use the enum type
-	
+	private String billingAddress; // Add billing address
+
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<OrderLineItems> orderLineItems;
-	
-	private String billingAddress; // Add billing address
-	private String shippingAddress; // Add shipping address
-	
+
 
 }

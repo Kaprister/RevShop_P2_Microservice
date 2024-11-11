@@ -17,6 +17,9 @@ public class Cart {
     @JoinColumn(name = "cart_id")
     private List<CartItem> cartItems;
 
+
+
+
     // Constructors
     public Cart() {}
 

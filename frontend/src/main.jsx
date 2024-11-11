@@ -10,6 +10,19 @@ import OpenRoute from './components/Auth/OpenRoute.jsx'
 import Login from './pages/Login.jsx'
 import Signup from './pages/Signup.jsx'
 import Shop from './pages/Shop/Shop.jsx'
+import Dashboard from './admin/Dashboard.jsx'
+import Profile from './pages/Profile/Profile.jsx'
+import ProductDetail from './pages/Shop/ProductDetail.jsx'
+import Contact from './pages/Contact/Contact.jsx'
+import AdminRoute from './components/Auth/AdminRoute.jsx'
+import AddProduct from './admin/AddProduct.jsx'
+import Order from './admin/Order.jsx'
+import Transactions from './admin/Transactions.jsx'
+import ProductList from './admin/ProductList.jsx'
+import Cart from "./pages/Cart/Cart.jsx"
+import Liked from './pages/Favourite/liked.jsx'
+import Checkout from './pages/Checkout/Checkout.jsx'
+import MyOrders from './pages/Orders/MyOrders.jsx'
 
 
 
@@ -20,11 +33,9 @@ const router = createBrowserRouter([
     element : <App/>,
     children:[
       {
-        path : "/",
+        path : "/home",
         element: (
-          // <OpenRoute>
             <Home/>
-          // </OpenRoute>
         )
       },
       {
@@ -46,9 +57,9 @@ const router = createBrowserRouter([
       {
         path : "/admin",
         element : (
-          <PrivateRoute>
-            <Home/>
-          </PrivateRoute>
+          <AdminRoute>
+            <Dashboard/>
+          </AdminRoute>
         )
       },{
         path : "/home/shop",
@@ -57,10 +68,95 @@ const router = createBrowserRouter([
             <Shop/>
           </PrivateRoute>
         )
+      },{
+        path : "/home/profile",
+        element : (
+          <PrivateRoute>
+            <Profile/>
+          </PrivateRoute>
+        )
+      },{
+        path : "/home/shop/product",
+        element : (
+          <PrivateRoute>
+            <ProductDetail/>
+          </PrivateRoute>
+        )
+      },
+      {
+        path : "/home/contact",
+        element : (
+          <PrivateRoute>
+            <Contact/>
+          </PrivateRoute>
+        )
+      },{
+        path : "admin/add-product",
+        element : (
+          <AdminRoute>
+            <AddProduct/>
+          </AdminRoute>
+        )
+      },
+      {
+        path: "/admin/orders",
+        element: (
+          <AdminRoute>
+            <Order />
+          </AdminRoute>
+        ),
+      },{
+        path: "/home/shop/cart",
+        element: (
+          <PrivateRoute>
+            <Cart/>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/admin/transaction",
+        element: (
+          <AdminRoute>
+            <Transactions />
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "/admin/product-list",
+        element: (
+          <AdminRoute>
+            <ProductList />
+          </AdminRoute>
+        ),
+      },{
+        path: "/home/favorite",
+        element: (
+          <PrivateRoute>
+            <Liked/>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/home/shop/checkout",
+        element: (
+          <PrivateRoute>
+            <Checkout/>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/home/my-orders",
+        element: (
+          <PrivateRoute>
+            <MyOrders/>
+          </PrivateRoute>
+        ),
       },
     ]
   }
 ]);
+
+// /admin/transaction
 
 
 

@@ -29,9 +29,9 @@ public class OrderLineItems {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
-	private String skuCode;
 	private Double price;
 	private Integer quantity;
+	private String image;
 	
 }
 

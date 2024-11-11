@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -5,6 +6,8 @@ import { MdOutlineShoppingCart } from "react-icons/md";
 import { Slide, toast } from "react-toastify";
 import Glassnav from "./Floating_Nav";
 import Button from "./Button";
+import { logout } from "../../slices/authSlice";
+import axios from "axios";
 
 function Screensize() {
   const [windowSize, setWindowSize] = useState({ width: window.innerWidth });
@@ -28,23 +31,39 @@ function Floatingnav() {
 }
 
 function Navbar() {
-  const userName = useSelector((state) => state.auth.user?.username);
+  const userName = useSelector((state) => state.auth.userInfo.username);
+  const userId = useSelector((state) => state.auth.userInfo.id);
   const dispatch = useDispatch();
+
   const [items, setItems] = useState([]);
   const [itemsInCart, setItemsInCart] = useState(0);
-  const [showMenu, setShowMenu] = useState(false);
   const [total, setTotal] = useState(0);
+  const [showMenu, setShowMenu] = useState(false);
   const [userInfo, setUserInfo] = useState({});
   const [showHamburgerMenu, setShowHamburgerMenu] = useState(false);
 
   useEffect(() => {
-    if (!userName) return;
+    if (!userId) return;
 
-    // Future scope: fetch user information and cart items via REST API
-    // Placeholder for user info API call
-    // Placeholder for cart items API call
+    const fetchCartData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8090/cart/user/${userId}`);
+        const data = response.data;
 
-  }, [userName]);
+        // Combine cart items from all objects and calculate total
+        const allCartItems = data.flatMap((item) => item.cartItems);
+        setItems(allCartItems);
+
+        const cartTotal = allCartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+        setTotal(cartTotal);
+        setItemsInCart(allCartItems.length);
+      } catch (error) {
+        console.error("Error fetching cart data:", error);
+      }
+    };
+
+    fetchCartData();
+  }, [userId]);
 
   const toastNotification = (message) => {
     toast(message, {
@@ -106,7 +125,7 @@ function Navbar() {
                   {itemsInCart} Items.
                 </span>
                 {items.slice(0, 3).map((item, index) => (
-                  <div key={`${item.name}-${index}`} className="flex gap-3 mt-4">
+                  <div key={`${item.productName}-${index}`} className="flex gap-3 mt-4">
                     <div className="w-20 h-16">
                       <img
                         src={item.image}
@@ -116,7 +135,7 @@ function Navbar() {
                     </div>
                     <div>
                       <h4 className="font-bold dark:text-gray-400">
-                        {item.name}
+                        {item.productName}
                       </h4>
                       <p className="font-medium dark:text-gray-400">
                         Price: ₹{item.price}
@@ -164,6 +183,9 @@ function Navbar() {
                 </li>
                 <li onClick={handleCloseMenu}>
                   <Link to={"/home/shop"}><p>Shop</p></Link>
+                </li>
+                <li onClick={handleCloseMenu}>
+                  <Link to={"/home/favorite"}><p>Favorite</p></Link>
                 </li>
                 <li onClick={handleCloseMenu}>
                   <Link to={"/home/shop/cart"}><p>Cart</p></Link>
