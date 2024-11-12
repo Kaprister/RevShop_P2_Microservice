@@ -6,9 +6,9 @@ const QuantityButton = ({ initialQuantity, onUpdate, productId }) => {
   const [quantity, setQuantity] = useState(initialQuantity);
 
   const setIncrease = () => {
+    const updatedQuantity = quantity + 1;
     setQuantity(updatedQuantity);
     onUpdate(updatedQuantity, productId); // Pass productId for validation
-    const updatedQuantity = quantity + 1;
   };
 
   const setDecrease = () => {
