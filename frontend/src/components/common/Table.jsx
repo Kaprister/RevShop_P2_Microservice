@@ -1,21 +1,28 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Head from "../common/Head";
 import Button from "../common/Button";
+import axios from "axios";
 
 const Table = ({ orders }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(10);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [showPopthis, setShowPopthis] = useState(false);
+  const [orderData, setOrderData] = useState(orders);
 
-  const totalPages = Math.ceil(orders.length / pageSize);
+  // Effect to update local state when the 'orders' prop changes
+  useEffect(() => {
+    setOrderData(orders);
+  }, [orders]); // This will run whenever 'orders' prop changes
+
+  const totalPages = Math.ceil(orderData.length / pageSize);
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
-  const displayedOrders = orders.slice(
+  const displayedOrders = orderData.slice(
     (currentPage - 1) * pageSize,
     currentPage * pageSize
   );
@@ -30,36 +37,92 @@ const Table = ({ orders }) => {
     setSelectedOrder(null);
   };
 
-  const Popthis = ({ order, onClose }) => {
+  const handleUpdate = (orderId, newStatus) => {
+    setOrderData(
+      orderData.map((order) =>
+        order.id === orderId ? { ...order, status: newStatus } : order
+      )
+    );
+  };
+
+  const Popthis = ({ order, onClose, onUpdate }) => {
+    const [newStatus, setNewStatus] = useState(order.status);
+
+    const handleStatusChange = async () => {
+      try {
+        const response = await axios.put(
+          `http://localhost:8084/orders/${order.id}`,
+          {
+            id: order.id,
+            status: newStatus,
+          }
+        );
+
+        console.log("Order updated successfully:", response.data);
+
+        // Optionally refetch the orders to get the latest data
+        const updatedOrders = await axios.get(
+          `http://localhost:8084/orders/user-order`
+        );
+        
+        // Update the local order data state with the new orders
+        setOrderData(updatedOrders.data);
+
+        onUpdate(order.id, newStatus); // Update the order data in the table
+        onClose();
+      } catch (error) {
+        console.error("Error updating order status:", error);
+        if (error.response) {
+          console.error("Server responded with:", error.response.data);
+        }
+      }
+    };
+
     return (
-      <>
-        <div className="fixed inset-0 flex items-center justify-center z-50">
-          <div className="absolute inset-0 bg-mywhite bg-opacity-50"></div>
-          <div className="relative p-8 rounded-lg shadow-lg w-1/2 bg-mywhite text-black">
-            <button
-              onClick={onClose}
-              className="absolute top-0 right-0 mt-4 mr-4 text-xl"
-            >
-              &times;
-            </button>
-            <div className="mb-4 text-lg">
-              <strong>Billing Address:</strong> {order.billingAddress}
-            </div>
-            <div className="mb-4 text-lg">
-              <strong>Status:</strong> {order.status}
-            </div>
-            <div className="mb-4 text-lg">
-              <strong>Total Amount:</strong> ${order.totalAmount}
-            </div>
-            <div className="mb-4 text-lg">
-              <strong>User ID:</strong> {order.userId}
-            </div>
-            <div className="mb-4 text-lg">
-              <strong>Order Type:</strong> {order.orderType}
-            </div>
+      <div className="fixed inset-0 flex items-center justify-center z-50">
+        <div className="absolute inset-0 bg-mywhite bg-opacity-50"></div>
+        <div className="relative p-8 rounded-lg shadow-lg w-1/2 bg-mywhite text-black">
+          <button
+            onClick={onClose}
+            className="absolute top-0 right-0 mt-4 mr-4 text-xl"
+          >
+            &times;
+          </button>
+          <div className="mb-4 text-lg">
+            <strong>Billing Address:</strong> {order.billingAddress}
           </div>
+          <div className="mb-4 text-lg">
+            <strong>Status:</strong>
+            <select
+              value={newStatus}
+              onChange={(e) => setNewStatus(e.target.value)}
+              className="ml-2 p-1 border rounded"
+            >
+              <option value="PENDING">PENDING</option>
+              <option value="DELIVERED">DELIVERED</option>
+              <option value="CANCELED">CANCELED</option>
+              <option value="OUT_FOR_DELIVERY">OUT FOR DELIVERY</option>
+              <option value="REFUNDED">REFUNDED</option>
+              <option value="SHIPPED">SHIPPED</option>
+            </select>
+          </div>
+          <div className="mb-4 text-lg">
+            <strong>Total Amount:</strong> ${order.totalAmount}
+          </div>
+          <div className="mb-4 text-lg">
+            <strong>User ID:</strong> {order.userId}
+          </div>
+          <div className="mb-4 text-lg">
+            <strong>Order Type:</strong> {order.orderType}
+          </div>
+          <button
+            onClick={handleStatusChange}
+            className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
+          >
+            Update Status
+          </button>
         </div>
-      </>
+      </div>
     );
   };
 
@@ -91,12 +154,12 @@ const Table = ({ orders }) => {
                   <td>{order.id}</td>
                   <td className="pl-10">{order.billingAddress}</td>
                   <td>
-                    {" "}
+                  {/* 'CANCELED','DELIVERED','OUT_FOR_DELIVERY','PENDING','REFUNDED','RETURNED','SHIPPED' */}
                     <span
                       className={`badge ${
-                        order.status === "Paid"
+                        order.status === "DELIVERED"
                           ? "badge-success badge-outline"
-                          : order.status === "Cancelled"
+                          : order.status === "CANCELED"
                           ? "badge-error badge-outline"
                           : "badge-warning badge-outline"
                       }`}
@@ -140,7 +203,11 @@ const Table = ({ orders }) => {
         </div>
       </div>
       {showPopthis && selectedOrder && (
-        <Popthis order={selectedOrder} onClose={handleClosePopthis} />
+        <Popthis
+          order={selectedOrder}
+          onClose={handleClosePopthis}
+          onUpdate={handleUpdate}
+        />
       )}
     </>
   );

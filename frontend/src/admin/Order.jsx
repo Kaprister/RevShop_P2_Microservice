@@ -15,8 +15,6 @@ const fetchOrders = async () => {
 };
 
 const Orders = () => {
-  // const {userInfo} = useSelector((state) => state.auth);
-  // const userId = userInfo.id;
   const [orderStore, setOrderStore] = useState([]);
 
   useEffect(() => {
