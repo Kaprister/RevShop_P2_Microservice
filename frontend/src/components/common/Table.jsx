@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import Head from "../common/Head";
 import Button from "../common/Button";
@@ -42,28 +42,20 @@ const Table = ({ orders }) => {
             >
               &times;
             </button>
-            {order.product.map((product) => (
-              <React.Fragment key={product.name}>
-                <h2 className="font-bold mb-4 text-2xl flex items-center justify-center text-myred">Products</h2>
-                <div className="mb-4 text-lg">
-                  <strong>Desc:</strong> {product.desc}
-                </div>
-                <div className="mb-4 text-lg">
-                  <strong>Name:</strong> {product.name}
-                </div>
-                <div className="mb-4 text-lg">
-                  <strong>Price:</strong> ${product.price}
-                </div>
-                <div className="mb-4 text-lg">
-                  <strong>Quantity:</strong> {product.quantity}
-                </div>
-                <div className="mb-4 text-lg">
-                  <strong>Rating:</strong> {product.rating}
-                </div>
-              </React.Fragment>
-            ))}
+            <div className="mb-4 text-lg">
+              <strong>Billing Address:</strong> {order.billingAddress}
+            </div>
             <div className="mb-4 text-lg">
               <strong>Status:</strong> {order.status}
+            </div>
+            <div className="mb-4 text-lg">
+              <strong>Total Amount:</strong> ${order.totalAmount}
+            </div>
+            <div className="mb-4 text-lg">
+              <strong>User ID:</strong> {order.userId}
+            </div>
+            <div className="mb-4 text-lg">
+              <strong>Order Type:</strong> {order.orderType}
             </div>
           </div>
         </div>
@@ -81,25 +73,40 @@ const Table = ({ orders }) => {
           <table className="table w-full max-w-full">
             <thead>
               <tr className="text-neutral">
-                <th>Date</th>
-                <th className="pl-10">Order ID</th>
-                <th className="pl-10">Phone</th>
-                <th className="pl-10">Price</th>
-                <th className="pl-10">Username</th>
+                <th>ID</th>
+                <th className="pl-10">Billing Address</th>
+                <th className="pl-10">Status</th>
+                <th className="pl-10">Total Amount</th>
+                <th className="pl-10">User ID</th>
+                <th className="pl-10">Order Type</th>
                 <th className="pl-10">Action</th>
               </tr>
             </thead>
             <tbody>
               {displayedOrders.map((order, index) => (
                 <tr
-                  key={order.orderId}
+                  key={order.id}
                   className={index % 2 === 0 ? "bg-base-200" : "bg-base-100"}
                 >
-                  <td>{order.date}</td>
-                  <td className="pl-10">{order.orderId}</td>
-                  <td className="pl-10">{order.phone}</td>
-                  <td className="pl-10">${order.price}</td>
-                  <td className="pl-10">{order.username}</td>
+                  <td>{order.id}</td>
+                  <td className="pl-10">{order.billingAddress}</td>
+                  <td>
+                    {" "}
+                    <span
+                      className={`badge ${
+                        order.status === "Paid"
+                          ? "badge-success badge-outline"
+                          : order.status === "Cancelled"
+                          ? "badge-error badge-outline"
+                          : "badge-warning badge-outline"
+                      }`}
+                    >
+                      {order.status}
+                    </span>
+                  </td>
+                  <td className="pl-10">${order.totalAmount}</td>
+                  <td className="pl-10">{order.userId}</td>
+                  <td className="pl-10">{order.orderType}</td>
                   <td className="pl-10">
                     <Link to="#">
                       <Button

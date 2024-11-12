@@ -59,4 +59,11 @@ public class OrderController {
         Optional<Order> order = orderService.getOrderById(id);
         return order.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
+    // Get all orders
+    @GetMapping("/user-order")
+    public ResponseEntity<List<Order>> getAllOrder() {
+        List<Order> orders = orderService.getAllOrder();
+        System.out.println(orders.size());
+        return ResponseEntity.ok(orders);
+    }
 }
