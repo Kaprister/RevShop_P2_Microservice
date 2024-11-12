@@ -10,9 +10,9 @@ import Liked from "../Favourite/liked"
 import axios from "axios";
 
 function Profile() {
-  const username = useSelector((state) => state.auth.user?.username);
   const [userData, setUserData] = useState(null);
   const {userInfo} = useSelector((state) => state.auth);
+  const username = userInfo.username;
   // console.log("profile : ", userInfo);
   let date = new Date();
   
@@ -33,7 +33,7 @@ function Profile() {
       }
   
       // Fetch user data from the API using Axios
-      const response = await axios.get(`http://localhost:8081/users/${userId}`);
+      const response = await axios.get(`http://localhost:8081/auth/users/${userId}`);
       
       // Set user data if the response is successful
       setUserData(response.data);
