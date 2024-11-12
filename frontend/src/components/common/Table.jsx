@@ -1,21 +1,28 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Head from "../common/Head";
 import Button from "../common/Button";
+import axios from "axios";
 
 const Table = ({ orders }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(10);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [showPopthis, setShowPopthis] = useState(false);
+  const [orderData, setOrderData] = useState(orders);
 
-  const totalPages = Math.ceil(orders.length / pageSize);
+  // Effect to update local state when the 'orders' prop changes
+  useEffect(() => {
+    setOrderData(orders);
+  }, [orders]); // This will run whenever 'orders' prop changes
+
+  const totalPages = Math.ceil(orderData.length / pageSize);
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
-  const displayedOrders = orders.slice(
+  const displayedOrders = orderData.slice(
     (currentPage - 1) * pageSize,
     currentPage * pageSize
   );
@@ -30,44 +37,92 @@ const Table = ({ orders }) => {
     setSelectedOrder(null);
   };
 
-  const Popthis = ({ order, onClose }) => {
+  const handleUpdate = (orderId, newStatus) => {
+    setOrderData(
+      orderData.map((order) =>
+        order.id === orderId ? { ...order, status: newStatus } : order
+      )
+    );
+  };
+
+  const Popthis = ({ order, onClose, onUpdate }) => {
+    const [newStatus, setNewStatus] = useState(order.status);
+
+    const handleStatusChange = async () => {
+      try {
+        const response = await axios.put(
+          `http://localhost:8084/orders/${order.id}`,
+          {
+            id: order.id,
+            status: newStatus,
+          }
+        );
+
+        console.log("Order updated successfully:", response.data);
+
+        // Optionally refetch the orders to get the latest data
+        const updatedOrders = await axios.get(
+          `http://localhost:8084/orders/user-order`
+        );
+        
+        // Update the local order data state with the new orders
+        setOrderData(updatedOrders.data);
+
+        onUpdate(order.id, newStatus); // Update the order data in the table
+        onClose();
+      } catch (error) {
+        console.error("Error updating order status:", error);
+        if (error.response) {
+          console.error("Server responded with:", error.response.data);
+        }
+      }
+    };
+
     return (
-      <>
-        <div className="fixed inset-0 flex items-center justify-center z-50">
-          <div className="absolute inset-0 bg-mywhite bg-opacity-50"></div>
-          <div className="relative p-8 rounded-lg shadow-lg w-1/2 bg-mywhite text-black">
-            <button
-              onClick={onClose}
-              className="absolute top-0 right-0 mt-4 mr-4 text-xl"
-            >
-              &times;
-            </button>
-            {order.product.map((product) => (
-              <React.Fragment key={product.name}>
-                <h2 className="font-bold mb-4 text-2xl flex items-center justify-center text-myred">Products</h2>
-                <div className="mb-4 text-lg">
-                  <strong>Desc:</strong> {product.desc}
-                </div>
-                <div className="mb-4 text-lg">
-                  <strong>Name:</strong> {product.name}
-                </div>
-                <div className="mb-4 text-lg">
-                  <strong>Price:</strong> ${product.price}
-                </div>
-                <div className="mb-4 text-lg">
-                  <strong>Quantity:</strong> {product.quantity}
-                </div>
-                <div className="mb-4 text-lg">
-                  <strong>Rating:</strong> {product.rating}
-                </div>
-              </React.Fragment>
-            ))}
-            <div className="mb-4 text-lg">
-              <strong>Status:</strong> {order.status}
-            </div>
+      <div className="fixed inset-0 flex items-center justify-center z-50">
+        <div className="absolute inset-0 bg-mywhite bg-opacity-50"></div>
+        <div className="relative p-8 rounded-lg shadow-lg w-1/2 bg-mywhite text-black">
+          <button
+            onClick={onClose}
+            className="absolute top-0 right-0 mt-4 mr-4 text-xl"
+          >
+            &times;
+          </button>
+          <div className="mb-4 text-lg">
+            <strong>Billing Address:</strong> {order.billingAddress}
           </div>
+          <div className="mb-4 text-lg">
+            <strong>Status:</strong>
+            <select
+              value={newStatus}
+              onChange={(e) => setNewStatus(e.target.value)}
+              className="ml-2 p-1 border rounded"
+            >
+              <option value="PENDING">PENDING</option>
+              <option value="DELIVERED">DELIVERED</option>
+              <option value="CANCELED">CANCELED</option>
+              <option value="OUT_FOR_DELIVERY">OUT FOR DELIVERY</option>
+              <option value="REFUNDED">REFUNDED</option>
+              <option value="SHIPPED">SHIPPED</option>
+            </select>
+          </div>
+          <div className="mb-4 text-lg">
+            <strong>Total Amount:</strong> ${order.totalAmount}
+          </div>
+          <div className="mb-4 text-lg">
+            <strong>User ID:</strong> {order.userId}
+          </div>
+          <div className="mb-4 text-lg">
+            <strong>Order Type:</strong> {order.orderType}
+          </div>
+          <button
+            onClick={handleStatusChange}
+            className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
+          >
+            Update Status
+          </button>
         </div>
-      </>
+      </div>
     );
   };
 
@@ -81,25 +136,40 @@ const Table = ({ orders }) => {
           <table className="table w-full max-w-full">
             <thead>
               <tr className="text-neutral">
-                <th>Date</th>
-                <th className="pl-10">Order ID</th>
-                <th className="pl-10">Phone</th>
-                <th className="pl-10">Price</th>
-                <th className="pl-10">Username</th>
+                <th>ID</th>
+                <th className="pl-10">Billing Address</th>
+                <th className="pl-10">Status</th>
+                <th className="pl-10">Total Amount</th>
+                <th className="pl-10">User ID</th>
+                <th className="pl-10">Order Type</th>
                 <th className="pl-10">Action</th>
               </tr>
             </thead>
             <tbody>
               {displayedOrders.map((order, index) => (
                 <tr
-                  key={order.orderId}
+                  key={order.id}
                   className={index % 2 === 0 ? "bg-base-200" : "bg-base-100"}
                 >
-                  <td>{order.date}</td>
-                  <td className="pl-10">{order.orderId}</td>
-                  <td className="pl-10">{order.phone}</td>
-                  <td className="pl-10">${order.price}</td>
-                  <td className="pl-10">{order.username}</td>
+                  <td>{order.id}</td>
+                  <td className="pl-10">{order.billingAddress}</td>
+                  <td>
+                  {/* 'CANCELED','DELIVERED','OUT_FOR_DELIVERY','PENDING','REFUNDED','RETURNED','SHIPPED' */}
+                    <span
+                      className={`badge ${
+                        order.status === "DELIVERED"
+                          ? "badge-success badge-outline"
+                          : order.status === "CANCELED"
+                          ? "badge-error badge-outline"
+                          : "badge-warning badge-outline"
+                      }`}
+                    >
+                      {order.status}
+                    </span>
+                  </td>
+                  <td className="pl-10">${order.totalAmount}</td>
+                  <td className="pl-10">{order.userId}</td>
+                  <td className="pl-10">{order.orderType}</td>
                   <td className="pl-10">
                     <Link to="#">
                       <Button
@@ -133,7 +203,11 @@ const Table = ({ orders }) => {
         </div>
       </div>
       {showPopthis && selectedOrder && (
-        <Popthis order={selectedOrder} onClose={handleClosePopthis} />
+        <Popthis
+          order={selectedOrder}
+          onClose={handleClosePopthis}
+          onUpdate={handleUpdate}
+        />
       )}
     </>
   );

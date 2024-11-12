@@ -1,4 +1,5 @@
 package com.revature.order.controller;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -58,5 +59,19 @@ public class OrderController {
     public ResponseEntity<Order> getOrderById(@PathVariable Long id) {
         Optional<Order> order = orderService.getOrderById(id);
         return order.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    // Get all orders
+    @GetMapping("/user-order")
+    public ResponseEntity<List<Order>> getAllOrder() {
+        List<Order> orders = orderService.getAllOrder();
+        System.out.println(orders.size());
+        return ResponseEntity.ok(orders);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Order> updateOrder(@PathVariable Long id, @RequestBody Order orderDetails) {
+        Optional<Order> updatedOrder = orderService.updateOrder(id, orderDetails);
+        return updatedOrder.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 }
