@@ -53,7 +53,7 @@ function Signup() {
     const handleSubmit = async (e) => {
       e.preventDefault();
       try {
-        const response = await axios.post("http://localhost:8081/users/register", {
+        const response = await axios.post("http://localhost:8081/auth/register", {
           username: userData.username,
           email: userData.email,
           role: userData.role ? "SELLER" : "BUYER",

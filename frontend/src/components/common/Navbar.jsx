@@ -32,7 +32,7 @@ function Floatingnav() {
 
 function Navbar() {
   const userName = useSelector((state) => state.auth.userInfo.username);
-  const userId = useSelector((state) => state.auth.userInfo.id);
+  const userId = useSelector((state) => state.auth.userInfo.userId);
   const dispatch = useDispatch();
 
   const [items, setItems] = useState([]);

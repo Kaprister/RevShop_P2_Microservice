@@ -26,7 +26,7 @@ public class CartService {
     public Mono<String> getUserInfo(Long userId) {
         return webClientBuilder.build()
             .get()
-            .uri("http://user-service/users/" + userId)  // Load-balancing with lb://user-service
+            .uri("http://authentication-service/auth/users/" + userId)  // Load-balancing with lb://user-service
             .retrieve()
             .bodyToMono(String.class);
     }

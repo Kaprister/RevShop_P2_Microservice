@@ -1,0 +1,33 @@
+/* Tracking Popup */
+.tracking-step {
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+  
+  .tracking-step .circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+  }
+  
+  .tracking-step .line {
+    width: 2px;
+    height: 30px;
+    background: #ddd;
+  }
+  
+  .tracking-step.completed .circle {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .tracking-step.pending .circle {
+    background-color: #ddd;
+    color: #777;
+  }
+  

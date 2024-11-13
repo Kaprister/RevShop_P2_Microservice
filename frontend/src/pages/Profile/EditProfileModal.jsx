@@ -37,7 +37,7 @@ function EditProfileModal({ userData, onUpdate }) {
         }
     
         try {
-            const response = await axios.put(`http://localhost:8081/users/${formData.id}`, formData, {
+            const response = await axios.put(`http://localhost:8081/auth/users/${formData.id}`, formData, {
                 headers: {
                     'Content-Type': 'application/json',
                 }

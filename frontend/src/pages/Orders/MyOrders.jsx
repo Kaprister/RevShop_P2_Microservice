@@ -8,16 +8,29 @@ import { Button as BootstrapButton } from "react-bootstrap";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import Loader from "../../components/Loader/Loader";
+import Button from "../../components/common/Button";
+import TrackingPopup from "./TrackingPopup";
+
+
 
 const MyOrders = () => {
+  const [trackingOrder, setTrackingOrder] = useState(null);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [returnExchangeOrder, setReturnExchangeOrder] = useState(null);
   const [orders, setOrders] = useState([]);
   const [openDropdown, setOpenDropdown] = useState(null);
   const userName = useSelector((state) => state.auth.userInfo.username);
   const {userInfo} = useSelector((state) => state.auth);
-  const userId = userInfo.id;
+  const userId = userInfo.userId;
   const navigate = useNavigate();
+
+  const handleTrackOrderClick = (order) => {
+    setTrackingOrder(order);
+  };
+
+  const handleCloseTrackingPopup = () => {
+    setTrackingOrder(null);
+  };
 
   const handleViewClick = (index) => {
     setOpenDropdown(index === openDropdown ? null : index);
@@ -226,9 +239,22 @@ const MyOrders = () => {
                                 )}
                                 </div>
                             </td>
+                            <td>
+                              <Button
+                                text="Track Order"
+                                color="myyellow"
+                                hover="mygreen"
+                                onClick={() => handleTrackOrderClick(order)}
+                              />
+                            </td>
                             </tr>
                         ))}
                 </tbody>
+
+                 {/* Track Order Popup */}
+                  {trackingOrder && (
+                    <TrackingPopup order={trackingOrder} onClose={handleCloseTrackingPopup} />
+                  )}
 
               </table>
             </div>
