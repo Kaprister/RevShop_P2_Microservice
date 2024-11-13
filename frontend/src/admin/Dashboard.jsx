@@ -2,10 +2,13 @@
 import { useState, useEffect } from "react";
 import { Bar } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
+import Head from "../components/common/Head";
+import { useNavigate } from "react-router-dom";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 function Dashboard() {
+  const navigate = useNavigate();
   const currentDate = new Date().toLocaleDateString("en-US", {
     weekday: "long",
     year: "numeric",
@@ -43,15 +46,15 @@ function Dashboard() {
     setRecentCustomers([
       {
         email: "customer1@example.com",
-        username: "customer1",
+        username: "sushant",
         firstname: "John",
         lastname: "Doe",
-        phone: 1234567890,
+        phone: 7547802322,
         profilepicture: "",
       },
       {
         email: "customer2@example.com",
-        username: "customer2",
+        username: "kaprister07",
         firstname: "Jane",
         lastname: "Doe",
         phone: 9876543210,
@@ -59,10 +62,10 @@ function Dashboard() {
       },
       {
         email: "customer3@example.com",
-        username: "customer3",
+        username: "sushant",
         firstname: "Alice",
         lastname: "Smith",
-        phone: 5555555555,
+        phone: 7547802322,
         profilepicture: "",
       },
     ]);
@@ -72,6 +75,7 @@ function Dashboard() {
   }, []);
 
   const handleAddNew = () => {
+    navigate("/admin/add-product")
     console.log("Add New button clicked!");
   };
 
@@ -173,8 +177,9 @@ function Dashboard() {
 
   return (
     <div className="mx-auto max-w-screen-xl px-4 pt-8 sm:py-12">
-      <h1 className="text-3xl font-bold mb-4">Dashboard</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+      {/* <h1 className="text-3xl font-bold mb-4">Dashboard</h1> */}
+      <Head h1="Dash" h2="board"/>
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mt-8">
         <div className="bg-white border border-gray-300 p-4 rounded-lg">
           <h2 className="text-xl font-bold mb-2">Recent Customers</h2>
           <ul className="flex flex-wrap justify-center">

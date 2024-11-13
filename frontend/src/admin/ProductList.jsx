@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import Head from '../components/common/Head';
 
 function ProductList() {
   const [products, setProducts] = useState([]);
@@ -66,7 +67,8 @@ function ProductList() {
 
   return (
     <div className="mx-auto max-w-screen-xl px-4 pt-8 mt-8 sm:py-12">
-      <h2>Product List</h2>
+      {/* <h2>Product List</h2> */}
+      <Head h1="Product" h2="List"/>
 
       {isEditing ? (
         <div className="mb-8 p-4 border bg-white rounded-lg shadow-md">
@@ -162,13 +164,13 @@ function ProductList() {
                 <td className="p-3">
                   <button
                     onClick={() => handleEditClick(product)}
-                    className="bg-yellow-500 text-white px-4 py-2 rounded"
+                    className="bg-myyellow hover:bg-cyan-500 text-white px-4 py-2 rounded"
                   >
                     Edit
                   </button>
                   <button
                     onClick={() => handleDelete(product.id)}
-                    className="bg-red-500 text-white px-4 py-2 rounded ml-4"
+                    className="bg-myred hover:bg-purple-500 text-white px-4 py-2 rounded ml-4"
                   >
                     Delete
                   </button>
