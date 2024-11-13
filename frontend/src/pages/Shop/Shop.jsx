@@ -53,11 +53,12 @@ function Shop() {
       setSearchResults(products); // Reset to all products
     } else {
       const filteredData = products.filter((product) =>
-        product.Name.toLowerCase().includes(value)
+        product.name.toLowerCase().includes(value) // Corrected property name to lowercase "name"
       );
       setSearchResults(filteredData);
     }
   };
+  
 
   const handleFilterChange = (e) => {
     const isChecked = e.target.checked;
