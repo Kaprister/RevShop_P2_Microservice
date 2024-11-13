@@ -47,14 +47,6 @@ function ProductList() {
     setEditedProduct(null);
   };
 
-  // const handleSave = () => {
-  //   setProducts(products.map(product =>
-  //     product.id === editedProduct.id ? editedProduct : product
-  //   ));
-  //   setIsEditing(false);
-  //   setEditedProduct(null);
-  // };
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setEditedProduct(prev => ({ ...prev, [name]: value }));
