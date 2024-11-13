@@ -16,8 +16,19 @@ function ProductList() {
     }
   };
 
-  const handleDelete = (productId) => {
-    setProducts(products.filter(product => product.id !== productId));
+  const handleDelete = async (productId) => {
+    // setProducts(products.filter(product => product.id !== productId));
+    try{
+      const response = await axios.delete(`http://localhost:8082/products/${productId}`);
+      if(response.status === 200){
+        console.log("Product deleted successfully");
+        getProducts();
+      }
+      }
+      catch(error){
+        console.error("Error deleting product:", error);
+  
+    }
   };
 
   const handleEdit = (product) => {
@@ -40,7 +51,7 @@ function ProductList() {
 
   useEffect(() => {
     getProducts();
-  }, []);
+  }, [products]);
 
   return (
     <div className="mx-auto max-w-screen-xl px-4 pt-8 mt-8 sm:py-12">
