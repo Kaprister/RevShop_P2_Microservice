@@ -145,6 +145,7 @@ function ProductList() {
         <table className="table w-full text-left bg-white rounded-lg shadow-md mt-8">
           <thead className="bg-gray-100">
             <tr>
+            <th className="p-3">Product Id</th>
               <th className="p-3">Product Name</th>
               <th className="p-3">Price</th>
               <th className="p-3">Discounted Price</th>
@@ -156,6 +157,7 @@ function ProductList() {
           <tbody>
             {products.map((product) => (
               <tr key={product.id} className="border-gray-200">
+                <td className="p-3">{product.id}</td>
                 <td className="p-3">{product.name}</td>
                 <td className="p-3">₹{product.price}</td>
                 <td className="p-3">₹{product.discountedPrice}</td>

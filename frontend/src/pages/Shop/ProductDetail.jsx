@@ -9,6 +9,7 @@ import Head from "../../components/common/Head";
 import Button from "../../components/common/Button";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
+import ProductReview from "./ProductReview";
 
 function ProductDetail() {
   const {userInfo} = useSelector(state => state.auth);
@@ -74,7 +75,6 @@ function ProductDetail() {
       const response = await axios.post("http://localhost:8090/cart/add", cartItem);
       if (response.status === 200) {
         toast.success("Product added to cart successfully!");
-        // dispatch({ type: "ADD_TO_CART", payload: cartItem }); // Optional: update Redux if needed
       }
     } catch (error) {
       console.error("Failed to add product to cart:", error);
@@ -194,6 +194,8 @@ function ProductDetail() {
               </div>
             </div>
           </div>
+          {/* Product Review Section */}
+          <ProductReview productId={data.id} userID={userId}/> {/* Add ProductReview here */}
         </div>
       </section>
     </>
