@@ -12,7 +12,7 @@ import axios from "axios";
 
 function ProductDetail() {
   const {userInfo} = useSelector(state => state.auth);
-  const userId = userInfo.id;
+  const userId = userInfo.userId;
   const availableSizes = ["XS", "S", "M", "L", "XL"];
   const availableColors = [
     { name: "Red", code: "#FF0000" },

@@ -15,7 +15,7 @@ import { toast } from "react-toastify";
  
 const Cart = () => {
   const {userInfo} = useSelector(state => state.auth);
-  const userId = userInfo.id;
+  const userId = userInfo.userId;
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [coupon, setCoupon] = useState("");
