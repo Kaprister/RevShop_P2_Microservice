@@ -48,14 +48,6 @@ function ProductList() {
     setEditedProduct(null);
   };
 
-  // const handleSave = () => {
-  //   setProducts(products.map(product =>
-  //     product.id === editedProduct.id ? editedProduct : product
-  //   ));
-  //   setIsEditing(false);
-  //   setEditedProduct(null);
-  // };
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setEditedProduct(prev => ({ ...prev, [name]: value }));
@@ -67,8 +59,7 @@ function ProductList() {
 
   return (
     <div className="mx-auto max-w-screen-xl px-4 pt-8 mt-8 sm:py-12">
-      {/* <h2>Product List</h2> */}
-      <Head h1="Product" h2="List"/>
+      <Head h2="Product List" />
 
       {isEditing ? (
         <div className="mb-8 p-4 border bg-white rounded-lg shadow-md">

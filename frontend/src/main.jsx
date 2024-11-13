@@ -1,103 +1,112 @@
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.jsx'
-import { Provider } from 'react-redux'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import store from './store/store.js'
-import PrivateRoute from './components/Auth/PrivateRoute.jsx'
-import Home from './pages/Home.jsx'
-import OpenRoute from './components/Auth/OpenRoute.jsx'
-import Login from './pages/Login.jsx'
-import Signup from './pages/Signup.jsx'
-import Shop from './pages/Shop/Shop.jsx'
-import Dashboard from './admin/Dashboard.jsx'
-import Profile from './pages/Profile/Profile.jsx'
-import ProductDetail from './pages/Shop/ProductDetail.jsx'
-import Contact from './pages/Contact/Contact.jsx'
-import AdminRoute from './components/Auth/AdminRoute.jsx'
-import AddProduct from './admin/AddProduct.jsx'
-import Order from './admin/Order.jsx'
-import Transactions from './admin/Transactions.jsx'
-import ProductList from './admin/ProductList.jsx'
-import Cart from "./pages/Cart/Cart.jsx"
-import Liked from './pages/Favourite/liked.jsx'
-import Checkout from './pages/Checkout/Checkout.jsx'
-import MyOrders from './pages/Orders/MyOrders.jsx'
-import AllUser from './admin/AllUser.jsx'
-
-
-
+import { createRoot } from "react-dom/client";
+import "./index.css";
+import App from "./App.jsx";
+import { Provider } from "react-redux";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import store from "./store/store.js";
+import PrivateRoute from "./components/Auth/PrivateRoute.jsx";
+import Home from "./pages/Home.jsx";
+import OpenRoute from "./components/Auth/OpenRoute.jsx";
+import Login from "./pages/Login.jsx";
+import Signup from "./pages/Signup.jsx";
+import Shop from "./pages/Shop/Shop.jsx";
+import Dashboard from "./admin/Dashboard.jsx";
+import Profile from "./pages/Profile/Profile.jsx";
+import ProductDetail from "./pages/Shop/ProductDetail.jsx";
+import Contact from "./pages/Contact/Contact.jsx";
+import AdminRoute from "./components/Auth/AdminRoute.jsx";
+import AddProduct from "./admin/AddProduct.jsx";
+import Order from "./admin/Order.jsx";
+import Transactions from "./admin/Transactions.jsx";
+import ProductList from "./admin/ProductList.jsx";
+import Cart from "./pages/Cart/Cart.jsx";
+import Liked from "./pages/Favourite/liked.jsx";
+import Checkout from "./pages/Checkout/Checkout.jsx";
+import MyOrders from "./pages/Orders/MyOrders.jsx";
+import AllUser from "./admin/AllUser.jsx";
+// import { AddCategory } from "./admin/AddCategory.jsx";
+import Category from "./admin/Category.jsx";
 
 const router = createBrowserRouter([
   {
-    path : "/",
-    element : <App/>,
-    children:[
+    path: "/",
+    element: <App />,
+    children: [
       {
-        path : "/home",
-        element: (
-            <Home/>
-        )
+        path: "/home",
+        element: <Home />,
       },
       {
-        path : "/login",
+        path: "/login",
         element: (
           <OpenRoute>
-            <Login/>
+            <Login />
           </OpenRoute>
-        )
+        ),
       },
       {
-        path : "/signup",
+        path: "/signup",
         element: (
           <OpenRoute>
-            <Signup/>
+            <Signup />
           </OpenRoute>
-        )
+        ),
       },
       {
-        path : "/admin",
-        element : (
+        path: "/admin",
+        element: (
           <AdminRoute>
-            <Dashboard/>
+            <Dashboard />
           </AdminRoute>
-        )
-      },{
-        path : "/home/shop",
-        element : (
-          <PrivateRoute>
-            <Shop/>
-          </PrivateRoute>
-        )
-      },{
-        path : "/home/profile",
-        element : (
-          <PrivateRoute>
-            <Profile/>
-          </PrivateRoute>
-        )
-      },{
-        path : "/home/shop/product",
-        element : (
-          <PrivateRoute>
-            <ProductDetail/>
-          </PrivateRoute>
-        )
+        ),
       },
       {
-        path : "/home/contact",
-        element : (
+        path: "/home/shop",
+        element: (
           <PrivateRoute>
-            <Contact/>
+            <Shop />
           </PrivateRoute>
-        )
-      },{
-        path : "admin/add-product",
-        element : (
+        ),
+      },
+      {
+        path: "/home/profile",
+        element: (
+          <PrivateRoute>
+            <Profile />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/home/shop/product",
+        element: (
+          <PrivateRoute>
+            <ProductDetail />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/home/contact",
+        element: (
+          <PrivateRoute>
+            <Contact />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "admin/add-product",
+        element: (
           <AdminRoute>
-            <AddProduct/>
+            <AddProduct />
           </AdminRoute>
-        )
+        ),
+      },
+      {
+        path: "admin/add-category",
+        element: (
+          <AdminRoute>
+            <Category />
+          </AdminRoute>
+        ),
       },
       {
         path: "/admin/orders",
@@ -106,11 +115,12 @@ const router = createBrowserRouter([
             <Order />
           </AdminRoute>
         ),
-      },{
+      },
+      {
         path: "/home/shop/cart",
         element: (
           <PrivateRoute>
-            <Cart/>
+            <Cart />
           </PrivateRoute>
         ),
       },
@@ -130,12 +140,13 @@ const router = createBrowserRouter([
           </AdminRoute>
         ),
       },
-      { path: '/admin/all-users', element: <AllUser /> }, // Add route for AllUser
+      { path: "/admin/all-users", 
+        element: <AllUser /> }, // Add route for AllUser
       {
         path: "/home/favorite",
         element: (
           <PrivateRoute>
-            <Liked/>
+            <Liked />
           </PrivateRoute>
         ),
       },
@@ -143,7 +154,7 @@ const router = createBrowserRouter([
         path: "/home/shop/checkout",
         element: (
           <PrivateRoute>
-            <Checkout/>
+            <Checkout />
           </PrivateRoute>
         ),
       },
@@ -151,26 +162,22 @@ const router = createBrowserRouter([
         path: "/home/my-orders",
         element: (
           <PrivateRoute>
-            <MyOrders/>
+            <MyOrders />
           </PrivateRoute>
         ),
       },
-    ]
-  }
+    ],
+  },
 ]);
 
 // /admin/transaction
 
-
-
-
-
-createRoot(document.getElementById('root')).render(
+createRoot(document.getElementById("root")).render(
   // <StrictMode>
   //   <App />
   // </StrictMode>,
 
-    <Provider store={store}>
-      <RouterProvider router={router}/>
-    </Provider>
-)
+  <Provider store={store}>
+    <RouterProvider router={router} />
+  </Provider>
+);
