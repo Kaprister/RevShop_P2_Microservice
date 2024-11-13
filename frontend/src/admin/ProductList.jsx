@@ -1,28 +1,20 @@
-import { useState } from 'react';
-import Head from '../components/common/Head';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 function ProductList() {
-  const [products, setProducts] = useState([
-    {
-      id: "1",
-      name: "Product 1",
-      price: 100,
-      quantity: 10,
-      description: "This is a sample product",
-      rating: 4.5,
-    },
-    {
-      id: "2",
-      name: "Product 2",
-      price: 200,
-      quantity: 5,
-      description: "This is another sample product",
-      rating: 3.9,
-    },
-  ]);
-
+  const [products, setProducts] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [editedProduct, setEditedProduct] = useState(null);
+
+  const getProducts = async () => {
+    try {
+      const { data } = await axios.get("http://localhost:8082/products");
+      console.log(data);
+      setProducts(data);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
+  };
 
   const handleDelete = (productId) => {
     setProducts(products.filter(product => product.id !== productId));
@@ -30,7 +22,7 @@ function ProductList() {
 
   const handleEdit = (product) => {
     setIsEditing(true);
-    setEditedProduct({ ...product });
+    setEditedProduct({ ...product, rating: product.rating || 0 });
   };
 
   const handleSave = () => {
@@ -46,9 +38,13 @@ function ProductList() {
     setEditedProduct(prev => ({ ...prev, [name]: value }));
   };
 
+  useEffect(() => {
+    getProducts();
+  }, []);
+
   return (
     <div className="mx-auto max-w-screen-xl px-4 pt-8 mt-8 sm:py-12">
-      <Head h2="Product List" />
+      <h2>Product List</h2>
 
       {isEditing ? (
         <div className="mb-8 p-4 border bg-white rounded-lg shadow-md">
@@ -70,6 +66,16 @@ function ProductList() {
                 type="number"
                 name="price"
                 value={editedProduct.price}
+                onChange={handleChange}
+                className="border p-2 w-full"
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block">Discounted Price</label>
+              <input
+                type="number"
+                name="discountedPrice"
+                value={editedProduct.discountedPrice}
                 onChange={handleChange}
                 className="border p-2 w-full"
               />
@@ -127,7 +133,9 @@ function ProductList() {
             <tr>
               <th className="p-3">Product Name</th>
               <th className="p-3">Price</th>
+              <th className="p-3">Discounted Price</th>
               <th className="p-3">Quantity</th>
+              <th className="p-3">Category</th>
               <th className="p-3">Rating</th>
               <th className="p-3">Actions</th>
             </tr>
@@ -137,8 +145,10 @@ function ProductList() {
               <tr key={product.id} className="border-gray-200">
                 <td className="p-3">{product.name}</td>
                 <td className="p-3">₹{product.price}</td>
+                <td className="p-3">₹{product.discountedPrice}</td>
                 <td className="p-3">{product.quantity}</td>
-                <td className="p-3">{product.rating}</td>
+                <td className="p-3">{product.category.name}</td>
+                <td className="p-3">{product.rating || 'N/A'}</td>
                 <td className="p-3">
                   <button
                     onClick={() => handleEdit(product)}
