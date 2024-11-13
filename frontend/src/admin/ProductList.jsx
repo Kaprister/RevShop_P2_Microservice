@@ -17,32 +17,43 @@ function ProductList() {
   };
 
   const handleDelete = async (productId) => {
-    // setProducts(products.filter(product => product.id !== productId));
-    try{
+    try {
       const response = await axios.delete(`http://localhost:8082/products/${productId}`);
-      if(response.status === 200){
+      if (response.status === 200) {
         console.log("Product deleted successfully");
         getProducts();
       }
-      }
-      catch(error){
-        console.error("Error deleting product:", error);
-  
+    } catch (error) {
+      console.error("Error deleting product:", error);
     }
   };
 
-  const handleEdit = (product) => {
+  const handleEditClick = (product) => {
     setIsEditing(true);
-    setEditedProduct({ ...product, rating: product.rating || 0 });
+    setEditedProduct({ ...product });
   };
 
-  const handleSave = () => {
-    setProducts(products.map(product =>
-      product.id === editedProduct.id ? editedProduct : product
-    ));
+  const handleEdit = async () => {
+    try {
+      const response = await axios.put(`http://localhost:8082/products/${editedProduct.id}`, editedProduct);
+      if (response.status === 200) {
+        console.log("Product updated successfully");
+        getProducts();
+      }
+    } catch (error) {
+      console.error("Error updating product:", error);
+    }
     setIsEditing(false);
     setEditedProduct(null);
   };
+
+  // const handleSave = () => {
+  //   setProducts(products.map(product =>
+  //     product.id === editedProduct.id ? editedProduct : product
+  //   ));
+  //   setIsEditing(false);
+  //   setEditedProduct(null);
+  // };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -51,7 +62,7 @@ function ProductList() {
 
   useEffect(() => {
     getProducts();
-  }, [products]);
+  }, []);
 
   return (
     <div className="mx-auto max-w-screen-xl px-4 pt-8 mt-8 sm:py-12">
@@ -110,20 +121,10 @@ function ProductList() {
                 className="border p-2 w-full"
               />
             </div>
-            <div className="mb-4">
-              <label className="block">Rating</label>
-              <input
-                type="number"
-                name="rating"
-                value={editedProduct.rating}
-                onChange={handleChange}
-                className="border p-2 w-full"
-              />
-            </div>
             <div className="flex space-x-4">
               <button
                 type="button"
-                onClick={handleSave}
+                onClick={handleEdit}
                 className="bg-blue-500 text-white px-4 py-2 rounded"
               >
                 Save
@@ -147,7 +148,6 @@ function ProductList() {
               <th className="p-3">Discounted Price</th>
               <th className="p-3">Quantity</th>
               <th className="p-3">Category</th>
-              <th className="p-3">Rating</th>
               <th className="p-3">Actions</th>
             </tr>
           </thead>
@@ -159,10 +159,9 @@ function ProductList() {
                 <td className="p-3">₹{product.discountedPrice}</td>
                 <td className="p-3">{product.quantity}</td>
                 <td className="p-3">{product.category.name}</td>
-                <td className="p-3">{product.rating || 'N/A'}</td>
                 <td className="p-3">
                   <button
-                    onClick={() => handleEdit(product)}
+                    onClick={() => handleEditClick(product)}
                     className="bg-yellow-500 text-white px-4 py-2 rounded"
                   >
                     Edit
