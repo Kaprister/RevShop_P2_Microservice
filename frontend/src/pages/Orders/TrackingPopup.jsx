@@ -1,7 +1,9 @@
 /* eslint-disable no-unused-vars */
 import React from "react";
 import { Button as BootstrapButton } from "react-bootstrap";
-import "./Tracking.css";
+import { Check } from 'phosphor-react';
+import { Steps, StepsItem, StepsPoint, StepsContent, StepsTitle, StepsDescription } from 'keep-react';
+import './Tracking.css';
 
 const TrackingPopup = ({ order, onClose }) => {
   const statuses = [
@@ -17,33 +19,40 @@ const TrackingPopup = ({ order, onClose }) => {
   // Get index of current status for progress tracking
   const currentStatusIndex = statuses.indexOf(order.status);
 
+  const data = statuses.map((status, index) => ({
+    id: index + 1,
+    title: status.replace("_", " "),
+    description: `Your order is currently in the ${status.replace("_", " ")} stage.`,
+    isComplete: index < currentStatusIndex, // Completed status
+    isActive: index === currentStatusIndex, // Current active step
+  }));
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white p-8 rounded-lg shadow-lg max-w-lg w-full">
-        <h2 className="text-2xl font-semibold mb-4">Order Tracking</h2>
+      <div className="bg-white p-12 rounded-lg shadow-lg max-w-full w-full h-auto m-5">
+        <h2 className="text-3xl font-semibold mb-6">Order Tracking</h2>
 
-        <div className="flex items-center space-y-2 flex-col">
-          {statuses.map((status, index) => (
-            <div
-              key={status}
-              className={`relative flex items-center ${
-                index <= currentStatusIndex ? "text-green-600" : "text-gray-400"
-              }`}
-            >
-              <div
-                className={`w-10 h-10 flex items-center justify-center rounded-full ${
-                  index <= currentStatusIndex ? "bg-green-500" : "bg-gray-300"
-                } text-white font-semibold transition-all duration-300`}
+        <Steps activeStep={currentStatusIndex} className="steps-container">
+          {data.map((step) => (
+            <StepsItem key={step.id} className={`step-item ${step.isActive ? 'isActive' : ''}`}>
+              <StepsPoint
+                isComplete={step.isComplete}
+                isActive={step.isActive}
+                className="data-[completed=true]:bg-green-500 data-[completed=true]:text-white"
               >
-                {index + 1}
-              </div>
-              <span className="ml-4 font-medium">{status.replace('_', ' ')}</span>
-              {index < statuses.length - 1 && (
-                <div className="w-1 h-8 bg-gray-300 ml-4" />
-              )}
-            </div>
+                <Check />
+              </StepsPoint>
+              <StepsContent>
+                <StepsTitle
+                  className={`${step.isActive ? "text-green-700 animate-blink" : ""}`}
+                >
+                  {step.title}
+                </StepsTitle>
+                <StepsDescription>{step.description}</StepsDescription>
+              </StepsContent>
+            </StepsItem>
           ))}
-        </div>
+        </Steps>
 
         <BootstrapButton
           variant="secondary"
@@ -58,3 +67,7 @@ const TrackingPopup = ({ order, onClose }) => {
 };
 
 export default TrackingPopup;
+
+
+
+

@@ -7,19 +7,18 @@ import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 
 function Liked() {
-  const {userInfo} = useSelector(state => state.auth);
+  const { userInfo } = useSelector(state => state.auth);
   const [likedProducts, setLikedProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [wishlist, setWishlist] = useState([]);
-  const userId = userInfo.id
+  const userId = userInfo.userId;
 
   const handleRemoveFromWishList = async (product) => {
     try {
       await axios.delete(`http://localhost:8086/wishlist/removeProduct/${userId}/${product.id}`);
       toast.success("Product removed successfully!");
 
-      // Update both wishlist and likedProducts state by removing the removed product
       setWishlist((prevWishlist) => prevWishlist.filter((id) => id !== product.id));
       setLikedProducts((prevProducts) => prevProducts.filter((item) => item.id !== product.id));
     } catch (error) {
@@ -74,59 +73,63 @@ function Liked() {
     navigate("/home/shop/product", { state: product });
   };
 
-  if (loading) {
-    return <p>Loading...</p>;
-  }
-
-  if (error) {
-    return <p>{error}</p>;
-  }
-
   return (
-    <div className="p-4">
+    <div className="p-6">
       <Head h1="Your" h2="WishList" />
-      <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {likedProducts.length === 0 ? (
-          <p>No liked products found.</p>
-        ) : (
-          likedProducts.map((product) => (
+
+      {loading ? (
+        <div className="flex justify-center items-center h-64">
+          <p className="text-gray-500 text-xl">Loading your wishlist...</p>
+        </div>
+      ) : error ? (
+        <div className="flex justify-center items-center h-64">
+          <p className="text-red-500 text-xl font-semibold">{error}</p>
+        </div>
+      ) : likedProducts.length === 0 ? (
+        <div className="flex flex-col items-center mt-16">
+          <h2 className="text-2xl font-semibold text-gray-800">No Liked Products Found</h2>
+          <p className="text-gray-600 mt-2">Explore our products and add your favorites to your wishlist!</p>
+        </div>
+      ) : (
+        <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {likedProducts.map((product) => (
             <div
               key={product.id}
-              className="relative bg-white border border-gray-300 rounded-lg shadow-lg overflow-hidden"
+              className="relative bg-white border border-gray-200 rounded-lg shadow-lg transition-transform hover:scale-105"
             >
               <img
                 src={product.imageUrl}
                 alt={product.name}
-                className="w-full h-64 object-cover"
+                className="w-full h-64 object-cover rounded-t-lg"
               />
-              <div className="p-4">
+              <div className="p-5">
                 <h3 className="text-lg font-semibold text-gray-800">{product.name}</h3>
-                <p className="text-gray-600 mt-2">{product.description}</p>
-                <div className="flex space-x-1">
-                  <p className="text-xl font-bold text-gray-900 mt-2">₹{product.discountedPrice || product.price}</p>
-                  <span className="bg-mygreen px-4 py-2 font-bold text-mywhite rounded-md">
+                <p className="text-gray-600 mt-2 truncate">{product.description}</p>
+                <div className="flex items-center justify-between mt-4">
+                  <p className="text-xl font-bold text-gray-900">₹{product.discountedPrice || product.price}</p>
+                  <span className="bg-green-500 text-white px-2 py-1 rounded-md text-sm font-semibold">
                     {product.rating || "1"} ⭐
                   </span>
                 </div>
-                <div className="flex justify-between">
+                <div className="flex justify-between mt-6">
                   <button
                     onClick={() => handleAddToCart(product)}
-                    className="mt-4 px-4 py-2 bg-blue-500 text-white font-bold rounded hover:bg-blue-600 border border-gray-300"
+                    className="w-1/2 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 rounded-l-lg transition-colors"
                   >
                     Add to Cart
                   </button>
                   <button
                     onClick={() => handleRemoveFromWishList(product)}
-                    className="mt-4 px-4 py-2 bg-red-500 text-white font-bold rounded hover:bg-red-600 border border-gray-300"
+                    className="w-1/2 bg-red-500 hover:bg-red-600 text-white font-semibold py-2 rounded-r-lg transition-colors"
                   >
                     Remove
                   </button>
                 </div>
               </div>
             </div>
-          ))
-        )}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
