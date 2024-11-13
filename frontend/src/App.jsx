@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { ToastContainer } from "react-toastify"
 import { Outlet } from "react-router-dom"
 import "react-toastify/dist/ReactToastify.css";
@@ -25,9 +26,9 @@ function App() {
           </div>
         ) : (
           <div>
-            <PrivateRoute>
+            {/* <PrivateRoute> */}
               <Navbar />
-            </PrivateRoute>
+            {/* </PrivateRoute> */}
           </div>
         )
       }
@@ -37,9 +38,9 @@ function App() {
         <Outlet/>
       </main>
       
-      <PrivateRoute>
+      {/* <PrivateRoute> */}
         <Footer/>
-      </PrivateRoute>
+      {/* </PrivateRoute> */}
     </div>
   )
 }

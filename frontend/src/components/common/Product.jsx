@@ -17,7 +17,7 @@ import { toast } from "react-toastify";
 
 function Product({id, name, quantity, image, price, disPrice, desc, rating }) {
   const {userInfo} = useSelector(state => state.auth);
-  const userId = userInfo.id;
+  const userId = userInfo?.userId;
   const navigate = useNavigate();
   const [liked, setLiked] = useState(false);
 

@@ -31,8 +31,8 @@ function Floatingnav() {
 }
 
 function Navbar() {
-  const userName = useSelector((state) => state.auth.userInfo.username);
-  const userId = useSelector((state) => state.auth.userInfo.userId);
+  const userName = useSelector((state) => state.auth.userInfo?.username);
+  const userId = useSelector((state) => state.auth.userInfo?.userId);
   const dispatch = useDispatch();
 
   const [items, setItems] = useState([]);
@@ -157,52 +157,61 @@ function Navbar() {
               </div>
             </div>
           </div>
-          <div className="dropdown dropdown-end">
-            <div
-              tabIndex={0}
-              role="button"
-              className="btn btn-ghost btn-circle avatar"
-              onClick={handleToggleMenu}
-            >
-              <div className="w-10 rounded-full">
-                <img
-                  src={userInfo.profilepicture || "/images/winter2.jpg"}
-                  alt="User profile"
-                />
-              </div>
-            </div>
-            {showMenu && (
-              <ul
+
+          {/* Conditionally render profile or login */}
+          {userId ? (
+            <div className="dropdown dropdown-end">
+              <div
                 tabIndex={0}
-                className="menu menu-sm dropdown-content mt-3 z-[1] p-2 bg-base-100 rounded-box w-52 shadow-2xl"
+                role="button"
+                className="btn btn-ghost btn-circle avatar"
+                onClick={handleToggleMenu}
               >
-                <li onClick={handleCloseMenu}>
-                  <Link to={"/home/profile"}>
-                    {userName || <p>Profile</p>}
-                  </Link>
-                </li>
-                <li onClick={handleCloseMenu}>
-                  <Link to={"/home/shop"}><p>Shop</p></Link>
-                </li>
-                <li onClick={handleCloseMenu}>
-                  <Link to={"/home/favorite"}><p>Favorite</p></Link>
-                </li>
-                <li onClick={handleCloseMenu}>
-                  <Link to={"/home/shop/cart"}><p>Cart</p></Link>
-                </li>
-                <li onClick={handleCloseMenu}>
-                  <Link to="/home/my-orders"><p>My Orders</p></Link>
-                </li>
-                <li onClick={() => {
-                  dispatch(logout());
-                  handleCloseMenu();
-                  toastNotification("Logged out successfully!");
-                }}>
-                  <Link to={"/"}><p>Logout</p></Link>
-                </li>
-              </ul>
-            )}
-          </div>
+                <div className="w-10 rounded-full">
+                  <img
+                    src={userInfo.profilepicture || "/images/winter2.jpg"}
+                    alt="User profile"
+                  />
+                </div>
+              </div>
+              {showMenu && (
+                <ul
+                  tabIndex={0}
+                  className="menu menu-sm dropdown-content mt-3 z-[1] p-2 bg-base-100 rounded-box w-52 shadow-2xl"
+                >
+                  <li onClick={handleCloseMenu}>
+                    <Link to={"/home/profile"}>
+                      {userName || <p>Profile</p>}
+                    </Link>
+                  </li>
+                  <li onClick={handleCloseMenu}>
+                    <Link to={"/home/shop"}><p>Shop</p></Link>
+                  </li>
+                  <li onClick={handleCloseMenu}>
+                    <Link to={"/home/favorite"}><p>Favorite</p></Link>
+                  </li>
+                  <li onClick={handleCloseMenu}>
+                    <Link to={"/home/shop/cart"}><p>Cart</p></Link>
+                  </li>
+                  <li onClick={handleCloseMenu}>
+                    <Link to="/home/my-orders"><p>My Orders</p></Link>
+                  </li>
+                  <li onClick={() => {
+                    dispatch(logout());
+                    handleCloseMenu();
+                    toastNotification("Logged out successfully!");
+                  }}>
+                    <Link to={"/"}><p>Logout</p></Link>
+                  </li>
+                </ul>
+              )}
+            </div>
+          ) : (
+            <Link to="/login">
+              <Button text="Login" color="myyellow" hover="mygreen" />
+            </Link>
+          )}
+
           <div className="lg:hidden">
             <button
               className={`btn btn-ghost btn-circle fa ${showHamburgerMenu ? 'fa-times' : 'fa-bars'}`}
