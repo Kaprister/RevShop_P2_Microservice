@@ -1,17 +1,18 @@
 package com.revature.product.service;
 
-import com.cloudinary.utils.ObjectUtils;
-import com.revature.product.model.Product;
-import com.revature.product.repository.ProductRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-import com.cloudinary.Cloudinary;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
+import com.revature.product.model.Product;
+import com.revature.product.repository.ProductRepository;
 
 @Service
 public class ProductService {
@@ -62,6 +63,7 @@ public class ProductService {
         product.setPrice(productDetails.getPrice());
         product.setCategory(productDetails.getCategory());
         product.setImageUrl(productDetails.getImageUrl());
+        product.setQuantity(productDetails.getQuantity());
 
         return productRepository.save(product);
     }
