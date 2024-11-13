@@ -101,7 +101,13 @@ function AdminNavbar() {
               </a>
               <a href="/admin/product-list">
                 <li className="hover:scale-105 duration-75 text-sm hover:font-semibold px-4 rounded-full">
-                  All Products
+                  Products
+                </li>
+              </a>
+              
+              <a href="/admin/add-category">
+                <li className="hover:scale-105 duration-75 text-sm hover:font-semibold px-4 rounded-full">
+                  Category  
                 </li>
               </a>
               <a href="/admin/add-product">
@@ -109,12 +115,6 @@ function AdminNavbar() {
                   Add Product
                 </li>
               </a>
-              <a href="/admin/add-category">
-                <li className="hover:scale-105 duration-75 text-sm hover:font-semibold px-4 rounded-full">
-                  Category  
-                </li>
-              </a>
-              
             </ul>
           </motion.div>
         </div>
