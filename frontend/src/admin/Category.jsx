@@ -91,6 +91,7 @@ function Category() {
     <thead className="bg-gray-100">
       <tr>
         <th className="p-3">Category Name</th>
+        <th className="p-3">Category Image</th>
         <th className="p-3">Actions</th>
       </tr>
     </thead>
@@ -98,6 +99,9 @@ function Category() {
       {categories.map((category) => (
         <tr key={category.id} className="border-gray-200">
           <td className="p-3">{category.name}</td>
+          <td className="p-3">
+                <img src={category.imageName} alt={category.name} className="w-16 h-16 object-cover rounded-md" />
+              </td>
           <td className="p-3">
             <button
               onClick={() => handleEditClick(category)}
