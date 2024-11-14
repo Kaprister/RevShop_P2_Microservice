@@ -79,6 +79,7 @@ function Checkout() {
             billingAddress,
             OrderType: "Cash On Delivery",
             orderLineItems: cartItems.map(item => ({
+                productId: item.productId,
                 name: item.productName,
                 price: item.price,
                 quantity: item.quantity || 1,
@@ -146,6 +147,7 @@ function Checkout() {
                     OrderType: "Online Payment",
                     // paymentId: response.razorpay_payment_id,
                     orderLineItems: cartItems.map(item => ({
+                        productId: item.id,
                         name: item.productName,
                         price: item.price,
                         quantity: item.quantity || 1,
@@ -155,7 +157,7 @@ function Checkout() {
     
                 try {
                     const res = await axios.post("http://localhost:8084/orders", orderData);
-                    console.log("Order placed successfully:", res.data);
+                    console.log("Order placed successfully: XXX", res.data);
                     await handlePaymentApi(orderData, response.razorpay_payment_id, res.data.id);
                     deleteCart();
                     setIsModalOpen(true);

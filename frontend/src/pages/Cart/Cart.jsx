@@ -73,17 +73,6 @@ const Cart = () => {
     }
   };
 
-  // const handleQuantityChange = async (itemId, newQuantity) => {
-  //   try {
-  //     const updatedItems = cartItems.map((item) =>
-  //       item.id === itemId ? { ...item, quantity: newQuantity } : item
-  //     );
-  //     await axios.put(`http://localhost:8087/cart/user/${userId}`, { cartItems: updatedItems });
-  //     setCartItems(updatedItems);
-  //   } catch (error) {
-  //     console.error("Error updating quantity in cart:", error);
-  //   }
-  // };
 
 
   const handleQuantityChange = async (itemId, newQuantity, productId) => {
@@ -142,11 +131,14 @@ const Cart = () => {
   const prepareCheckoutData = () => {
     const products = cartItems.map((item) => ({
       id: item.id,
+      productId: item.productId,
       name: item.productName,
       price: item.price,
       quantity: item.quantity,
       image: item.image,
     }));
+    console.log("cart product data XXX ::", products);
+    
 
     const totalAmount = calculateTotal();
     const userID = userId;
