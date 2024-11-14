@@ -12,23 +12,18 @@ const AddCategoryPopup = ({ onClose, onAdd }) => {
         name: newName,
         imageName: newImageURL,
       });
-      if (response.status === 201) {
+      if (response.status === 200) {
         console.log("Category added successfully");
-
-        // Optionally refetch the categories to get the latest data
-        const updatedCategories = await axios.get(
-          `http://localhost:8082/categories`
-        );
-
-        // Update the local category data state with the new categories
+        
+        const updatedCategories = await axios.get("http://localhost:8082/categories");
         onAdd(updatedCategories.data);
-
-        onClose();
+        onClose(); // Ensure popup closes after update
       }
     } catch (error) {
       console.error("Error adding category:", error);
     }
   };
+  
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50">
