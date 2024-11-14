@@ -40,4 +40,12 @@ public class ReviewService {
     public void deleteReview(Long reviewId) {
         reviewRepository.deleteById(reviewId);
     }
+
+    public Double getAverageRatingByProductId(Long productId) {
+        List<Review> reviews = reviewRepository.findByProduct_Id(productId);
+        return reviews.isEmpty() ? 0.0 : reviews.stream()
+                .mapToInt(Review::getRating)
+                .average()
+                .orElse(0.0);
+    }
 }

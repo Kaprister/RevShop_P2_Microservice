@@ -90,6 +90,7 @@ function Category() {
   <table className="table w-full text-left bg-white rounded-lg shadow-md mt-8">
     <thead className="bg-gray-100">
       <tr>
+        <th className="p-3">Category ID</th>
         <th className="p-3">Category Name</th>
         <th className="p-3">Actions</th>
       </tr>
@@ -97,6 +98,7 @@ function Category() {
     <tbody>
       {categories.map((category) => (
         <tr key={category.id} className="border-gray-200">
+        <td className="p-3">{category.id}</td>
           <td className="p-3">{category.name}</td>
           <td className="p-3">
             <button

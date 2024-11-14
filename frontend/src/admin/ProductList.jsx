@@ -20,7 +20,7 @@ function ProductList() {
   const handleDelete = async (productId) => {
     try {
       const response = await axios.delete(`http://localhost:8082/products/${productId}`);
-      if (response.status === 200) {
+      if (response.status === 204) {
         console.log("Product deleted successfully");
         getProducts();
       }

@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { HiHeart } from "react-icons/hi";
 import { useSelector } from "react-redux";
@@ -21,11 +21,25 @@ function Product({id, name, quantity, image, price, disPrice, desc, rating }) {
   const navigate = useNavigate();
   const [liked, setLiked] = useState(false);
 
+  useEffect(()=> {
+    const getProductRating = async () => {
+      try {
+        const res = await axios.get(`http://localhost:8082/reviews/average-rating/${id}`);
+        // console.log("product Rating : ", res.data);
+        rating = res.data;
+      } catch (error) {
+        console.error("Failed to get product Rating", error);
+        toast.error("Failed to get Product Rating");
+      }
+    }
+    getProductRating();
+  }, []);
+
   const handleNavigate = () => {
     navigate("/home/shop/product", {
       state: {id, name, quantity, image, price, disPrice, desc, rating }
     });
-    console.log("Product rating ", rating);
+    // console.log("Product rating ", rating);
   };
 
   const handleLike = async () => {
@@ -54,7 +68,7 @@ function Product({id, name, quantity, image, price, disPrice, desc, rating }) {
           <img
             src={image}
             alt={name}
-            className="h-[500px] w-full object-cover object-center"
+            className="h-[500px] w-full object-fill object-center"
           />
         </div>
         <h3 className="mt-4 text-sm text-gray-700">{name}</h3>
