@@ -1,6 +1,7 @@
 package com.revature.payment.service;
 
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,6 +65,10 @@ public class PaymentService {
                 .retrieve()
                 .bodyToMono(String.class)
                 .block(); // Avoiding DTOs and getting raw JSON/String
+    }
+
+    public List<PaymentDetails> getAllPayment() {
+        return paymentRepository.findAll();
     }
 }
 
