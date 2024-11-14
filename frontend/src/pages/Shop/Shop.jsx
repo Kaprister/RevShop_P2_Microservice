@@ -11,26 +11,34 @@ function Shop() {
   const [products, setProducts] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
   const [skeleton, setSkeleton] = useState(true); // skeleton-state
-  const [selectedFilter, setSelectedFilter] = useState({ "price-range": [], "size": [] });
+  const [selectedFilter, setSelectedFilter] = useState({ "price-range": [], "size": [], "category": [] });
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false); // Filter modal visibility state
+  const [categories, setCategories] = useState([]); // State for categories
 
   const getProducts = async () => {
     try {
       const { data } = await axios.get("http://localhost:8082/products");
-      console.log(data);
       setProducts(data);
+      console.log(data);
+      
       setSearchResults(data);
     } catch (error) {
       console.error("Error fetching products:", error);
     }
   };
 
-  // console.log("products data :: ", products)
-  
-  
+  const getCategories = async () => {
+    try {
+      const { data } = await axios.get("http://localhost:8082/categories");
+      setCategories(data);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  };
 
   useEffect(() => {
     getProducts();
+    getCategories();
     window.scrollTo(0, 0);
   }, []);
 
@@ -53,19 +61,17 @@ function Shop() {
       setSearchResults(products); // Reset to all products
     } else {
       const filteredData = products.filter((product) =>
-        product.name.toLowerCase().includes(value) // Corrected property name to lowercase "name"
+        product.name.toLowerCase().includes(value)
       );
       setSearchResults(filteredData);
     }
   };
-  
 
   const handleFilterChange = (e) => {
     const isChecked = e.target.checked;
     const value = e.target.value;
     if (value) {
-      const key = value.split(":")[0];
-      const selection = value.split(":")[1];
+      const [key, selection] = value.split(":");
       let selections = selectedFilter[key];
       if (isChecked) {
         selections.push(selection);
@@ -83,44 +89,41 @@ function Shop() {
     try {
       const { data } = await axios.get("http://localhost:8082/products");
       let filteredData = data;
-      // console.log("filter data :: ", filteredData)
 
-      if (selectedFilter['price-range'].length !== 0) {
-        let priceFilteredData = [];
-        for (let f of selectedFilter['price-range']) {
-          let min = 0;
-          let max = 1e9;
-          if (f.split("-")[0] !== "below") {
-            min = +f.split("-")[0].slice(1);
-          }
-          if (f.split("-")[1] !== "above") {
-            max = +f.split("-")[1].slice(1);
-          }
-          let newFilteredData = filteredData.filter((elem) => {
-            return min <= elem.price && max >= elem.price;
-          });
-          if (priceFilteredData.length !== 0) {
-            newFilteredData.forEach((newItem) => {
-              if (!priceFilteredData.some((item) => newItem === item)) {
-                priceFilteredData.push(newItem);
-              }
-            });
-          } else {
-            priceFilteredData = [...newFilteredData];
-          }
-        }
-        filteredData = priceFilteredData;
+      if (selectedFilter["price-range"].length) {
+        filteredData = applyPriceFilter(filteredData);
       }
-      if (selectedFilter['size'].length !== 0) {
-        filteredData = filteredData.filter((elem) =>
-          selectedFilter['size'].includes(elem.Size)
+      if (selectedFilter.size.length) {
+        filteredData = filteredData.filter((product) =>
+          selectedFilter.size.includes(product.Size)
         );
       }
+      if (selectedFilter.category.length) {
+        filteredData = filteredData.filter((product) =>
+          selectedFilter.category.includes(product.category.name)
+        );
+      }
+
       setSearchResults(filteredData);
       setIsFilterModalOpen(false); // Close modal after applying filters
     } catch (error) {
       console.error("Error filtering products:", error);
     }
+  };
+
+  const applyPriceFilter = (data) => {
+    let priceFilteredData = [];
+    selectedFilter["price-range"].forEach((range) => {
+      const [min, max] = parsePriceRange(range);
+      const rangeFiltered = data.filter((product) => min <= product.price && max >= product.price);
+      priceFilteredData = [...new Set([...priceFilteredData, ...rangeFiltered])];
+    });
+    return priceFilteredData;
+  };
+
+  const parsePriceRange = (range) => {
+    const [minPart, maxPart] = range.split("-");
+    return [minPart === "below" ? 0 : +minPart.slice(1), maxPart === "above" ? Infinity : +maxPart.slice(1)];
   };
 
   const filter = [
@@ -165,27 +168,46 @@ function Shop() {
                 {filter.map((fil, idx) => (
                   <div key={idx}>
                     <h2 className="mb-3">{fil.filterOption}</h2>
-                    {fil.checkbox.map((size, index) => {
-                      return (
-                        <div key={index} className="flex items-center mb-2">
-                          <input
-                            id={`default-checkbox${idx}${index}`}
-                            type="checkbox"
-                            value={`${fil.filterOption.toLowerCase().replace(" ", "-")}:${size}`}
-                            className="w-4 h-4 checkbox"
-                            onChange={handleFilterChange}
-                          />
-                          <label
-                            htmlFor={`default-checkbox${idx}${index}`}
-                            className="ms-2 text-sm font-medium text-gray-900"
-                          >
-                            {size}
-                          </label>
-                        </div>
-                      );
-                    })}
+                    {fil.checkbox.map((size, index) => (
+                      <div key={index} className="flex items-center mb-2">
+                        <input
+                          id={`default-checkbox${idx}${index}`}
+                          type="checkbox"
+                          value={`${fil.filterOption.toLowerCase().replace(" ", "-")}:${size}`}
+                          className="w-4 h-4 checkbox"
+                          onChange={handleFilterChange}
+                        />
+                        <label
+                          htmlFor={`default-checkbox${idx}${index}`}
+                          className="ms-2 text-sm font-medium text-gray-900"
+                        >
+                          {size}
+                        </label>
+                      </div>
+                    ))}
                   </div>
                 ))}
+                {/* Category Filter */}
+                <div>
+                  <h2 className="mb-3">Category</h2>
+                  {categories.map((category, index) => (
+                    <div key={index} className="flex items-center mb-2">
+                      <input
+                        id={`category-checkbox-${index}`}
+                        type="checkbox"
+                        value={`category:${category.name}`}
+                        className="w-4 h-4 checkbox"
+                        onChange={handleFilterChange}
+                      />
+                      <label
+                        htmlFor={`category-checkbox-${index}`}
+                        className="ms-2 text-sm font-medium text-gray-900"
+                      >
+                        {category.name}
+                      </label>
+                    </div>
+                  ))}
+                </div>
               </div>
 
               <div className="modal-action pe-5">

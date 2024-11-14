@@ -8,6 +8,7 @@ import Button from "../components/common/Button";
 import "../index.css";
 import { Tilt } from "react-tilt";
 import axios from "axios";
+import Slider from "../components/common/Slider";
 
 function Home() {
   const [heroRef, heroInView] = useInView({
@@ -50,6 +51,8 @@ function Home() {
 
   return (
     <>
+      {/* Carousel slider */}
+      <Slider/>
       {/* Hero Section */}
       <motion.div
         ref={heroRef}

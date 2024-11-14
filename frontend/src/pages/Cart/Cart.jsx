@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios"; // Axios for API calls
 import Skeleton from "react-loading-skeleton";
@@ -21,6 +21,9 @@ const Cart = () => {
   const [coupon, setCoupon] = useState("");
   const [discount, setDiscount] = useState(0);
   const navigate = useNavigate();
+  const data = useSelector((state) => state.cart);
+  console.log("Redux cart items : ", data);
+  
 
   const staticCoupon = {
     name: "DISCOUNT10",

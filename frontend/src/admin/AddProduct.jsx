@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import Head from '../components/common/Head';
 
 const AddProduct = () => {
   const [product, setProduct] = useState({
@@ -96,8 +97,8 @@ const AddProduct = () => {
 
   return (
     <div className="p-4">
-      <h2 className="text-2xl font-bold mb-4">Add Product to Bucket</h2>
-      <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <Head h1="Add Product" h2="to Bucket"/>
+      <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4 m-8">
         <div className="form-control">
           <label htmlFor="image_file" className="label">
             <span className="label-text">Image:</span>
