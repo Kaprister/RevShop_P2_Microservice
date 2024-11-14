@@ -74,7 +74,7 @@ function Liked() {
   };
 
   return (
-    <div className="p-6">
+    <div className="p-6 flex justify-center items-center flex-col">
       <Head h1="Your" h2="WishList" />
 
       {loading ? (
@@ -91,16 +91,16 @@ function Liked() {
           <p className="text-gray-600 mt-2">Explore our products and add your favorites to your wishlist!</p>
         </div>
       ) : (
-        <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="mt-10 lg:mx-20 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
           {likedProducts.map((product) => (
             <div
               key={product.id}
-              className="relative bg-white border border-gray-200 rounded-lg shadow-lg transition-transform hover:scale-105"
+              className="relative bg-white border border-gray-200 rounded-lg shadow-lg transition-transform hover:scale-10"
             >
               <img
                 src={product.imageUrl}
                 alt={product.name}
-                className="w-full h-64 object-cover rounded-t-lg"
+                className="w-full h-96 object-fit rounded-t-lg"
               />
               <div className="p-5">
                 <h3 className="text-lg font-semibold text-gray-800">{product.name}</h3>
@@ -111,16 +111,16 @@ function Liked() {
                     {product.rating || "1"} ⭐
                   </span>
                 </div>
-                <div className="flex justify-between mt-6">
+                <div className="flex justify-between gap-10 mt-6">
                   <button
                     onClick={() => handleAddToCart(product)}
-                    className="w-1/2 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 rounded-l-lg transition-colors"
+                    className="w-1/2 bg-[#06D6A0] hover:bg-blue-600 text-white font-semibold py-2 rounded-lg transition-colors"
                   >
                     Add to Cart
                   </button>
                   <button
                     onClick={() => handleRemoveFromWishList(product)}
-                    className="w-1/2 bg-red-500 hover:bg-red-600 text-white font-semibold py-2 rounded-r-lg transition-colors"
+                    className="w-1/2 bg-red-500 hover:bg-red-600 text-white font-semibold py-2 rounded-lg transition-colors"
                   >
                     Remove
                   </button>
