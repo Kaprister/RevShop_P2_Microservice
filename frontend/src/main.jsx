@@ -26,6 +26,7 @@ import MyOrders from "./pages/Orders/MyOrders.jsx";
 import AllUser from "./admin/AllUser.jsx";
 // import { AddCategory } from "./admin/AddCategory.jsx";
 import Category from "./admin/Category.jsx";
+import OrderDetails from "./pages/Orders/OrderDetails.jsx";
 
 const router = createBrowserRouter([
   {
@@ -144,13 +145,13 @@ const router = createBrowserRouter([
           </AdminRoute>
         ),
       },
-      { path: "/admin/all-users", 
-        element: <AllUser /> }, // Add route for AllUser
+      { path: "/admin/all-users",
+        element: <AllUser/> }, // Add route for AllUser
       {
         path: "/home/favorite",
         element: (
           <PrivateRoute>
-            <Liked />
+            <Liked/>
           </PrivateRoute>
         ),
       },
@@ -158,7 +159,7 @@ const router = createBrowserRouter([
         path: "/home/shop/checkout",
         element: (
           <PrivateRoute>
-            <Checkout />
+            <Checkout/>
           </PrivateRoute>
         ),
       },
@@ -166,7 +167,14 @@ const router = createBrowserRouter([
         path: "/home/my-orders",
         element: (
           <PrivateRoute>
-            <MyOrders />
+            <MyOrders/>
+          </PrivateRoute>
+        ),
+      },      {
+        path: "/orders/:orderId",
+        element: (
+          <PrivateRoute>
+            <OrderDetails/>
           </PrivateRoute>
         ),
       },

@@ -96,6 +96,10 @@ const MyOrders = () => {
 
   }
 
+  const handleDetailsOrderClick = (orderId) => {
+    navigate(`/orders/${orderId}`)
+  }
+
   return (
     <>
       {orders.length > 0 ? (
@@ -116,6 +120,7 @@ const MyOrders = () => {
                     <th>Date</th>
                     <th>Status</th>
                     <th className="pl-12">Action</th>
+                    <th>Track Status</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -160,7 +165,7 @@ const MyOrders = () => {
                       </td>
 
                       <td>
-                        <div className="relative">
+                        <div className="relative flex gap-5">
                           <BootstrapButton
                             className="btn btn-secondary dropdown-toggle bg-mygreen hover-myyellow"
                             type="button"
@@ -210,6 +215,12 @@ const MyOrders = () => {
                               </li>
                             </ul>
                           )}
+                          <Button
+                            text="Details"
+                            color="myred"
+                            hover="myyellow"
+                            onClick={() => handleDetailsOrderClick(order.orderId)}
+                          />
                         </div>
                       </td>
                       <td>
