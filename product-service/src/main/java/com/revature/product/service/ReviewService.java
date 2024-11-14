@@ -1,12 +1,13 @@
 package com.revature.product.service;
 
-import com.revature.product.model.Review;
-import com.revature.product.repository.ReviewRepository;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import com.revature.product.model.Review;
+import com.revature.product.repository.ReviewRepository;
 
 @Service
 public class ReviewService {
@@ -41,11 +42,16 @@ public class ReviewService {
         reviewRepository.deleteById(reviewId);
     }
 
+    public List<Review> getAllReview() {
+        return reviewRepository.findAll();
+    }
+
     public Double getAverageRatingByProductId(Long productId) {
         List<Review> reviews = reviewRepository.findByProduct_Id(productId);
-        return reviews.isEmpty() ? 0.0 : reviews.stream()
-                .mapToInt(Review::getRating)
-                .average()
-                .orElse(0.0);
+        return reviews.isEmpty() ? 0.0
+                : reviews.stream()
+                        .mapToInt(Review::getRating)
+                        .average()
+                        .orElse(0.0);
     }
 }

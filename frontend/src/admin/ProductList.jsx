@@ -59,7 +59,7 @@ function ProductList() {
 
   return (
     <div className="mx-auto max-w-screen-xl px-4 pt-8 mt-8 sm:py-12">
-      <Head h2="Product List" />
+      <Head h1="Product" h2="List"/>
 
       {isEditing ? (
         <div className="mb-8 p-4 border bg-white rounded-lg shadow-md">

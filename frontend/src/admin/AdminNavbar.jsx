@@ -40,7 +40,11 @@ function AdminNavbar() {
   const handleAllUsersClick = () => {
     handleCloseMenu();
     navigate('/admin/all-users');
-};
+  };
+  const handleReviewClick = () => {
+    handleCloseMenu();
+    navigate('/admin/reviews');
+  };
 
   function logoutAdmin() {
     // dispatch(adminLoggedOut());
@@ -143,6 +147,9 @@ function AdminNavbar() {
                 </li>
                 <li onClick={handleAllUsersClick}>
                   <h1>{<p>All Users</p>}</h1>
+                </li>
+                <li onClick={handleReviewClick}>
+                  <h1>{<p>Reviews</p>}</h1>
                 </li>
                 <li
                   onClick={() => {

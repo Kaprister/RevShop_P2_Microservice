@@ -26,16 +26,17 @@ import MyOrders from "./pages/Orders/MyOrders.jsx";
 import AllUser from "./admin/AllUser.jsx";
 // import { AddCategory } from "./admin/AddCategory.jsx";
 import Category from "./admin/Category.jsx";
+import Review from "./admin/Review.jsx";
 import OrderDetails from "./pages/Orders/OrderDetails.jsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App/>,
+    element: <App />,
     children: [
       {
         path: "/",
-        element: <Home/>,
+        element: <Home />,
       },
       {
         path: "/home",
@@ -45,7 +46,7 @@ const router = createBrowserRouter([
         path: "/login",
         element: (
           <OpenRoute>
-            <Login/>
+            <Login />
           </OpenRoute>
         ),
       },
@@ -53,7 +54,7 @@ const router = createBrowserRouter([
         path: "/signup",
         element: (
           <OpenRoute>
-            <Signup/>
+            <Signup />
           </OpenRoute>
         ),
       },
@@ -145,8 +146,22 @@ const router = createBrowserRouter([
           </AdminRoute>
         ),
       },
-      { path: "/admin/all-users",
-        element: <AllUser/> }, // Add route for AllUser
+      {
+        path: "/admin/all-users",
+        element: (
+          <AdminRoute>
+            <AllUser />
+          </AdminRoute>
+        ),
+      }, 
+      {
+        path: "/admin/reviews",
+        element: (
+          <AdminRoute>
+            <Review />
+          </AdminRoute>
+        ),
+      }, 
       {
         path: "/home/favorite",
         element: (
