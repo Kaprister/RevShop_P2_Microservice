@@ -46,7 +46,7 @@ function Dashboard() {
     setRecentCustomers([
       {
         email: "customer1@example.com",
-        username: "sushant",
+        username: "faize",
         firstname: "John",
         lastname: "Doe",
         phone: 7547802322,
@@ -54,7 +54,7 @@ function Dashboard() {
       },
       {
         email: "customer2@example.com",
-        username: "kaprister07",
+        username: "tanzeera",
         firstname: "Jane",
         lastname: "Doe",
         phone: 9876543210,
@@ -178,7 +178,7 @@ function Dashboard() {
   return (
     <div className="mx-auto max-w-screen-xl px-4 pt-8 sm:py-12">
       {/* <h1 className="text-3xl font-bold mb-4">Dashboard</h1> */}
-      <Head h1="Dash" h2="board"/>
+      <Head h1="Dash" h2="Board"/>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mt-8">
         <div className="bg-white border border-gray-300 p-4 rounded-lg">
           <h2 className="text-xl font-bold mb-2">Recent Customers</h2>

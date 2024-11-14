@@ -56,7 +56,8 @@ function Category() {
 
   return (
     <div className="mx-auto max-w-screen-xl px-4 pt-8 mt-8 sm:py-12">
-      <Head h2="Category List" />
+      <Head h1="Category" h2="List" />
+
 
       {/* Add New Category Button */}
       <div className="flex justify-end mb-8">

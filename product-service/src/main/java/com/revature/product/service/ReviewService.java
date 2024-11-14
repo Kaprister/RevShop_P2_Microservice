@@ -1,12 +1,13 @@
 package com.revature.product.service;
 
-import com.revature.product.model.Review;
-import com.revature.product.repository.ReviewRepository;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import com.revature.product.model.Review;
+import com.revature.product.repository.ReviewRepository;
 
 @Service
 public class ReviewService {
@@ -39,5 +40,9 @@ public class ReviewService {
 
     public void deleteReview(Long reviewId) {
         reviewRepository.deleteById(reviewId);
+    }
+
+    public List<Review> getAllReview() {
+        return reviewRepository.findAll();
     }
 }
