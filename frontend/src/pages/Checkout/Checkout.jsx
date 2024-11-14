@@ -6,6 +6,7 @@ import Button from "../../components/common/Button";
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useSelector } from "react-redux";
 import { v4 as uuidv4 } from 'uuid';
+import { toast } from "react-toastify";
 
 function Checkout() {
     const { state } = useLocation();
@@ -92,6 +93,7 @@ function Checkout() {
                 setIsModalOpen(true);
                 setCartItems([]);
                 setOrderId(response.data.id || uuidv4());
+                deleteCart();
             } else {
                 // Implement online payment functionality here
                 console.log("Online payment selected.");
@@ -155,6 +157,7 @@ function Checkout() {
                     const res = await axios.post("http://localhost:8084/orders", orderData);
                     console.log("Order placed successfully:", res.data);
                     await handlePaymentApi(orderData, response.razorpay_payment_id, res.data.id);
+                    deleteCart();
                     setIsModalOpen(true);
                     setOrderId(res.data.id || uuidv4());
                     setCartItems([]);
@@ -175,6 +178,15 @@ function Checkout() {
         const rzp1 = new window.Razorpay(options);
         rzp1.open();
     };
+
+    const deleteCart = async() => {
+        try{
+            const res = await axios.delete(`http://localhost:8090/cart/deleteAll/${userId}`);
+        }catch(e){
+            toast.error("Error while deleting all cart item.")
+            console.error("Error while deleting all cart items:", e);
+        }
+    }
     
 
     return (
@@ -260,14 +272,27 @@ function Checkout() {
             </div>
 
             {isModalOpen && (
-                <div className="modal modal-open">
-                    <div className="modal-box">
-                        <h3 className="font-bold text-lg">Congratulations!</h3>
-                        <p>Your order has been placed successfully.</p>
-                        <p>Order ID: {orderId}</p>
-                        <div className="modal-action">
+                <div
+                    className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 transition-opacity duration-300 ease-in-out"
+                    onClick={() => setIsModalOpen(false)}
+                >
+                    <div
+                        className="modal-box relative p-8 bg-white rounded-lg shadow-lg transform transition-transform duration-300 ease-in-out scale-105 hover:scale-100"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <h3 className="font-bold text-2xl text-mygreen mb-4 animate-bounce">
+                            🎉 Congratulations!
+                        </h3>
+                        <p className="text-gray-700 mb-2">Your order has been placed successfully.</p>
+                        <p className="font-semibold text-gray-600 mb-4">Order ID: {orderId}</p>
+                        <div className="modal-action mt-6 flex justify-end">
                             <Link to={'/home/shop'}>
-                                <button onClick={() => setIsModalOpen(false)} className="btn bg-mygreen">Continue Shopping</button>
+                                <button
+                                    onClick={() => setIsModalOpen(false)}
+                                    className="btn bg-mygreen hover:bg-green-700 text-white px-6 py-2 rounded-full shadow-lg transition-all duration-200 transform hover:-translate-y-1 hover:scale-105"
+                                >
+                                    Continue Shopping
+                                </button>
                             </Link>
                         </div>
                     </div>

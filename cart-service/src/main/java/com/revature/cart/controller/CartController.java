@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -30,6 +31,12 @@ public class CartController {
     public ResponseEntity<Cart> addCart(@RequestBody Cart cart) {
         Cart createdCart = cartService.addCart(cart);
         return ResponseEntity.ok(createdCart);
+    }
+
+    @DeleteMapping("/deleteAll/{userId}")
+    public ResponseEntity<String> deleteAllCartItemsByUserId(@PathVariable Long userId) {
+        cartService.deleteAllCartItemsByUserId(userId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("All cart items for user with ID " + userId + " have been deleted.");
     }
 
     @GetMapping("/user/{userId}")

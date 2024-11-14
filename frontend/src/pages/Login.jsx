@@ -59,7 +59,7 @@ function Login() {
             // toast.success("Login successful!");
             // navigate("/")
             if(user.role === "BUYER"){
-                navigate("/home"); // Redirect to the homepage or desired page
+                navigate("/"); // Redirect to the homepage or desired page
             }
             else{
                 navigate("/admin");

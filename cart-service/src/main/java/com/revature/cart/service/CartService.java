@@ -31,6 +31,15 @@ public class CartService {
             .bodyToMono(String.class);
     }
 
+    public void deleteAllCartItemsByUserId(Long userId) {
+        List<Cart> carts = cartRepository.findByUserId(userId);
+
+        for (Cart cart : carts) {
+            cart.getCartItems().clear();  // Clear all cart items in the cart
+            cartRepository.save(cart);    // Save the empty cart back to the repository
+        }
+    }
+
     // Fetch product info from the Product Service using Load Balancer
     public Mono<String> getProductInfo(Long productId) {
         return webClientBuilder.build()

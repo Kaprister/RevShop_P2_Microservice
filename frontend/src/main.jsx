@@ -30,8 +30,12 @@ import Category from "./admin/Category.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: <App/>,
     children: [
+      {
+        path: "/",
+        element: <Home/>,
+      },
       {
         path: "/home",
         element: <Home />,
@@ -40,7 +44,7 @@ const router = createBrowserRouter([
         path: "/login",
         element: (
           <OpenRoute>
-            <Login />
+            <Login/>
           </OpenRoute>
         ),
       },
@@ -48,7 +52,7 @@ const router = createBrowserRouter([
         path: "/signup",
         element: (
           <OpenRoute>
-            <Signup />
+            <Signup/>
           </OpenRoute>
         ),
       },
