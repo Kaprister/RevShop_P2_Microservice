@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-vars */
-import React from "react";
+// import React from "react";
 import { Button as BootstrapButton } from "react-bootstrap";
 import { Check } from 'phosphor-react';
 import { Steps, StepsItem, StepsPoint, StepsContent, StepsTitle, StepsDescription } from 'keep-react';
