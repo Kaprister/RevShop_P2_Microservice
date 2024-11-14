@@ -7,13 +7,7 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-// interface Data {
-//   name: string;
-//   image: string;
-//   price: number;
-//   desc: string;
-//   rating: string;
-// }
+
 
 function Product({id, name, quantity, image, price, disPrice, desc, rating }) {
   const {userInfo} = useSelector(state => state.auth);

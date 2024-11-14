@@ -54,16 +54,16 @@ function ProductReview({ productId, userID }) {
 
   return (
     <div className="my-8 max-w-full mx-auto px-6">
-      <Head h1="Product Reviews" />
+      <Head h1="Product Reviews" h2="" />
 
       {/* Review Form */}
-      <div className="mb-8 mt-8 p-8 bg-gradient-to-r from-indigo-300 to-blue-400 shadow-lg rounded-xl text-white transition-all duration-300">
+      <div className="mb-8 mt-8 p-8 bg-gradient-to-r from-teal-300 to-cyan-300 shadow-lg rounded-xl text-white transition-all duration-300">
         <h3 className="text-2xl font-bold mb-6 text-white">Add Your Review</h3>
         <textarea
           value={reviewText}
           onChange={(e) => setReviewText(e.target.value)}
           placeholder="Write your review..."
-          className="w-full p-4 mb-4 bg-white bg-opacity-20 rounded-lg text-blue-800 placeholder-gray-200 border-none focus:ring-2 focus:ring-blue-300 focus:outline-none transition-all duration-300 resize-none"
+          className="w-full p-4 mb-4 bg-white bg-opacity-20 rounded-lg text-teal-800 placeholder-gray-200 border-none focus:ring-2 focus:ring-blue-300 focus:outline-none transition-all duration-300 resize-none"
           rows="4"
         />
         <div className="flex items-center mb-6">
@@ -85,7 +85,7 @@ function ProductReview({ productId, userID }) {
         </div>
         <button
           onClick={handleAddReview}
-          className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-all duration-300 shadow-lg"
+          className="w-full py-3 bg-teal-600 hover:bg-teal-700 text-white font-semibold rounded-lg transition-all duration-300 shadow-lg"
         >
           Submit Review
         </button>

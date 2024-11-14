@@ -107,9 +107,9 @@ function Liked() {
                 <p className="text-gray-600 mt-2 truncate">{product.description}</p>
                 <div className="flex items-center justify-between mt-4">
                   <p className="text-xl font-bold text-gray-900">₹{product.discountedPrice || product.price}</p>
-                  <span className="bg-green-500 text-white px-2 py-1 rounded-md text-sm font-semibold">
+                  {/* <span className="bg-green-500 text-white px-2 py-1 rounded-md text-sm font-semibold">
                     {product.rating || "1"} ⭐
-                  </span>
+                  </span> */}
                 </div>
                 <div className="flex justify-between gap-10 mt-6">
                   <button

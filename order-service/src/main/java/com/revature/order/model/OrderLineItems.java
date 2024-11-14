@@ -28,6 +28,7 @@ public class OrderLineItems {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	private Long productId;
 	private String name;
 	private Double price;
 	private Integer quantity;
