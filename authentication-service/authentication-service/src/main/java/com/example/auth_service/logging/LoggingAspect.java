@@ -1,4 +1,4 @@
-package com.revature.auth_service.logging;
+package com.example.auth_service.logging;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -17,7 +17,7 @@ public class LoggingAspect {
     private static final Logger logger = LoggerFactory.getLogger(LoggingAspect.class);
 
     // Define a pointcut to capture all methods in com.revature.controller package
-    @Pointcut("execution(* com.revature..*(..))")
+    @Pointcut("execution(* com.example..*(..))")
     public void controllerMethods() {
         // Pointcut for all controller methods
     }

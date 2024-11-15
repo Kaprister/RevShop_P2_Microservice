@@ -3,6 +3,8 @@ package com.example.auth_service.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.example.auth_service.dtos.MailRequestDto;
+import com.example.auth_service.feigns.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,9 @@ public class UserService {
 		
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private NotificationService notificationService;
     
  // Fetch all users
     public List<User> getAllUsers() {
@@ -63,5 +68,23 @@ public class UserService {
 	    User user = userRepository.findByUsername(username);
 	    return user != null ? user.getEmail() : null;
 	}
+
+
+    public void sendRegistrationEmail(User user) {
+        String subject = "Thank you for registering with us ";
+        String content = "Dear " + user.getUsername() + ",<br><br>"
+                + "<p>Thank you for joining us! We are glad to have you on board.</p><br>"
+                + "<p><strong>WELCOME TO REVSHOP</strong></p>"
+                + "<br>Thank you,<br>"
+                + "RevShop";
+
+        MailRequestDto mail = MailRequestDto.builder()
+                .subject(subject)
+                .body(content)
+                .to(user.getEmail())
+                .build();
+
+        notificationService.sendEmail(mail);
+    }
 
 }

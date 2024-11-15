@@ -100,6 +100,7 @@ public class AuthController {
      
 
         userRepository.save(newUser);
+        userService.sendRegistrationEmail(newUser);
         return "User registered successfully";
     }
     
