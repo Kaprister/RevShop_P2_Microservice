@@ -27,7 +27,8 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())  // Disabling CSRF in a modern Spring Security 6.x way
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/auth/**").permitAll()  // Allow login endpoint without authentication
+                .requestMatchers("/auth/**").permitAll()// Allow login endpoint without authentication
+                .requestMatchers("/users/**").permitAll()
                 .anyRequest().authenticated()  // All other requests require authentication
             )
             .sessionManagement(session -> session

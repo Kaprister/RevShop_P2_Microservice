@@ -7,7 +7,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@EnableFeignClients(basePackages = "com.example.auth_service.feigns")
+@EnableFeignClients
 public class AuthServiceApplication {
 
 	public static void main(String[] args) {
