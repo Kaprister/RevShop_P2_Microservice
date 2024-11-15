@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import axios from 'axios';
 import Head from '../components/common/Head';
 
 function Transactions() {
@@ -7,34 +8,20 @@ function Transactions() {
 
   useEffect(() => {
     const fetchTransactions = async () => {
-      // Mock data to replace supabase fetching
-      const data = [
-        {
-          transactionId: "12345",
-          username: "John Doe",
-          phone: "1234567890",
-          price: 150.5,
-          date: "2023-10-05",
-          product: [
-            {
-              desc: "Sample product",
-              image: "sample.jpg",
-              name: "Product 1",
-              price: 100,
-              quantity: 1,
-              rating: 4.5,
-            },
-          ],
-          status: "delivered",
-        },
-      ];
+      try {
+        const response = await axios.get('http://localhost:8085/api/payments');
+        const data = response.data;
 
-      if (!data) {
-        console.error('Error fetching transactions');
+        if (!data) {
+          console.error('Error fetching transactions');
+          setError('Failed to fetch transactions.');
+        } else {
+          console.log('Fetched transactions:', data);
+          setTransactions(data);
+        }
+      } catch (error) {
+        console.error('Error fetching transactions:', error);
         setError('Failed to fetch transactions.');
-      } else {
-        console.log('Fetched transactions:', data);
-        setTransactions(data);
       }
     };
 
@@ -43,50 +30,38 @@ function Transactions() {
 
   return (
     <div className="mx-auto max-w-screen-xl px-4 pt-8 mt-8 sm:py-12">
-      <Head h2="Transactions" />
+      <Head h1= "Online" h2="Transactions" />
       {error && <p className="text-red-500 text-center mb-4 mt-6">{error}</p>}
       <table className="table w-full text-left bg-white rounded-lg shadow-md mt-8">
         <thead className="bg-gray-100">
           <tr>
             <th className="p-3">Transaction ID</th>
-            <th className="p-3">Username</th>
-            <th className="p-3">Phone</th>
-            <th className="p-3">Price</th>
-            <th className="p-3">Date</th>
-            <th className="p-3">Product</th>
+            <th className="p-3">Order ID</th>
+            <th className="p-3">Payment ID</th>
+            {/* <th className="p-3">Payment Link</th> */}
+            <th className="p-3">User ID</th>
+            <th className="p-3">Total Amount</th>
             <th className="p-3">Status</th>
           </tr>
         </thead>
         <tbody>
           {transactions.map((transaction) => (
-            <tr key={transaction.transactionId} className="border-gray-200">
-              <td className="p-3">{transaction.transactionId}</td>
-              <td className="p-3">{transaction.username}</td>
-              <td className="p-3">{transaction.phone}</td>
-              <td className="p-3">₹{transaction.price.toFixed(2)}</td>
-              <td className="p-3">{new Date(transaction.date).toLocaleDateString()}</td>
-              <td className="p-3 flex items-center space-x-2">
-                {transaction.product.length > 0 ? (
-                  <>
-                    <img
-                      src={transaction.product[0].image}
-                      alt={transaction.product[0].name}
-                      className="w-12 h-12 object-cover rounded-md"
-                    />
-                    <div>
-                      <p className="font-semibold">{transaction.product[0].name}</p>
-                      <p>₹{transaction.product[0].price.toFixed(2)}</p>
-                    </div>
-                  </>
-                ) : (
-                  <p>No Product</p>
-                )}
-              </td>
+            <tr key={transaction.id} className="border-gray-200">
+              <td className="p-3">{transaction.id}</td>
+              <td className="p-3">{transaction.orderId}</td>
+              <td className="p-3">{transaction.paymentId}</td>
+              {/* <td className="p-3">
+                <a href={transaction.paymentLink} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
+                  {transaction.paymentLink}
+                </a>
+              </td> */}
+              <td className="p-3">{transaction.userId}</td>
+              <td className="p-3">₹{transaction.totalAmount.toFixed(2)}</td>
               <td className="p-3 capitalize">
-                {transaction.status === "pending" ? (
-                  <span className='bg-myyellow p-2 font-semibold rounded-md text-mywhite'>{transaction.status}</span>
+                {transaction.status === "INITIATED" ? (
+                  <span className='bg-yellow-500 p-2 font-semibold rounded-md text-white'>{transaction.status}</span>
                 ) : (
-                  <span className='bg-mygreen p-2 rounded-md text-mywhite font-semibold'>{transaction.status}</span>
+                  <span className='bg-green-500 p-2 rounded-md text-white font-semibold'>{transaction.status}</span>
                 )}
               </td>
             </tr>
