@@ -53,19 +53,19 @@ function Dashboard() {
         profilepicture: "",
       },
       {
-        email: "customer2@example.com",
-        username: "tanzeera",
-        firstname: "Jane",
-        lastname: "Doe",
-        phone: 9876543210,
-        profilepicture: "",
-      },
-      {
         email: "customer3@example.com",
         username: "sushant",
         firstname: "Alice",
         lastname: "Smith",
         phone: 7547802322,
+        profilepicture: "",
+      },
+      {
+        email: "customer2@example.com",
+        username: "tanzeera",
+        firstname: "Jane",
+        lastname: "Doe",
+        phone: 9876543210,
         profilepicture: "",
       },
     ]);

@@ -1,12 +1,11 @@
 import Table from "../components/common/Table";
 import { useEffect, useState } from "react";
 import axios from 'axios';
-// import { useSelector } from "react-redux";
 
 
 const fetchOrders = async () => {
   try {
-    const response = await axios.get(`http://localhost:8084/orders/user-order`); // Replace with your order-service URL
+    const response = await axios.get(`http://localhost:8084/orders/user-order`);
     return response.data;
   } catch (error) {
     console.error('Error fetching orders:', error);
