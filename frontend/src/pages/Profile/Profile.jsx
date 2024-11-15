@@ -25,7 +25,7 @@ function Profile() {
   const fetchData = async () => {
     try {
       // Get user ID from Redux state
-      const userId = userInfo.id;
+      const userId = userInfo.userId;
       
       if (!userId) {
         console.error("User ID not found in Redux state");
@@ -56,7 +56,7 @@ function Profile() {
   }
 
   return (
-    <div className="flex relative flex-col gap-5 items-center justify-center md:px-48 px-8">
+    <div className="flex relative flex-col gap-5 items-center justify-center px-8">
       <div className="absolute profile-background -z-20 w-full h-[250px] sm:h-[350px] md:top-[-150px] top-[-200px]"></div>
 
       <div className="avatar">

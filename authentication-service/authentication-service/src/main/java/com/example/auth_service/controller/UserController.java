@@ -9,17 +9,17 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping()
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin()
 public class UserController {
 
     @Autowired
     private UserService userService;
 
     // Get user by ID
-    @GetMapping("/users-details/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
-        return userService.getUserById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-    }
+//    @GetMapping("/users-details/{id}")
+//    public ResponseEntity<User> getUserById(@PathVariable Long id) {
+//        return userService.getUserById(id)
+//                .map(ResponseEntity::ok)
+//                .orElse(ResponseEntity.notFound().build());
+//    }
 }

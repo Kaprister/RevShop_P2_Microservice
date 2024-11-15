@@ -64,6 +64,11 @@ function AdminNavbar() {
     }
   });
 
+  const handleTransactionClick = () => {
+    handleCloseMenu();
+    navigate('/admin/transaction');
+  }
+
   return (
     <>
       <div className="navbar flex justify-between bg-base-100 p-4">
@@ -96,11 +101,6 @@ function AdminNavbar() {
               <a href="/admin/orders">
                 <li className="hover:scale-105 duration-75 text-sm hover:font-semibold px-4 rounded-full">
                   Orders
-                </li>
-              </a>
-              <a href="/admin/transaction">
-                <li className="hover:scale-105 duration-75 text-sm hover:font-semibold px-4 rounded-full">
-                  Transactions
                 </li>
               </a>
               <a href="/admin/product-list">
@@ -150,6 +150,9 @@ function AdminNavbar() {
                 </li>
                 <li onClick={handleReviewClick}>
                   <h1>{<p>Reviews</p>}</h1>
+                </li>
+                <li onClick={handleTransactionClick}>
+                  <h1>{<p>Transactions</p>}</h1>
                 </li>
                 <li
                   onClick={() => {

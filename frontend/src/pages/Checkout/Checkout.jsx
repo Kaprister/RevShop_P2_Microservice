@@ -20,7 +20,10 @@ function Checkout() {
     const [billingAddress, setBillingAddress] = useState("");
     const navigate = useNavigate();
     const userName = useSelector((state) => state.auth.userInfo.username);
-    console.log("state", state);
+    // console.log("state", state);
+    const token = useSelector((state) => state.auth.userInfo?.jwtToken)
+    console.log("jwtToken ::" , token);
+    
 
     useEffect(() => {
         const fetchCartItems = async () => {
@@ -89,7 +92,12 @@ function Checkout() {
 
         try {
             if (paymentMethod === "cod") {
-                const response = await axios.post("http://localhost:8084/orders", orderData);
+                // const response = await axios.post("http://localhost:8084/orders", orderData);
+                const response = await axios.post("http://localhost:8084/orders", orderData, {
+                    headers: {
+                      Authorization: `Bearer ${token}`, // Add the token in the Authorization header
+                    },
+                  });
                 console.log("Order placed successfully:", response.data);
                 setIsModalOpen(true);
                 setCartItems([]);

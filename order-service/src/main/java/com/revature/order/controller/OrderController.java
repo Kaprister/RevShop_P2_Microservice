@@ -6,6 +6,7 @@ import java.util.Optional;
 import com.revature.order.feigns.AuthService;
 import com.revature.order.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,13 +33,13 @@ public class OrderController {
     @PostMapping
     public ResponseEntity<Order> createOrder(@RequestBody Order order) {
         Order createdOrder = orderService.createOrder(order);
-//        ResponseEntity<User> userInfo = authService.getUserById(order.getUserId());
-//        if (userInfo != null && userInfo.getStatusCode().is2xxSuccessful() && userInfo.getBody() != null) {
-//            User user = userInfo.getBody();
-//            orderService.sendOrderSuccessEmail(user, order);
-//        } else {
-//            throw new RuntimeException("Failed to fetch user info for userId: " + order.getUserId());
-//        }
+        ResponseEntity<User> userInfo = authService.getUserById(order.getUserId());
+        if (userInfo != null && userInfo.getStatusCode().is2xxSuccessful() && userInfo.getBody() != null) {
+            User user = userInfo.getBody();
+            orderService.sendOrderSuccessEmail(user, order);
+        } else {
+            throw new RuntimeException("Failed to fetch user info for userId: " + order.getUserId());
+        }
         return ResponseEntity.ok(createdOrder);
     }
 
