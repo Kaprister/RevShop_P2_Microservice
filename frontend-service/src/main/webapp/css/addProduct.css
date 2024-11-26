@@ -1,0 +1,67 @@
+/* addProduct.css */
+
+/* Style for input fields and textareas */
+input, textarea, select {
+    background-color: #f3f4f6; /* Light grey background */
+    border: 1px solid #d1d5db; /* Light grey border */
+    color: #4b5563; /* Text color (dark grey) */
+    padding: 0.75rem; /* Padding inside the input field */
+    border-radius: 0.375rem; /* Rounded corners */
+    font-size: 1rem; /* Set font size */
+    width: 100%; /* Make sure input takes full width */
+    transition: border-color 0.2s ease; /* Smooth transition for border color */
+}
+
+/* Focus state styling */
+input:focus, textarea:focus, select:focus {
+    border-color: #3b82f6; /* Blue border on focus */
+    background-color: #e2e8f0; /* Slightly lighter background */
+    outline: none; /* Remove default outline */
+}
+
+/* Styling for the submit button */
+button[type="submit"] {
+    background-color: #3b82f6; /* Blue background */
+    color: white; /* White text */
+    padding: 0.75rem 1.5rem; /* Padding for button */
+    border-radius: 0.375rem; /* Rounded corners */
+    font-size: 1rem; /* Set font size */
+    width: 100%; /* Full width */
+    transition: background-color 0.2s ease; /* Smooth transition */
+}
+
+/* Hover effect for the button */
+button[type="submit"]:hover {
+    background-color: #2563eb; /* Darker blue when hovering */
+}
+
+/* Style for labels */
+label {
+    font-weight: 600;
+    color: #1f2937; /* Darker gray for labels */
+    margin-bottom: 0.5rem;
+}
+
+/* Form container styling */
+form {
+    background-color: white; /* White background for the form */
+    padding: 2rem;
+    border-radius: 0.5rem; /* Rounded corners for form */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow around the form */
+}
+
+/* Center the heading */
+h1, h2 {
+    text-align: center;
+    color: #1f2937; /* Dark grey for headings */
+}
+
+h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+h2 {
+    font-size: 1.25rem;
+    color: #6b7280; /* Medium grey for subheading */
+}
