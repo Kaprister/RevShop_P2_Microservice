@@ -103,6 +103,17 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+
+			<!-- Maven Compiler Plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.11.0</version> <!-- Use the latest version -->
+				<configuration>
+					<source>23</source> <!-- Java source version -->
+					<target>23</target> <!-- Java target version -->
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
