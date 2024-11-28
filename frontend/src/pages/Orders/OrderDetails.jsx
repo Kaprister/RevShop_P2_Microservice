@@ -37,7 +37,8 @@ const OrderDetails = () => {
   };
 
   return (
-    <div className="mt-20">
+  <>
+      <div className=" lg:mt-56 lg:mb-44">
         <div className="container mt-8 w-full">
             {orderDetails ? (
                 <div className="w-1/2 mb-16">
@@ -102,6 +103,7 @@ const OrderDetails = () => {
             )}
             </div>
     </div>
+  </>
   );
 };
 

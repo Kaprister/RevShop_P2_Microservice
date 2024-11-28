@@ -20,7 +20,7 @@ import com.revature.product.service.ReviewService;
 
 @RestController
 @RequestMapping("/reviews")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin
 public class ReviewController {
 
     @Autowired

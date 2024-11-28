@@ -23,12 +23,11 @@ import com.example.auth_service.service.UserService;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin
 public class AuthController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
-
     @Autowired
     private JwtUtil jwtUtil;
     

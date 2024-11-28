@@ -2,7 +2,7 @@
 // get all categories
 async function fetchCategories() {
     try {
-        const response = await fetch('http://localhost:8087/categories'); // Adjust this URL if needed
+        const response = await fetch('http://localhost:8082/categories'); // Adjust this URL if needed
         if (response.ok) {
             const categories = await response.json(); // Get the JSON response
 
