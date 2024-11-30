@@ -56,7 +56,7 @@
 				<ul class="nav__list">
 					<li class="nav__item"><a href="../admin/dashboard.jsp" class="nav__link">Dashboard</a>
 					</li>
-					<li class="nav__item"><a href="order.jsp" class="nav__link">Orders</a>
+					<li class="nav__item"><a href="/admin/orders" class="nav__link">Orders</a>
 					</li>
 					<li class="nav__item"><a href="accounts.jsp" class="nav__link">Transactions</a></li>
 					<li class="nav__item"><a href="/admin/products" class="nav__link">Products</a>
