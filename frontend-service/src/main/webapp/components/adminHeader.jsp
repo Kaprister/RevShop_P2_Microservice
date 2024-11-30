@@ -25,22 +25,22 @@
 				</div>
 				<p class="header__alert-news">Super Values Deals - Save more
 					coupons</p>
-				<div>
+				<div class="header__top-action">
 					<%-- <% 
 					   // Check if a session attribute "user" exists
 					   if (session != null)
 					   { 
-					%> --%>
+					%>
 						<!-- Show Logout -->
 						<p><%=session.getAttribute("user") %>
 						<a href="../logout.jsp" class="header__top-action">Logout</a>
-					<%-- <% 
+					 <% 
 					   } else { 
-					%> --%>
+					%> 
 						<!-- Show Login / Sign Up -->
 						<a href="../login.jsp" class="header__top-action">Log In /</a>
 						<a href="../register.jsp" class="header__top-action">Sign Up</a>
-					<%-- <% 
+					 <% 
 					   } 
 					%> --%>
 				</div>
@@ -76,4 +76,5 @@
 			</div>
 		</nav>
 	</header>
+	<script src = "../js/header.js"></script>
 </body>
