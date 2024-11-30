@@ -40,4 +40,11 @@ public class Index {
 	public String getCart() {
 		return "cart";
 	}
+	
+	
+	@GetMapping("/checkout")
+	public String getCheckout() {
+		return "checkout";
+	}
+	
 }

@@ -124,7 +124,7 @@
                 </tr>
                 
             </table>
-            <a href="checkout.jsp" class="btn flex btn--md">
+            <a href="/checkout" class="btn flex btn--md">
               <i class="fi fi-rs-box-alt"></i> Proceed To Checkout
             </a>
           </div>
