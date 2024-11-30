@@ -15,7 +15,8 @@
             // Logout functionality
             document.getElementById("logout-btn").addEventListener("click", () => {
                 localStorage.removeItem("user"); // Remove user from localStorage
-                window.location.reload(); // Reload page
+                window.location.href="login.jsp"; // Reload page
+                return;
             });
         } else {
             // User is not logged in

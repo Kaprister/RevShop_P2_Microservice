@@ -80,8 +80,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         selectedItem.classList.add('active');
     }
-
     function addToCart(product) {
+	console.log(product.imageUrl);
         const quantityInput = document.querySelector('.quantity').value || 1;
         const selectedColor = document.querySelector('.color__item.active')?.dataset.color;
         const selectedSize = document.querySelector('.size__item.active')?.dataset.size;
@@ -91,6 +91,8 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         const cartItem = {
+			image:product.imageUrl,
+			productName:product.name,
             productId: product.id,
             quantity: parseInt(quantityInput),
             price: product.price,
