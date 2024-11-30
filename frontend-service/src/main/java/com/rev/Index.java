@@ -10,6 +10,10 @@ public class Index {
 	public String main() {
 		return "index";
 	}
+	@GetMapping("/login")
+	public String login() {
+		return "login";
+	}
 
 	@GetMapping("/admin")
 	public String adminPage() {

@@ -35,7 +35,7 @@ public class OrderControllerTest {
         sampleOrder = Order.builder()
                 .id(1L)
                 // Removed the orderNumber field
-                .userId(123)
+                .userId(123l)
                 .status(OrderStatus.PENDING)
                 .billingAddress("123 Billing St.")
                 .billingAddress("456 Shipping St.")

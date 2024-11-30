@@ -23,6 +23,7 @@ function fetchCartData(userId) {
 		.then(response => response.json())
 		.then(data => {
 			console.log("cart data fetched: ", Object.keys(data).length);
+			//localStorage.setItem("cart", JSON.stringify(data));
 			populateCartDetails(data);
 		})
 		.catch(error => {

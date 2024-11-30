@@ -51,7 +51,7 @@
 					</li>
 					<li class="nav__item"><a href="categories.jsp" class="nav__link">Collections</a>
 					</li>
-					<li class="nav__item"><a href="login-register.jsp"
+					<li class="nav__item"><a href="/login"
 						class="nav__link">Re-Login</a></li>
 				</ul>
 				<div class="header__search">
@@ -65,8 +65,9 @@
 			<div class="header__user-actions">
 				<a href="wishlist.jsp" class="header__action-btn" title="Wishlist">
 					<img src="./img/icon-heart.svg" alt="" /> <span class="count">3</span>
-				</a> <a href="/cart" class="header__action-btn" title="Cart"> <img
-					src="./img/icon-cart.svg" alt="" /> <span class="count">3</span>
+				</a> <a href="/cart" class="header__action-btn" title="Cart">
+				    <img src="./img/icon-cart.svg" alt="" />
+				    <span id="cart-count" class="count">0</span>
 				</a>
 			</div>
 		</nav>
