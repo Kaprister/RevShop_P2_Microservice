@@ -42,6 +42,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                         username, null, new ArrayList<>());
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                System.out.printf("username:%s , jwt:%s",username, jwt);
             }
         }
         chain.doFilter(request, response); // Continue the filter chain
