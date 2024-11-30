@@ -153,4 +153,9 @@ public class CartService {
         return cartItems != null ? cartItems.size() : 0;
     }
 
+	public Double getTotal(Long userId) {
+		return cartRepository.calculateTotalAmountByUserId(userId);
+		
+	}
+
 }

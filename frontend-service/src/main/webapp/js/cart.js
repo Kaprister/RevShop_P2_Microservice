@@ -1,20 +1,19 @@
 console.log("in script: cart.js");
+const user = localStorage.getItem("user");
 document.addEventListener('DOMContentLoaded', () => {
-    const user = localStorage.getItem("user");
-    
-    if (!user) {
-        window.location.href = "login.jsp";
-        return; 
-    }
 
-    const userId = JSON.parse(user).userId;
-    console.log(userId);
+	if (!user) {
+		window.location.href = "login.jsp";
+		return;
+	}
 
-    if (userId) {
-        fetchCartData(userId);
-    } else {
-        window.location.href = "login.jsp";
-    }
+	const userId = JSON.parse(user).userId;
+
+	if (userId) {
+		fetchCartData(userId);
+	} else {
+		window.location.href = "login.jsp";
+	}
 });
 
 
@@ -32,8 +31,8 @@ function fetchCartData(userId) {
 }
 
 function populateCartDetails(data) {
-	let cartTotal = 0; 
-	console.log("cart data:",data);
+
+	console.log("cart data:", data);
 	const tbody = document.querySelector(".table tbody"); // Target the table body
 	tbody.innerHTML = ""; // Clear any existing rows
 
@@ -67,19 +66,20 @@ function populateCartDetails(data) {
 
 			// Append the row to the table body
 			tbody.appendChild(row);
-			
-			cartTotal += item.price * item.quantity;
+
+
 		});
 	});
-	updateCartTotal(cartTotal);
+	const userId = JSON.parse(user).userId;
+	updateCartTotal(userId);
 
 
 
-/******************************************************
- *                                                    *
- *    🔄 CART QUANTITY INCREASE OR DECREASE lOGIC     *
- *                                                    *
- ******************************************************/
+	/******************************************************
+	 *                                                    *
+	 *    🔄 CART QUANTITY INCREASE OR DECREASE lOGIC     *
+	 *                                                    *
+	 ******************************************************/
 
 
 	// Add event listeners for quantity changes
@@ -90,9 +90,9 @@ function populateCartDetails(data) {
 
 			const oldQuantity = event.target.defaultValue;
 			if (newQuantity > oldQuantity) {
-				adjustCartQuantity( itemId, "increase");
+				adjustCartQuantity(itemId, "increase");
 			} else if (newQuantity < oldQuantity && newQuantity >= 1) {
-				adjustCartQuantity( itemId, "decrease");
+				adjustCartQuantity(itemId, "decrease");
 			} else {
 				// Reset invalid input to old quantity
 				event.target.value = oldQuantity;
@@ -102,65 +102,65 @@ function populateCartDetails(data) {
 
 
 	function adjustCartQuantity(itemId, action) {
-    const url = `http://localhost:8087/cart/${itemId}/item/${itemId}/${action}`;
-    
-    fetch(url, {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json",
-        },
-    })
-    .then(response => {
-        if (response.ok) {
-            const input = document.querySelector(`input[data-item-id="${itemId}"]`);
-            
-            input.disabled = true; 
-            
-            let newQuantity = parseInt(input.value);
-            /*// Update the quantity value manually based on action
-            if (action === "increase") {
-                newQuantity++;
-            } else if (action === "decrease" && newQuantity > 1) {
-                newQuantity--;
-            }
+		const url = `http://localhost:8087/cart/${itemId}/item/${itemId}/${action}`;
 
-            // Update the input box value with the new quantity
-            input.value = newQuantity;*/
+		fetch(url, {
+			method: "PUT",
+			headers: {
+				"Content-Type": "application/json",
+			},
+		})
+			.then(response => {
+				if (response.ok) {
+					const input = document.querySelector(`input[data-item-id="${itemId}"]`);
 
-            // Update the subtotal for this item
-            const subtotalElement = input.closest('tr').querySelector('.subtotal');
-            const price = parseFloat(input.closest('tr').querySelector('.table__price').innerText.replace('$', ''));
-            subtotalElement.innerText = `$${(price * newQuantity).toFixed(2)}`;
+					input.disabled = true;
 
-            setTimeout(() => {
-				// Re-enable input field after a small delay
-                input.disabled = false;  
-            }, 1000);
+					let newQuantity = parseInt(input.value);
+					/*// Update the quantity value manually based on action
+					if (action === "increase") {
+						newQuantity++;
+					} else if (action === "decrease" && newQuantity > 1) {
+						newQuantity--;
+					}
+		
+					// Update the input box value with the new quantity
+					input.value = newQuantity;*/
 
-        } else {
-            console.error(`Failed to ${action} item quantity.`);
-        }
-    })
-    .catch(error => {
-        console.error(`Error during quantity ${action}:`, error);
-    });
-}
+					// Update the subtotal for this item
+					const subtotalElement = input.closest('tr').querySelector('.subtotal');
+					const price = parseFloat(input.closest('tr').querySelector('.table__price').innerText.replace('$', ''));
+					subtotalElement.innerText = `$${(price * newQuantity).toFixed(2)}`;
 
-	
-	
-	
-	
-	
-/******************************************************
- *                                                    *
- *          🔄 CART ITEM DELETE LOGIC                 *
- *                                                    *
- ******************************************************/
+					setTimeout(() => {
+						// Re-enable input field after a small delay
+						input.disabled = false;
+					}, 1000);
 
-	
-	
-	
-	
+				} else {
+					console.error(`Failed to ${action} item quantity.`);
+				}
+			})
+			.catch(error => {
+				console.error(`Error during quantity ${action}:`, error);
+			});
+	}
+
+
+
+
+
+
+	/******************************************************
+	 *                                                    *
+	 *          🔄 CART ITEM DELETE LOGIC                 *
+	 *                                                    *
+	 ******************************************************/
+
+
+
+
+
 	// Add event listener for delete buttons
 	const deleteButtons = document.querySelectorAll(".delete-btn");
 	deleteButtons.forEach(button => {
@@ -201,7 +201,22 @@ function populateCartDetails(data) {
  *                                                    *
  ******************************************************/
 
-function updateCartTotal(total){
-	const cartTotalElement = document.querySelector(".cart__total-price");
-	cartTotalElement.innerHTML = `$${total.toFixed(2)}`;
+function updateCartTotal(userId) {
+    fetch(`http://localhost:8087/cart/user/${userId}/totalBill`, { // Correct placeholder syntax
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json(); // Call json() method properly
+    })
+    .then(data => {
+        const cartTotalElement = document.querySelector(".cart__total-price");
+        cartTotalElement.innerHTML = `$${data}`; // Add currency symbol for better UI
+    })
+    .catch(error => console.error("Error while finding the total bill amount in cart.js:", error));
 }
