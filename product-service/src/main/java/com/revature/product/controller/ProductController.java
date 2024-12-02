@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import com.revature.product.model.Product;
 import com.revature.product.service.ProductService;
 import org.springframework.web.multipart.MultipartFile;
+//import org.springframework.security.access.prepost.PreAuthorize;
 
 @RestController
 @CrossOrigin
@@ -40,6 +41,8 @@ public class ProductController {
 
     // Get all products
     @GetMapping
+//    @PreAuthorize("isAuthenticated()")
+//    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('BUYER')")
     public List<Product> getAllProducts() {
         return productService.getAllProducts();
     }

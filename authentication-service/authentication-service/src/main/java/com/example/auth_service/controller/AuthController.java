@@ -64,7 +64,7 @@ public class AuthController {
             }
 
             // Generate and return JWT token
-            String jwtToken = jwtUtil.generateToken(authRequest.getUsername());
+            String jwtToken = jwtUtil.generateToken(authRequest.getUsername(), authRequest.getRole());
             Long userId = userService.getUserIdByUsername(authRequest.getUsername());
             
             Role role = userService.getRoleByUsername(authRequest.getUsername());
@@ -88,7 +88,7 @@ public class AuthController {
         
         Role role;
         try {
-            role = Role.valueOf(authRequest.getRole().toUpperCase()); // Convert the role to the enum
+            role = Role.valueOf(authRequest.getRole().toUpperCase ()); // Convert the role to the enum
         } catch (IllegalArgumentException e) {
             return "Invalid role provided"; // Handle invalid role case
         }
