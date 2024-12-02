@@ -12,7 +12,7 @@
   --title-color: hsl(0, 0%, 13%);
   --text-color: hsl(154, 13%, 32%);
   --text-color-light: hsl(60, 1%, 56%);
-  --body-color: hsl(0, 0%, 100%);
+  --body-color: #f0ebd8;
   --container-color: hsl(0, 0%, 93%);
   --border-color: hsl(129, 36%, 85%);
   --border-color-alt: hsl(113, 15%, 90%);
@@ -468,6 +468,30 @@ table {
 }
 
 /*=============== PRODUCTS ===============*/
+.load-more-button {
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  font-size: 1rem;
+  color: white;
+  background-color: rgb(158,3,45);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.load-more-button:hover {
+  background-color: red;
+}
+.my_header {
+    text-align: center; 
+    margin: 20px 0;
+    font-size: 4.5rem;
+    font-weight: bold;
+}
+
+
 .tab__btns {
   display: flex;
   flex-wrap: wrap;
@@ -697,7 +721,7 @@ table {
 .action__btn::before,
 .action__btn::after,
 .product__item:hover .product__img.default {
-  opacity: 0;
+  opacity: 80;
 }
 
 .product__item:hover {
@@ -732,17 +756,21 @@ table {
 }
 
 /*=============== DEALS ===============*/
-.deals__container {
-  grid-template-columns: repeat(2, 1fr);
+
+.deals_section {
+  background-image: url(../img/winter1.jpg); /* Adjust path based on your structure */
+  background-size: cover; /* Ensures the image covers the entire section */
+  background-position: center; /* Centers the image */
+  background-repeat: no-repeat; /* Prevents tiling */
+  height: 40vh; /* Full viewport height */
+  display: flex; /* Flexbox for centering content */
+  align-items: center; /* Vertically center content */
+  justify-content: center; /* Horizontally center content */
+  padding: 2rem; /* Optional padding */
+  position: relative; /* For overlay effects */
+  color: #fff; /* White text for contrast */
 }
 
-.deals__item:nth-child(1) {
-  background-image: url(../img/deals-1.jpg);
-}
-
-.deals__item:nth-child(2) {
-  background-image: url(../img/deals-2.png);
-}
 
 .deals__item {
   padding: 3rem;
@@ -750,6 +778,7 @@ table {
   /* background-position: center; */
   display: flex;
   flex-direction: column;
+  justify-content:center;
   row-gap: 1.5rem;
 }
 
@@ -841,9 +870,7 @@ table {
 }
 
 /*=============== NEW ARRIVALS ===============*/
-.new__arrivals {
-  overflow: hidden;
-}
+
 
 /*=============== SHOWCASE ===============*/
 .showcase__container {
@@ -897,7 +924,7 @@ table {
 
 /*=============== NEWSLETTER ===============*/
 .newsletter {
-  background-color: hsl(166, 23%, 74%);
+  background-color: #f0f0e8;
 }
 
 .home__newsletter {

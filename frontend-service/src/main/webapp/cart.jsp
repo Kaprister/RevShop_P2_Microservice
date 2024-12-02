@@ -73,7 +73,7 @@
 
         <div class="cart__group grid">
           <div>
-            <div class="cart__shippinp">
+            <!-- <div class="cart__shippinp">
               <h3 class="section__title">Calculate Shipping</h3>
               <form action="" class="form grid">
                 <input
@@ -95,7 +95,7 @@
                   </button>
                 </div>
               </form>
-            </div>
+            </div> -->
             <div class="cart__coupon">
               <h3 class="section__title">Apply Coupon</h3>
               <form action="" class="coupon__form form grid">
@@ -124,7 +124,7 @@
                 </tr>
                 
             </table>
-            <a href="checkout.html" class="btn flex btn--md">
+            <a href="/checkout" class="btn flex btn--md">
               <i class="fi fi-rs-box-alt"></i> Proceed To Checkout
             </a>
           </div>

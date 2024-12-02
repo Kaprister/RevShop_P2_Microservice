@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.revature.cart.model.Cart;
 import com.revature.cart.model.CartItem;
 import com.revature.cart.service.CartService;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @RequestMapping("/cart")
@@ -115,4 +117,15 @@ public class CartController {
                                  .body(0);  // Return 0 if there is an error
         }
     }
+    @GetMapping("/user/{userId}/totalBill")
+    public ResponseEntity<Double> getTotalBill(@PathVariable Long userId) {
+        try{
+        	return ResponseEntity.ok(cartService.getTotal(userId));
+        }
+        catch(Exception e){
+        	throw new RuntimeException("error occured while finding the total amout of the Billing amount");
+        }
+
+    }
+    
 }
