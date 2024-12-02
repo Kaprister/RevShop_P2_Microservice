@@ -22,9 +22,8 @@
       <!-- Breadcrumb -->
       <section class="breadcrumb">
         <ul class="breadcrumb__list container">
-          <li><a href="index.jsp" class="breadcrumb__link">Home</a></li>
-          <li><span>></span></li>
-          <li><span class="breadcrumb__link">products</span></li>
+          <li><a href="/" class="breadcrumb__link">Home ></a><span class="breadcrumb__link"> products</span></li>
+         
         </ul>
       </section>
 
@@ -34,9 +33,7 @@
         <div class="products__container grid" id="products-container">
           <!-- Products will be loaded dynamically -->
         </div>
-        <ul class="pagination" id="pagination">
-          <!-- Pagination links will be dynamically created -->
-        </ul>
+
       </section>
 
       <!-- Newsletter Section -->

@@ -10,9 +10,9 @@
       <!--=============== BREADCRUMB ===============-->
       <section class="breadcrumb">
         <ul class="breadcrumb__list flex container">
-          <li><a href="index.jsp" class="breadcrumb__link">Home</a></li>
+          <li><a href="/" class="breadcrumb__link">Home</a></li>
           <li><span class="breadcrumb__link">></span></li>
-          <li><span class="breadcrumb__link">Login / Register</span></li>
+          <li><span class="breadcrumb__link"> Register</span></li>
         </ul>
       </section>
 
@@ -55,7 +55,7 @@
                     
                     
               <div class="form__btn">
-                <button type="submit" class="btn">Login</button>
+                <button type="submit" class="btn">Sign in</button>
               </div>
             </form>
           </div>
