@@ -19,10 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.revature.cart.model.Cart;
 import com.revature.cart.model.CartItem;
 import com.revature.cart.service.CartService;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @RequestMapping("/cart")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin
 public class CartController {
     @Autowired
     private CartService cartService;
@@ -103,4 +105,27 @@ public class CartController {
             return ResponseEntity.notFound().build();
         }
     }
+    @GetMapping("/user/{userId}/count")
+    public ResponseEntity<Integer> getCartCount(@PathVariable Long userId) {
+        try {
+            // Call service to get cart count
+            int cartCount = cartService.getCartCountByUserId(userId);
+            return ResponseEntity.ok(cartCount);  // Return cart count as response
+        } catch (Exception e) {
+            // Return an error response in case of failure
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                                 .body(0);  // Return 0 if there is an error
+        }
+    }
+    @GetMapping("/user/{userId}/totalBill")
+    public ResponseEntity<Double> getTotalBill(@PathVariable Long userId) {
+        try{
+        	return ResponseEntity.ok(cartService.getTotal(userId));
+        }
+        catch(Exception e){
+        	throw new RuntimeException("error occured while finding the total amout of the Billing amount");
+        }
+
+    }
+    
 }

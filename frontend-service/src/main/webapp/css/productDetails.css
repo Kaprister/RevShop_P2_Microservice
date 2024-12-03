@@ -27,3 +27,16 @@
     color: #fff;
     border-color: #000;
 }
+
+.product-title-rating {
+    position: relative;
+}
+
+.average-rating {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 1rem;
+    color: #4CAF50; /* You can change the color as per your preference */
+    font-weight: bold;
+}

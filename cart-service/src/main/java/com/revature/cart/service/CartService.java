@@ -145,5 +145,17 @@ public class CartService {
 
         return Optional.empty();  // Return empty if cart or item not found
     }
+    public int getCartCountByUserId(Long userId) {
+        // Assuming CartRepository has a method to get the cart by user ID
+        List<Cart> cartItems = cartRepository.findByUserId(userId);
+
+        // Return the number of items in the cart
+        return cartItems != null ? cartItems.size() : 0;
+    }
+
+	public Double getTotal(Long userId) {
+		return cartRepository.calculateTotalAmountByUserId(userId);
+		
+	}
 
 }

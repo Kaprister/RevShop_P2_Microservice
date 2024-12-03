@@ -7,11 +7,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.example.auth_service.models.AuthRequest;
 import com.example.auth_service.models.AuthResponse;
@@ -58,7 +64,7 @@ public class AuthController {
             }
 
             // Generate and return JWT token
-            String jwtToken = jwtUtil.generateToken(authRequest.getUsername());
+            String jwtToken = jwtUtil.generateToken(authRequest.getUsername(), authRequest.getRole());
             Long userId = userService.getUserIdByUsername(authRequest.getUsername());
             
             Role role = userService.getRoleByUsername(authRequest.getUsername());
@@ -82,7 +88,7 @@ public class AuthController {
         
         Role role;
         try {
-            role = Role.valueOf(authRequest.getRole().toUpperCase()); // Convert the role to the enum
+            role = Role.valueOf(authRequest.getRole().toUpperCase ()); // Convert the role to the enum
         } catch (IllegalArgumentException e) {
             return "Invalid role provided"; // Handle invalid role case
         }

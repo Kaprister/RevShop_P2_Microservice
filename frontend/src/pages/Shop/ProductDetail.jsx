@@ -169,7 +169,7 @@ function ProductDetail() {
                   <h2 className="text-xl font-bold text-gray-800 ">
                     Rating:{" "}
                     <span className="bg-mygreen p-1 px-3 text-mywhite rounded-md">
-                      {product.ratings.toFixed(1)} ⭐
+                      {product.ratings !== undefined ? product.ratings.toFixed(1) : 1} ⭐
                     </span>
                   </h2>
                 </div>

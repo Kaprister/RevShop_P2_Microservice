@@ -15,8 +15,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const data = await response.json();
       products = data; // Assign the response data to the products array
       renderProducts();
-      renderPagination();
-    } catch (error) {
+/*      renderPagination();
+*/    } catch (error) {
       console.error("Error fetching products:", error);
       productsContainer.innerHTML = `<p class="error">Failed to load products. Please try again later.</p>`;
     }
@@ -36,17 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <a href="productDetails.jsp?productId=${product.id}" class="product__images">
               <img src="${product.imageUrl}" alt="${product.name}" class="product__img default" />
             </a>
-            <div class="product__actions">
-              <button class="action__btn" aria-label="Quick View">
-                <i class="fi fi-rs-eye"></i>
-              </button>
-              <button class="action__btn" aria-label="Add to Wishlist">
-                <i class="fi fi-rs-heart"></i>
-              </button>
-              <button class="action__btn" aria-label="Compare">
-                <i class="fi fi-rs-shuffle"></i>
-              </button>
-            </div>
+            
           </div>
           <div class="product__content">
             <span class="product__category">${product.category.name}</span>
@@ -55,9 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
               <span class="new__price">$${product.discountedPrice}</span>
               <span class="old__price">$${product.price}</span>
             </div>
-            <button class="action__btn cart__btn" aria-label="Add To Cart">
-              <i class="fi fi-rs-shopping-bag-add"></i>
-            </button>
+            
           </div>
         </div>`;
       productsContainer.insertAdjacentHTML("beforeend", productHTML);

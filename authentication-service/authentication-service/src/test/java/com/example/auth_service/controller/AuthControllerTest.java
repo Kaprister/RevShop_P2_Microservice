@@ -77,7 +77,7 @@ public class AuthControllerTest {
     public void testLoginSuccess() throws Exception {
         when(userRepository.findByUsername(anyString())).thenReturn(user);
         when(passwordEncoder.matches(anyString(), anyString())).thenReturn(true);
-        when(jwtUtil.generateToken(anyString())).thenReturn("jwtToken123");
+        when(jwtUtil.generateToken(anyString(), "ADMIN")).thenReturn("jwtToken123");
 
         mockMvc.perform(MockMvcRequestBuilders.post("/auth/login")
                         .contentType("application/json")

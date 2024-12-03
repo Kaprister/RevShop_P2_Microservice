@@ -23,7 +23,7 @@ import com.revature.payment.service.PaymentService;
 
 @RestController
 @RequestMapping("/api/payments")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin
 public class PaymentController {
 
     @Autowired

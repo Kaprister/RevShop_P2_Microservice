@@ -3,52 +3,52 @@
       <div class="footer__container grid">
         <div class="footer__content">
           <a href="index.html" class="footer__logo">
-            <img src="./assets/img/logo.svg" alt="" class="footer__logo-img" />
+            <img src="./img/logo.png" alt="" class="footer__logo-img" />
           </a>
           <h4 class="footer__subtitle">Contact</h4>
           <p class="footer__description">
-            <span>Address:</span> 13 Tlemcen Road, Street 32, Beb-Wahren
+            <span>Address:</span> Workafella High Street, Teynampet 12th floor, New, 431, Anna Salai, Chennai, Tamil Nadu 600018
           </p>
           <p class="footer__description">
             <span>Phone:</span> +01 2222 365 /(+91) 01 2345 6789
           </p>
           <p class="footer__description">
-            <span>Hours:</span> 10:00 - 18:00, Mon - Sat
+            <span>Hours:</span> 24x7
           </p>
           <div class="footer__social">
-            <h4 class="footer__subtitle">Follow Me</h4>
+            <h4 class="footer__subtitle"></h4>
             <div class="footer__links flex">
               <a href="#">
                 <img
-                  src="./assets/img/icon-facebook.svg"
+                  src="././img/icon-facebook.svg"
                   alt=""
                   class="footer__social-icon"
                 />
               </a>
               <a href="#">
                 <img
-                  src="./assets/img/icon-twitter.svg"
+                  src="././img/icon-twitter.svg"
                   alt=""
                   class="footer__social-icon"
                 />
               </a>
               <a href="#">
                 <img
-                  src="./assets/img/icon-instagram.svg"
+                  src="././img/icon-instagram.svg"
                   alt=""
                   class="footer__social-icon"
                 />
               </a>
               <a href="#">
                 <img
-                  src="./assets/img/icon-pinterest.svg"
+                  src="././img/icon-pinterest.svg"
                   alt=""
                   class="footer__social-icon"
                 />
               </a>
               <a href="#">
                 <img
-                  src="./assets/img/icon-youtube.svg"
+                  src="././img/icon-youtube.svg"
                   alt=""
                   class="footer__social-icon"
                 />
@@ -59,29 +59,27 @@
         <div class="footer__content">
           <h3 class="footer__title">Address</h3>
           <ul class="footer__links">
-            <li><a href="#" class="footer__link">About Us</a></li>
+            <li><a href="aboutUs.jsp" class="footer__link">About Us</a></li>
             <li><a href="#" class="footer__link">Delivery Information</a></li>
             <li><a href="#" class="footer__link">Privacy Policy</a></li>
             <li><a href="#" class="footer__link">Terms & Conditions</a></li>
             <li><a href="#" class="footer__link">Contact Us</a></li>
-            <li><a href="#" class="footer__link">Support Center</a></li>
           </ul>
         </div>
         <div class="footer__content">
           <h3 class="footer__title">My Account</h3>
           <ul class="footer__links">
-            <li><a href="#" class="footer__link">Sign In</a></li>
-            <li><a href="#" class="footer__link">View Cart</a></li>
+            <li><a href="register.jsp" class="footer__link">Sign In</a></li>
+            <li><a href="/cart" class="footer__link">View Cart</a></li>
             <li><a href="#" class="footer__link">My Wishlist</a></li>
             <li><a href="#" class="footer__link">Track My Order</a></li>
-            <li><a href="#" class="footer__link">Help</a></li>
             <li><a href="#" class="footer__link">Order</a></li>
           </ul>
         </div>
         <div class="footer__content">
-          <h3 class="footer__title">Secured Payed Gateways</h3>
+          <h3 class="footer__title"></h3>
           <img
-            src="./assets/img/payment-method.png"
+            src="././img/payment-method.png"
             alt=""
             class="payment__img"
           />
