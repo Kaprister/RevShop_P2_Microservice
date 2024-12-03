@@ -40,4 +40,17 @@ public class Index {
 	public String getCart() {
 		return "cart";
 	}
+
+	// user side
+	@GetMapping("/checkout")
+	public String getCheckout() {
+		return "checkout";
+	}
+
+	// user side
+	@GetMapping("/order-success")
+	public String getOrderSuccess() {
+		return "success";
+	}
+
 }
