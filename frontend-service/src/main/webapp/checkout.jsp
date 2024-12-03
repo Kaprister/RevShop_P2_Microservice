@@ -106,7 +106,7 @@
     <script src="assets/js/main.js"></script>
     <script src="./js/checkout.js"></script>
     <script>
-        document.getElementById("placeOrderBtn").addEventListener("click", () => {
+document.getElementById("placeOrderBtn").addEventListener("click", () => {
             const billingAddress = document.getElementById("billingAddress").value.trim();
             const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked')?.value;
 
@@ -115,12 +115,19 @@
                 return;
             }
 
-            // Call the placeOrder function defined in checkout.js
-            placeOrder({
-                billingAddress,
-                paymentMethod,
-            });
+            if (paymentMethod === "online") {
+                handleRazorpayPayment();
+            } else {
+                placeOrder({
+                    billingAddress,
+                    paymentMethod,
+                });
+            }
         });
+
     </script>
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
 </body>
 </html>

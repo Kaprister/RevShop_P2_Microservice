@@ -103,7 +103,7 @@ async function placeOrder({ billingAddress, paymentMethod }) {
         userId,
         status: "PENDING",
         billingAddress,
-        OrderType: paymentMethod === "cod" ? "Cash On Delivery" : "Online Payment",
+        orderType: paymentMethod === "cod" ? "Cash On Delivery" : "Online Payment",
         orderLineItems: cartItems.map(item => ({
             productId: item.productId,
             name: item.productName,
@@ -130,8 +130,100 @@ async function placeOrder({ billingAddress, paymentMethod }) {
         const result = await response.json();
         console.log("Order placed successfully:", result);
         alert("Order placed successfully!");
+        await deleteCartItems();
         window.location.href = "/order-success"; // Redirect to success page
     } catch (error) {
         console.error("Error placing order:", error);
     }
 }
+
+ async function deleteCartItems() {
+    try {
+        await fetch(`http://localhost:8087/cart/deleteAll/${userId}`, { method: "DELETE" });
+        console.log("Cart cleared.");
+    } catch (error) {
+        console.error("Error clearing cart:", error);
+    }
+}
+
+function handleRazorpayPayment() {
+    const total = document.querySelector(".order__grand-total").innerText.replace("$", "");
+    const totalAmount = parseFloat(total) * 100; // Convert to smallest currency unit
+
+    const options = {
+        key: "rzp_test_kOZuSgBkSmpz5o", // Replace with your Razorpay API key
+        amount: totalAmount,
+        currency: "INR",
+        name: "E-Commerce Checkout",
+        description: "Order Payment",
+        handler: async function (response) {
+            console.log("Razorpay Payment Success:", response);
+
+            // Create order data
+            const billingAddress = document.getElementById("billingAddress").value.trim();
+            const orderData = {
+                totalAmount: parseFloat(total),
+                userId,
+                status: "PENDING",
+                billingAddress,
+                orderType: "Online Payment",
+                orderLineItems: cartItems.map(item => ({
+                    productId: item.productId,
+                    name: item.productName,
+                    price: item.price,
+                    quantity: item.quantity,
+                    image: item.image,
+                })),
+            };
+
+            // Call placeOrder and handlePaymentApi
+            await placeOrder(orderData);
+            await handlePaymentApi(orderData, response.razorpay_payment_id, response.razorpay_order_id);
+        },
+        prefill: {
+            name: "User", // Replace with dynamic user details
+            email: "user@example.com",
+            contact: "1234567890",
+        },
+        notes: {
+            address: document.getElementById("billingAddress").value.trim(),
+        },
+        theme: {
+            color: "#3399cc",
+        },
+    };
+
+    const rzp1 = new Razorpay(options);
+    rzp1.open();
+}
+
+
+const handlePaymentApi = async (orderData, paymentID, orderID) => {
+    const paymentData = {
+        orderId: orderID || "N/A", // Razorpay does not return an order ID by default
+        paymentId: paymentID,
+        paymentLink: "http://localhost:8085/api/payments",
+        status: "SUCCESS",
+        totalAmount: orderData.totalAmount,
+        userId: orderData.userId,
+    };
+
+    try {
+        const response = await fetch("http://localhost:8085/api/payments", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(paymentData),
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const result = await response.json();
+        console.log("Payment API call successful:", result);
+    } catch (error) {
+        console.error("Error calling payment API:", error);
+    }
+};
