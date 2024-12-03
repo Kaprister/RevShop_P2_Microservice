@@ -44,6 +44,13 @@ public class OrderService {
                 .retrieve()
                 .bodyToMono(String.class);
     }
+    
+    public double calculateTotalSales() {
+        List<Order> orders = orderRepository.findAll();  // Assuming you're using Spring Data JPA
+        return orders.stream()
+                     .mapToDouble(Order::getTotalAmount)  // Assuming getTotalAmount is a method in Order class
+                     .sum();
+    }
 
     // Get product info from ProductService
     public Mono<String> getProductInfo(String productId) {
