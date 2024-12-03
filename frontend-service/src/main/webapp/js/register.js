@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const data = Object.fromEntries(formData.entries());
 
         try {
-            const response = await fetch("http://localhost:8087/auth/register", {
+            const response = await fetch("http://localhost:8081/auth/register", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
