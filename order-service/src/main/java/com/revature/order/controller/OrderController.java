@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import com.revature.order.feigns.AuthService;
 import com.revature.order.model.User;
+import com.revature.order.repository.OrderRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +27,7 @@ public class OrderController {
     public OrderController(OrderService orderService) {
         this.orderService = orderService;
     }
+    
 
     @Autowired
     private AuthService authService;
@@ -87,5 +90,12 @@ public class OrderController {
     public ResponseEntity<Order> updateOrder(@PathVariable Long id, @RequestBody Order orderDetails) {
         Optional<Order> updatedOrder = orderService.updateOrder(id, orderDetails);
         return updatedOrder.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+    
+    @GetMapping("/total-sales")
+    public ResponseEntity<Double> getTotalSales() {
+        double totalSales = orderService.calculateTotalSales();
+//    	double totalsales = 100.00;
+        return ResponseEntity.ok(totalSales);
     }
 }
