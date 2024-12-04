@@ -53,4 +53,10 @@ public class Index {
 		return "success";
 	}
 
+	// user side
+	@GetMapping("/wishlist")
+	public String getUserWishList() {
+		return "wishlist";
+	}
+
 }
