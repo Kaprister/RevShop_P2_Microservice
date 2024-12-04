@@ -50,3 +50,7 @@
 .fi-rs-heart.liked {
     color: red; /* Change this to your desired color */
 }
+
+.liked i {
+    color: red; /* Change the heart icon color to red */
+}
