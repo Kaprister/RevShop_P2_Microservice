@@ -104,8 +104,8 @@ document.addEventListener('DOMContentLoaded', () => {
 		fetch("http://localhost:8090/cart/add", {
 			method: 'POST',
 			headers: {
-				//"Authorization": `Bearer ${user.jwtToken}`,
-				"Content-Type": 'application/json'
+				"Content-Type": 'application/json',
+				"Authorization": `Bearer ${user.jwtToken}`,
 			},
 			body: JSON.stringify(
 				{
@@ -138,7 +138,46 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 	}
 
+const wishlistBtn = document.getElementById('wishlist-heart');
+wishlistBtn.addEventListener('click', () => {
+    handleLike();
+});
+function handleLike() {
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if (!user || !user.userId) {
+        alert("Please log in to add items to your wishlist.");
+        return;
+    }
+
+    fetch(`http://localhost:8086/wishlist/addProduct/${user.userId}/${productId}`, {
+        method: 'POST',
+        headers: {
+            "Content-Type": 'application/json',
+        },
+    })
+        .then(response => {
+            if (response.status === 201) {
+                alert("Product added to wishlist successfully!");
+                const likeButton = document.getElementById("wishlist-heart");
+                likeButton.classList.toggle("liked"); // Optional: Change heart icon style
+                return response.json();
+            } else {
+                throw new Error(`Failed with status code: ${response.status}`);
+            }
+        })
+        .catch(error => {
+            console.error("Failed to add product to wishlist:", error);
+            alert("Failed to add product to wishlist.");
+        });
+}
+
+
 	tabs.forEach(tab => {
 		tab.addEventListener("click", switchTab);
 	});
 });
+
+
+
+

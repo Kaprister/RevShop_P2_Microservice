@@ -60,10 +60,15 @@
 					</ul>
 				</div>
 				<div class="details__action">
-					<input type="number" class="quantity" value="1" /> <a href="#"
-						class="btn btn--sm" id="add-to-cart-btn">Add To Cart</a> <a
-						href="#" class="details__action-btn"> <i
-						class="fi fi-rs-heart"></i>
+					<input type="number" class="quantity" value="1" />
+					    <a href="#"	class="btn btn--sm" id="add-to-cart-btn">Add To Cart</a>
+						<a href="#"
+                           class="details__action-btn"
+                           id="wishlist-heart"
+                        >
+                            <i class="fi fi-rs-heart"></i>
+                        </a>
+
 					</a>
 				</div>
 			</div>

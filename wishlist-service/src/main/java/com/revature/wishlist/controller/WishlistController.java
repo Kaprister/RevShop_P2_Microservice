@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/wishlist")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin
 public class WishlistController {
 
     @Autowired
