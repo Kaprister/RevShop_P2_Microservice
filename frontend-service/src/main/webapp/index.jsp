@@ -44,6 +44,8 @@ html, body {
     object-fit: cover;
 }
 </style>
+
+<script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body>
@@ -72,6 +74,7 @@ html, body {
 		<!-- Pagination -->
 		<div class="swiper-pagination"></div>
 	</div>
+	<!--
 	<h2 class="my_header">featured categories</h2>
 	<div class="image-container">
 		<div class="image-circle" onclick="handleImageClick('men')">
@@ -84,11 +87,22 @@ html, body {
 			<img src="./img/kids.jpg" alt="Kids" />
 		</div>
 	</div>
-	
-	
-	
-	
+	-->
+
 	<h2 class="my_header">featured categories</h2>
+	<!-- Start Category Module -->
+    <div class="container mx-auto my-5">
+        <div class="text-center mb-8">
+            <p class="text-3xl font-semibold">Category</p>
+        </div>
+        <div id="category-list" class="flex flex-wrap justify-center">
+            <!-- Dynamic categories will load here -->
+        </div>
+    </div>
+
+	
+	
+	<h2 class="my_header">featured products</h2>
 	<section id="new_collections">
   <!-- Products Section -->
   <section class="products container">
@@ -194,6 +208,7 @@ html, body {
 				behavior : 'smooth'
 			});
 		}
+
 	</script>
 </body>
 </html>

@@ -56,6 +56,49 @@ function handleImageClick(category) {
 	// Alternatively, log or perform other actions
 	console.log(`Category clicked: ${category}`);
 }
+const categoryList = document.getElementById('category-list');
+
+    // Fetch categories from the API and dynamically populate the category list
+    async function loadCategories() {
+        try {
+            const response = await fetch("http://localhost:8082/categories");
+            if (!response.ok) throw new Error("Failed to fetch categories");
+
+            const categories = await response.json();
+//            console.log('Fetched Categories:', categories);  // Log the response to ensure the structure is correct
+
+            // Ensure categories are available
+            if (Array.isArray(categories) && categories.length > 0) {
+                categories.forEach(category => {
+                    const categoryItem = document.createElement('div');
+                    categoryItem.classList.add('w-1/4', 'sm:w-1/3', 'lg:w-1/6', 'p-4');
+
+                    categoryItem.innerHTML = `
+                        <div class="bg-white rounded-full shadow-lg transition-transform transform hover:scale-105 pointer">
+                            <div class="relative">
+                                <img src="${category.imageName}" alt="${category.name}" class="w-full h-auto rounded-full object-cover">
+                            </div>
+                            <div class="p-4 text-center">
+                                <a href="/products?category=${category.name}" class="text-lg font-medium text-gray-800 hover:text-blue-500 transition duration-300">
+                                    ${category.name}
+                                </a>
+                            </div>
+                        </div>
+                    `;
+
+                    categoryList.appendChild(categoryItem);
+                });
+            } else {
+                categoryList.innerHTML = '<p>No categories available.</p>';
+            }
+        } catch (error) {
+            console.error('Error loading categories:', error);
+            categoryList.innerHTML = '<p class="error">Failed to load categories. Please try again later.</p>';
+        }
+    }
+
+    // Call the loadCategories function when the page is loaded
+    loadCategories();
 
 
 
