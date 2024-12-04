@@ -4,13 +4,15 @@ import Head from '../components/common/Head';
 
 function ProductList() {
   const [products, setProducts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
   const [isEditing, setIsEditing] = useState(false);
   const [editedProduct, setEditedProduct] = useState(null);
+
+  const itemsPerPage = 10;
 
   const getProducts = async () => {
     try {
       const { data } = await axios.get("http://localhost:8082/products");
-      console.log(data);
       setProducts(data);
     } catch (error) {
       console.error("Error fetching products:", error);
@@ -21,7 +23,6 @@ function ProductList() {
     try {
       const response = await axios.delete(`http://localhost:8082/products/${productId}`);
       if (response.status === 204) {
-        console.log("Product deleted successfully");
         getProducts();
       }
     } catch (error) {
@@ -38,7 +39,6 @@ function ProductList() {
     try {
       const response = await axios.put(`http://localhost:8082/products/${editedProduct.id}`, editedProduct);
       if (response.status === 200) {
-        console.log("Product updated successfully");
         getProducts();
       }
     } catch (error) {
@@ -50,8 +50,17 @@ function ProductList() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setEditedProduct(prev => ({ ...prev, [name]: value }));
+    setEditedProduct((prev) => ({ ...prev, [name]: value }));
   };
+
+  const totalPages = Math.ceil(products.length / itemsPerPage);
+
+  const paginate = (page) => setCurrentPage(page);
+
+  const paginatedProducts = products.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   useEffect(() => {
     getProducts();
@@ -59,7 +68,7 @@ function ProductList() {
 
   return (
     <div className="mx-auto max-w-screen-xl px-4 pt-8 mt-8 sm:py-12">
-      <Head h1="Product" h2="List"/>
+      <Head h1="Product" h2="List" />
 
       {isEditing ? (
         <div className="mb-8 p-4 border bg-white rounded-lg shadow-md">
@@ -133,45 +142,62 @@ function ProductList() {
           </form>
         </div>
       ) : (
-        <table className="table w-full text-left bg-white rounded-lg shadow-md mt-8">
-          <thead className="bg-gray-100">
-            <tr>
-            <th className="p-3">Product Id</th>
-              <th className="p-3">Product Name</th>
-              <th className="p-3">Price</th>
-              <th className="p-3">Discounted Price</th>
-              <th className="p-3">Quantity</th>
-              <th className="p-3">Category</th>
-              <th className="p-3">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {products.map((product) => (
-              <tr key={product.id} className="border-gray-200">
-                <td className="p-3">{product.id}</td>
-                <td className="p-3">{product.name}</td>
-                <td className="p-3">₹{product.price}</td>
-                <td className="p-3">₹{product.discountedPrice}</td>
-                <td className="p-3">{product.quantity}</td>
-                <td className="p-3">{product.category.name}</td>
-                <td className="p-3">
-                  <button
-                    onClick={() => handleEditClick(product)}
-                    className="bg-myyellow hover:bg-cyan-500 text-white px-4 py-2 rounded"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => handleDelete(product.id)}
-                    className="bg-myred hover:bg-purple-500 text-white px-4 py-2 rounded ml-4"
-                  >
-                    Delete
-                  </button>
-                </td>
+        <>
+          <table className="table w-full text-left bg-white rounded-lg shadow-md mt-8">
+            <thead className="bg-gray-100">
+              <tr>
+                <th className="p-3">Product Id</th>
+                <th className="p-3">Product Name</th>
+                <th className="p-3">Price</th>
+                <th className="p-3">Discounted Price</th>
+                <th className="p-3">Quantity</th>
+                <th className="p-3">Category</th>
+                <th className="p-3">Actions</th>
               </tr>
+            </thead>
+            <tbody>
+              {paginatedProducts.map((product) => (
+                <tr key={product.id} className="border-gray-200">
+                  <td className="p-3">{product.id}</td>
+                  <td className="p-3">{product.name}</td>
+                  <td className="p-3">₹{product.price}</td>
+                  <td className="p-3">₹{product.discountedPrice}</td>
+                  <td className="p-3">{product.quantity}</td>
+                  <td className="p-3">{product.category.name}</td>
+                  <td className="p-3">
+                    <button
+                      onClick={() => handleEditClick(product)}
+                      className="bg-myyellow hover:bg-cyan-500 text-white px-4 py-2 rounded"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDelete(product.id)}
+                      className="bg-myred hover:bg-purple-500 text-white px-4 py-2 rounded ml-4"
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <div className="flex justify-center mt-4 space-x-2">
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+              <button
+                key={page}
+                onClick={() => paginate(page)}
+                className={`px-4 py-2 rounded ${
+                  currentPage === page
+                    ? 'bg-blue-500 text-white'
+                    : 'bg-gray-200 hover:bg-gray-300'
+                }`}
+              >
+                {page}
+              </button>
             ))}
-          </tbody>
-        </table>
+          </div>
+        </>
       )}
     </div>
   );
