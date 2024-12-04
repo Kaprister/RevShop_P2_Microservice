@@ -5,7 +5,14 @@ document.addEventListener("DOMContentLoaded", function () {
   // Fetch categories and populate the dropdown
   async function fetchCategories() {
     try {
-      const response = await fetch("http://localhost:8087/categories");
+      const token = window.localStorage.getItem(); // Replace with your actual token
+      const response = await fetch("http://localhost:8087/categories", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        }
+      });
       const categories = await response.json();
       categories.forEach((category) => {
         const option = document.createElement("option");
