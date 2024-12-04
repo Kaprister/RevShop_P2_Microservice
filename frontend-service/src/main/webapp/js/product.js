@@ -1,7 +1,3 @@
-const user = localStorage.getItem("user");
-const userId = JSON.parse(user).userId;
-const token = JSON.parse(user).jwtToken;
-
 document.addEventListener("DOMContentLoaded", () => {
   const productsContainer = document.getElementById("products-container");
   const pagination = document.getElementById("pagination");
@@ -14,14 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Fetch products from the API
   const fetchProducts = async () => {
     try {
-      const response = await fetch("http://localhost:8087/products",
-      {
-          method: "GET",
-          headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-          },
-      }); // Replace with your API URL
+      const response = await fetch("http://localhost:8087/products"); // Replace with your API URL
       if (!response.ok) throw new Error("Failed to fetch products");
       const data = await response.json();
       products = data; // Assign the response data to the products array

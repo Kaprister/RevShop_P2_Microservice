@@ -1,3 +1,7 @@
+const user = localStorage.getItem("user");
+const userId = JSON.parse(user).userId;
+const token = JSON.parse(user).jwtToken;
+
 document.addEventListener("DOMContentLoaded", function () {
   const productForm = document.getElementById("productForm");
   const categorySelect = document.getElementById("categoryId");
@@ -5,7 +9,6 @@ document.addEventListener("DOMContentLoaded", function () {
   // Fetch categories and populate the dropdown
   async function fetchCategories() {
     try {
-      const token = window.localStorage.getItem(); // Replace with your actual token
       const response = await fetch("http://localhost:8087/categories", {
         method: "GET",
         headers: {
@@ -56,6 +59,10 @@ document.addEventListener("DOMContentLoaded", function () {
       const response = await fetch("http://localhost:8087/products", {
         method: "POST",
         body: formData,
+        headers: {
+          "Content-Type": "multipart/form-data",
+          "Authorization": `Bearer ${token}`
+        }
       });
 
       if (response.ok) {
